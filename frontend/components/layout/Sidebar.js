@@ -87,11 +87,19 @@ export const Sidebar = ({ isMobileOpen, setIsMobileOpen }) => {
 
   return (
     <>
-      {/* Sidebar container (Desktop only, Mobile uses MobileMenuDrawer) */}
+      {/* Mobile Backdrop */}
+      {isMobileOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-[#252923]/40 backdrop-blur-sm lg:hidden"
+          onClick={() => setIsMobileOpen(false)}
+        />
+      )}
+
+      {/* Sidebar container */}
       <aside
-        className={`hidden lg:flex fixed top-0 bottom-0 left-0 z-40 flex-col bg-white border-r border-[#E9E8E1] transition-all duration-300 ease-in-out ${
+        className={`fixed top-0 bottom-0 left-0 z-40 flex flex-col bg-white border-r border-[#E9E8E1] transition-all duration-300 ease-in-out ${
           collapsed ? 'w-20' : 'w-64'
-        }`}
+        } ${isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
       >
         {/* Brand Header */}
         <div className="flex items-center justify-between h-16 px-5 border-b border-[#E9E8E1]">
