@@ -35,6 +35,7 @@ export default function TravelPlannerPage() {
   // Modals
   const [isTripModalOpen, setIsTripModalOpen] = useState(false);
   const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
+  const [isPackingModalOpen, setIsPackingModalOpen] = useState(false);
   const [selectedTrip, setSelectedTrip] = useState(null);
 
   // Trip form
@@ -51,6 +52,9 @@ export default function TravelPlannerPage() {
   const [expenseTitle, setExpenseTitle] = useState('');
   const [expenseAmount, setExpenseAmount] = useState('');
   const [expenseCategory, setExpenseCategory] = useState('Stay');
+
+  // Packing item form
+  const [packingItem, setPackingItem] = useState('');
 
   const fetchTrips = async () => {
     try {
@@ -82,14 +86,12 @@ export default function TravelPlannerPage() {
         startDate,
         endDate,
         budget: Number(budget),
-        status: isWishlist ? 'Planning' : 'Upcoming',
+        isWishlist,
       });
-      showToast('Trip itinerary scheduled!', 'success');
+      showToast('Trip added to planner!', 'success');
       setIsTripModalOpen(false);
       setTitle('');
       setDestination('');
-      setDescription('');
-      setCoverImage('');
       fetchTrips();
     } catch (err) {
       showToast(err.message, 'error');
@@ -105,7 +107,7 @@ export default function TravelPlannerPage() {
         amount: Number(expenseAmount),
         category: expenseCategory,
       });
-      showToast('Expense recorded', 'success');
+      showToast('Trip expense logged!', 'success');
       setIsExpenseModalOpen(false);
       setExpenseTitle('');
       setExpenseAmount('');
@@ -117,7 +119,7 @@ export default function TravelPlannerPage() {
 
   const handleTogglePacking = async (tripId, itemId) => {
     try {
-      await api.post(`/travel/${tripId}/packing/${itemId}/toggle`, {});
+      await api.put(`/travel/${tripId}/packing/${itemId}`, {});
       fetchTrips();
     } catch (err) {
       showToast(err.message, 'error');
@@ -125,37 +127,36 @@ export default function TravelPlannerPage() {
   };
 
   const handleDeleteTrip = async (id) => {
-    if (!confirm('Delete this trip plan?')) return;
+    if (!confirm('Delete this trip?')) return;
     try {
       await api.delete(`/travel/${id}`);
-      showToast('Trip plan deleted', 'success');
+      showToast('Trip deleted', 'success');
       fetchTrips();
     } catch (err) {
       showToast(err.message, 'error');
     }
   };
 
-  const filteredTrips = trips.filter((t) => {
-    if (activeTab === 'All') return true;
-    if (activeTab === 'Wishlist') return t.status === 'Planning';
-    return t.status === activeTab;
-  });
-
   const currency = user?.currency || 'INR';
+  const filteredTrips =
+    activeTab === 'All'
+      ? trips
+      : activeTab === 'Wishlist'
+      ? trips.filter((t) => t.isWishlist)
+      : trips.filter((t) => t.status === activeTab);
 
   return (
     <AppLayout>
-      <div className="space-y-6 sm:space-y-7">
+      <div className="space-y-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#686E77]">Exploration & Expeditions</p>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#111315] tracking-tight">Travel Planner</h1>
-            <p className="text-xs sm:text-sm text-[#686E77] mt-1">
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Travel Planner</h1>
+            <p className="text-sm text-slate-500 mt-1">
               Organize expeditions, packing checklists, itineraries, and vacation budgets.
             </p>
           </div>
-          <Button onClick={() => setIsTripModalOpen(true)} variant="primary" icon={Plus}>
+          <Button onClick={() => setIsTripModalOpen(true)} icon={Plus}>
             Plan New Trip
           </Button>
         </div>
@@ -167,41 +168,41 @@ export default function TravelPlannerPage() {
             value={stats.totalTrips ?? 0}
             subtitle="Lifetime adventures"
             icon={Compass}
-            trend="12"
+            color="#10B981"
           />
           <StatCard
             title="Upcoming Trips"
             value={stats.upcomingCount ?? 0}
             subtitle="Scheduled getaways"
             icon={Luggage}
-            trend="04"
+            color="#4F9B72"
           />
           <StatCard
             title="Wishlist"
             value={stats.wishlistCount ?? 0}
             subtitle="Dream destinations"
             icon={Heart}
-            trend="08"
+            color="#D6A24A"
           />
           <StatCard
             title="Total Expenses"
             value={formatCurrency(stats.totalExpense ?? 0, currency)}
             subtitle="Trip outlays recorded"
             icon={Wallet}
-            trend="15"
+            color="#10B981"
           />
         </div>
 
         {/* Tab Filter */}
-        <div className="flex items-center gap-1.5 p-1 bg-[#F0F2F5] rounded-full max-w-fit overflow-x-auto scrollbar-none">
+        <div className="flex items-center gap-2 overflow-x-auto pb-1">
           {['All', 'Upcoming', 'Planning', 'Completed', 'Wishlist'].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
                 activeTab === tab
-                  ? 'bg-[#111315] text-white shadow-xs'
-                  : 'text-[#686E77] hover:text-[#111315]'
+                  ? 'bg-emerald-600 text-white shadow-sm'
+                  : 'bg-white text-slate-500 hover:bg-slate-50 border border-slate-200'
               }`}
             >
               {tab}
@@ -218,10 +219,10 @@ export default function TravelPlannerPage() {
               const totalPacking = (trip.packingList || []).length;
 
               return (
-                <Card key={trip._id} className="flex flex-col justify-between overflow-hidden p-0">
+                <Card key={trip._id} hover className="flex flex-col justify-between overflow-hidden p-0">
                   <div>
                     {/* Cover image or fallback */}
-                    <div className="h-44 w-full relative bg-[#F0F2F5] overflow-hidden">
+                    <div className="h-44 w-full relative bg-slate-50 overflow-hidden">
                       {trip.coverImage ? (
                         <img
                           src={trip.coverImage}
@@ -229,66 +230,66 @@ export default function TravelPlannerPage() {
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        <div className="w-full h-full flex flex-col items-center justify-center text-[#686E77] bg-[#F7F8FA]">
-                          <Compass className="w-8 h-8 text-[#111315]" />
+                        <div className="w-full h-full flex flex-col items-center justify-center text-slate-500 bg-[#EFECE4]">
+                          <Compass className="w-8 h-8 text-emerald-600" />
                         </div>
                       )}
                       <div className="absolute top-3 right-3 flex gap-1">
-                        <Badge variant="lime" size="xs" className="shadow-xs">
+                        <Badge variant="sage" size="sm" className="backdrop-blur-md bg-white/90">
                           {trip.status}
                         </Badge>
                       </div>
-                      <div className="absolute bottom-3 left-3 bg-[#111315]/80 backdrop-blur-md px-3 py-1 rounded-full text-white text-xs font-semibold flex items-center gap-1.5">
-                        <MapPin className="w-3.5 h-3.5 text-[#D4F648]" /> {trip.destination}
+                      <div className="absolute bottom-3 left-3 bg-black/60 backdrop-blur-sm px-2.5 py-1 rounded-lg text-white text-xs font-medium flex items-center gap-1">
+                        <MapPin className="w-3.5 h-3.5 text-emerald-500" /> {trip.destination}
                       </div>
                     </div>
 
-                    <div className="p-5 space-y-3.5">
+                    <div className="p-5 space-y-3">
                       <div>
-                        <h3 className="font-extrabold text-lg text-[#111315]">{trip.title}</h3>
+                        <h3 className="font-bold text-lg text-slate-900">{trip.title}</h3>
                         {trip.description && (
-                          <p className="text-xs text-[#686E77] mt-1">{trip.description}</p>
+                          <p className="text-xs text-slate-500 mt-1">{trip.description}</p>
                         )}
                       </div>
 
-                      <div className="flex items-center gap-2 text-xs text-[#686E77]">
-                        <Calendar className="w-3.5 h-3.5 text-[#111315]" />
+                      <div className="flex items-center gap-2 text-xs text-slate-500">
+                        <Calendar className="w-3.5 h-3.5 text-emerald-600" />
                         <span>{formatDate(trip.startDate)} - {formatDate(trip.endDate)}</span>
                       </div>
 
                       {/* Budget & Spend */}
-                      <div className="p-3.5 rounded-2xl bg-[#F7F8FA] border border-[#E5E8ED] space-y-1.5 text-xs">
+                      <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1 text-xs">
                         <div className="flex justify-between">
-                          <span className="text-[#686E77] font-medium">Budget:</span>
-                          <span className="font-extrabold text-[#111315]">{formatCurrency(trip.budget, currency)}</span>
+                          <span className="text-slate-500">Budget:</span>
+                          <span className="font-semibold text-slate-900">{formatCurrency(trip.budget, currency)}</span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-[#686E77] font-medium">Expenses Logged:</span>
-                          <span className="font-bold text-[#FF5722]">{formatCurrency(tripExpensesTotal, currency)}</span>
+                          <span className="text-slate-500">Expenses Logged:</span>
+                          <span className="font-semibold text-rose-600">{formatCurrency(tripExpensesTotal, currency)}</span>
                         </div>
                       </div>
 
                       {/* Packing Checklist Preview */}
                       {trip.packingList && trip.packingList.length > 0 && (
-                        <div className="space-y-1.5 pt-1">
-                          <div className="flex justify-between text-xs font-semibold">
-                            <span className="text-[#686E77]">Packing List</span>
-                            <span className="text-[#111315]">{packedCount}/{totalPacking} Packed</span>
+                        <div className="space-y-1.5 pt-2">
+                          <div className="flex justify-between text-xs font-medium">
+                            <span className="text-slate-500">Packing List</span>
+                            <span className="text-emerald-600">{packedCount}/{totalPacking} Packed</span>
                           </div>
                           <div className="space-y-1 max-h-24 overflow-y-auto">
                             {trip.packingList.map((item) => (
                               <div
                                 key={item._id}
                                 onClick={() => handleTogglePacking(trip._id, item._id)}
-                                className="flex items-center gap-2 text-xs cursor-pointer p-1 rounded-lg hover:bg-[#F7F8FA]"
+                                className="flex items-center gap-2 text-xs cursor-pointer"
                               >
                                 <input
                                   type="checkbox"
                                   checked={item.packed}
                                   readOnly
-                                  className="rounded text-[#111315] focus:ring-0 cursor-pointer w-3.5 h-3.5"
+                                  className="rounded text-emerald-600 focus:ring-0 cursor-pointer"
                                 />
-                                <span className={item.packed ? 'line-through text-[#686E77]' : 'text-[#111315] font-medium'}>
+                                <span className={item.packed ? 'line-through text-slate-500' : 'text-slate-900'}>
                                   {item.item}
                                 </span>
                               </div>
@@ -299,7 +300,7 @@ export default function TravelPlannerPage() {
                     </div>
                   </div>
 
-                  <div className="p-4 border-t border-[#E5E8ED] bg-[#F7F8FA] flex items-center justify-between">
+                  <div className="p-4 border-t border-slate-200 bg-slate-50/50 flex items-center justify-between">
                     <Button
                       onClick={() => {
                         setSelectedTrip(trip);
@@ -312,10 +313,10 @@ export default function TravelPlannerPage() {
                     </Button>
                     <button
                       onClick={() => handleDeleteTrip(trip._id)}
-                      className="w-8 h-8 rounded-full hover:bg-[#FF5722]/10 flex items-center justify-center text-[#686E77] hover:text-[#FF5722] transition-colors"
+                      className="p-1.5 text-slate-500 hover:text-rose-600 rounded-lg transition-colors"
                       title="Delete Trip"
                     >
-                      <Trash2 className="w-3.5 h-3.5" />
+                      <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
                 </Card>
@@ -340,92 +341,92 @@ export default function TravelPlannerPage() {
         >
           <form onSubmit={handleCreateTrip} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Destination *</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Destination *</label>
               <input
                 type="text"
                 required
                 value={destination}
                 onChange={(e) => setDestination(e.target.value)}
                 placeholder="e.g. Manali, Himachal Pradesh or Tokyo, Japan"
-                className="w-full px-4 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-[#F7F8FA]"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-slate-50/50"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Trip Title *</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Trip Title *</label>
               <input
                 type="text"
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. Autumn Retreat & Highland Trails"
-                className="w-full px-4 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Start Date *</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Start Date *</label>
                 <input
                   type="date"
                   required
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">End Date *</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">End Date *</label>
                 <input
                   type="date"
                   required
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Budget ({currency})</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Budget ({currency})</label>
                 <input
                   type="number"
                   value={budget}
                   onChange={(e) => setBudget(e.target.value)}
-                  className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Cover Image URL</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Cover Image URL</label>
                 <input
                   type="text"
                   value={coverImage}
                   onChange={(e) => setCoverImage(e.target.value)}
-                  placeholder="https://images.unsplash.com/..."
-                  className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white"
+                  placeholder="https://..."
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Notes & Description</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Notes & Description</label>
               <textarea
                 rows={2}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Hotel booking details, flights, and activities..."
-                className="w-full px-4 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 
-            <div className="pt-3 flex justify-end gap-2.5 border-t border-[#E5E8ED]">
-              <Button type="button" variant="secondary" onClick={() => setIsTripModalOpen(false)}>
+            <div className="pt-2 flex justify-end gap-2">
+              <Button type="button" variant="ghost" onClick={() => setIsTripModalOpen(false)}>
                 Cancel
               </Button>
-              <Button type="submit" variant="primary">Create Trip Plan</Button>
+              <Button type="submit">Create Trip Plan</Button>
             </div>
           </form>
         </Modal>
@@ -438,36 +439,36 @@ export default function TravelPlannerPage() {
         >
           <form onSubmit={handleAddExpense} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Expense Title *</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Expense Title *</label>
               <input
                 type="text"
                 required
                 value={expenseTitle}
                 onChange={(e) => setExpenseTitle(e.target.value)}
                 placeholder="e.g. Hotel Deposit or Train Tickets"
-                className="w-full px-4 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-[#F7F8FA]"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Amount ({currency}) *</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Amount ({currency}) *</label>
                 <input
                   type="number"
                   required
                   value={expenseAmount}
                   onChange={(e) => setExpenseAmount(e.target.value)}
-                  placeholder="5000"
-                  className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white"
+                  placeholder="₹ 5000"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Category</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Category</label>
                 <select
                   value={expenseCategory}
                   onChange={(e) => setExpenseCategory(e.target.value)}
-                  className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 >
                   <option value="Stay">Stay & Lodging</option>
                   <option value="Transport">Transport & Flights</option>
@@ -478,11 +479,11 @@ export default function TravelPlannerPage() {
               </div>
             </div>
 
-            <div className="pt-3 flex justify-end gap-2.5 border-t border-[#E5E8ED]">
-              <Button type="button" variant="secondary" onClick={() => setIsExpenseModalOpen(false)}>
+            <div className="pt-2 flex justify-end gap-2">
+              <Button type="button" variant="ghost" onClick={() => setIsExpenseModalOpen(false)}>
                 Cancel
               </Button>
-              <Button type="submit" variant="primary">Save Expense</Button>
+              <Button type="submit">Save Expense</Button>
             </div>
           </form>
         </Modal>
@@ -490,3 +491,4 @@ export default function TravelPlannerPage() {
     </AppLayout>
   );
 }
+

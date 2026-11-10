@@ -100,10 +100,11 @@ export default function TimeTrackerPage() {
   };
 
   const handleStopTimer = async () => {
+    if (!activeTimer) return;
     try {
-      const res = await api.post('/time/stop', {});
+      const res = await api.put(`/time/${activeTimer._id}/stop`, {});
       if (res.success) {
-        showToast('Timer stopped & recorded', 'success');
+        showToast('Time entry saved!', 'success');
         fetchTimeData();
       }
     } catch (err) {
@@ -113,7 +114,7 @@ export default function TimeTrackerPage() {
 
   const handleCreateManual = async (e) => {
     e.preventDefault();
-    if (!newTitle.trim() || !newDuration) return;
+    if (!newTitle.trim()) return;
     try {
       await api.post('/time/manual', {
         title: newTitle,
@@ -121,7 +122,7 @@ export default function TimeTrackerPage() {
         durationMinutes: Number(newDuration),
         billable: isBillable,
       });
-      showToast('Time entry saved', 'success');
+      showToast('Manual entry logged', 'success');
       setIsModalOpen(false);
       setNewTitle('');
       fetchTimeData();
@@ -134,7 +135,7 @@ export default function TimeTrackerPage() {
     if (!confirm('Delete this time entry?')) return;
     try {
       await api.delete(`/time/${id}`);
-      showToast('Time entry removed', 'success');
+      showToast('Entry removed', 'success');
       fetchTimeData();
     } catch (err) {
       showToast(err.message, 'error');
@@ -150,17 +151,16 @@ export default function TimeTrackerPage() {
 
   return (
     <AppLayout>
-      <div className="space-y-6 sm:space-y-7">
+      <div className="space-y-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#686E77]">Efficiency & Work Hours</p>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#111315] tracking-tight">Time Tracker</h1>
-            <p className="text-xs sm:text-sm text-[#686E77] mt-1">
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Time Tracker</h1>
+            <p className="text-sm text-slate-500 mt-1">
               Track billable client hours, design sessions, deep work, and daily activities.
             </p>
           </div>
-          <Button onClick={() => setIsModalOpen(true)} variant="primary" icon={Plus}>
+          <Button onClick={() => setIsModalOpen(true)} icon={Plus}>
             Manual Entry
           </Button>
         </div>
@@ -172,51 +172,51 @@ export default function TimeTrackerPage() {
             value={`${stats.totalHours ?? 0} hrs`}
             subtitle="All logged activities"
             icon={Timer}
-            trend="14"
+            color="#10B981"
           />
           <StatCard
             title="Productive Hours"
             value={`${stats.productiveHours ?? 0} hrs`}
             subtitle="Work, Study, Design"
             icon={Clock}
-            trend="18"
+            color="#4F9B72"
           />
           <StatCard
             title="Total Time Entries"
             value={stats.entriesCount ?? 0}
             subtitle="Recorded timeline blocks"
             icon={Briefcase}
-            trend="08"
+            color="#D6A24A"
           />
         </div>
 
         {/* Live Stopwatch Tracker Banner */}
-        <Card className="p-6 sm:p-7 border border-[#E5E8ED] bg-white">
+        <Card className="bg-white border-2 border-emerald-600/30 p-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="w-full md:w-auto">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#111315] block mb-1.5 px-3 py-1 rounded-full bg-[#D4F648] max-w-fit shadow-xs">
+              <span className="text-xs font-semibold uppercase tracking-wider text-emerald-600 block mb-1">
                 {activeTimer ? 'Timer Active & Running' : 'Start New Activity'}
               </span>
               {activeTimer ? (
                 <div>
-                  <h3 className="text-xl sm:text-2xl font-extrabold text-[#111315]">{activeTimer.title}</h3>
-                  <Badge variant="default" size="xs" className="mt-1">
+                  <h3 className="text-xl font-bold text-slate-900">{activeTimer.title}</h3>
+                  <Badge variant="sage" size="sm" className="mt-1">
                     {activeTimer.category}
                   </Badge>
                 </div>
               ) : (
-                <form onSubmit={handleStartTimer} className="flex flex-col sm:flex-row gap-2.5 mt-2">
+                <form onSubmit={handleStartTimer} className="flex flex-col sm:flex-row gap-2 mt-1">
                   <input
                     type="text"
                     value={timerTitle}
                     onChange={(e) => setTimerTitle(e.target.value)}
                     placeholder="What are you working on?"
-                    className="px-4 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-[#F7F8FA] w-full sm:w-64"
+                    className="px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-slate-50/50 w-full sm:w-64"
                   />
                   <select
                     value={timerCategory}
                     onChange={(e) => setTimerCategory(e.target.value)}
-                    className="px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white"
+                    className="px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                   >
                     <option value="Work">Work</option>
                     <option value="Design">Design</option>
@@ -230,7 +230,7 @@ export default function TimeTrackerPage() {
 
             {/* Stopwatch Display */}
             <div className="flex flex-col items-center">
-              <div className="text-4xl sm:text-5xl font-mono font-extrabold text-[#111315] tracking-wider">
+              <div className="text-4xl sm:text-5xl font-mono font-bold text-slate-900 tracking-wider">
                 {activeTimer ? formatElapsed(elapsedSeconds) : '00:00:00'}
               </div>
             </div>
@@ -242,7 +242,7 @@ export default function TimeTrackerPage() {
                   Stop Timer
                 </Button>
               ) : (
-                <Button onClick={handleStartTimer} variant="primary" icon={Play} size="lg">
+                <Button onClick={handleStartTimer} icon={Play} size="lg">
                   Start Timer
                 </Button>
               )}
@@ -253,27 +253,24 @@ export default function TimeTrackerPage() {
         {/* Category Breakdown Chart */}
         {categoryBreakdown.length > 0 && (
           <Card>
-            <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-8 h-8 rounded-full bg-[#111315] text-[#D4F648] flex items-center justify-center font-bold">
-                <PieChartIcon className="w-4 h-4" />
-              </div>
-              <h3 className="font-bold text-base text-[#111315]">Time Distribution by Category</h3>
+            <div className="flex items-center gap-2 mb-4">
+              <PieChartIcon className="w-5 h-5 text-emerald-600" />
+              <h3 className="font-semibold text-base text-slate-900">Time Distribution by Category</h3>
             </div>
             <div className="h-44 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={categoryBreakdown}>
-                  <XAxis dataKey="name" stroke="#8C939F" fontSize={11} tickLine={false} axisLine={false} />
-                  <YAxis stroke="#8C939F" fontSize={11} tickLine={false} axisLine={false} />
+                  <XAxis dataKey="name" stroke="#94A3B8" fontSize={11} tickLine={false} axisLine={false} />
+                  <YAxis stroke="#94A3B8" fontSize={11} tickLine={false} axisLine={false} />
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: '#111315',
-                      border: 'none',
-                      borderRadius: '16px',
-                      color: '#fff',
+                      backgroundColor: '#FFFFFF',
+                      borderColor: '#E2E8F0',
+                      borderRadius: '12px',
                       fontSize: '12px',
                     }}
                   />
-                  <Bar dataKey="hours" fill="#111315" radius={[12, 12, 0, 0]} name="Hours Logged" />
+                  <Bar dataKey="hours" fill="#10B981" radius={[4, 4, 0, 0]} name="Hours Logged" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -282,39 +279,39 @@ export default function TimeTrackerPage() {
 
         {/* Timeline Log Table */}
         <Card className="p-0 overflow-hidden">
-          <div className="p-4 sm:p-5 border-b border-[#E5E8ED] flex items-center justify-between bg-[#F7F8FA]">
+          <div className="p-4 sm:p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50/60">
             <div>
-              <h3 className="font-bold text-base text-[#111315]">Activity Timeline</h3>
-              <p className="text-xs text-[#686E77] mt-0.5">Recorded activities with start and stop timestamps.</p>
+              <h3 className="font-semibold text-base text-slate-900">Activity Timeline</h3>
+              <p className="text-xs text-slate-500">Recorded activities with start and stop timestamps.</p>
             </div>
           </div>
 
           {entries.length > 0 ? (
-            <div className="divide-y divide-[#E5E8ED]">
+            <div className="divide-y divide-slate-200">
               {entries.map((entry) => (
-                <div key={entry._id} className="p-4 sm:p-5 flex items-center justify-between hover:bg-[#F7F8FA]/60 transition-colors">
-                  <div className="flex items-start gap-3.5">
-                    <div className="w-10 h-10 rounded-full bg-[#111315] text-[#D4F648] flex items-center justify-center shrink-0 mt-0.5">
+                <div key={entry._id} className="p-4 sm:p-5 flex items-center justify-between hover:bg-slate-50/30 transition-colors">
+                  <div className="flex items-start gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-emerald-600/15 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
                       <Clock className="w-4 h-4" />
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <h4 className="font-bold text-sm sm:text-base text-[#111315]">{entry.title}</h4>
-                        <Badge variant="default" size="xs">{entry.category}</Badge>
-                        {entry.billable && <Badge variant="lime" size="xs">Billable</Badge>}
+                        <h4 className="font-semibold text-sm sm:text-base text-slate-900">{entry.title}</h4>
+                        <Badge variant="sage" size="sm">{entry.category}</Badge>
+                        {entry.billable && <Badge variant="warning" size="sm">Billable</Badge>}
                       </div>
-                      <div className="flex flex-wrap items-center gap-3 mt-1 text-xs text-[#686E77]">
-                        <span className="font-bold text-[#111315]">{entry.durationMinutes} mins ({(entry.durationMinutes / 60).toFixed(1)} hrs)</span>
+                      <div className="flex flex-wrap items-center gap-3 mt-1 text-xs text-slate-500">
+                        <span>Duration: {entry.durationMinutes} mins ({(entry.durationMinutes / 60).toFixed(1)} hrs)</span>
                         <span>• Started {formatDate(entry.startTime)} at {formatTime(entry.startTime)}</span>
                       </div>
                     </div>
                   </div>
                   <button
                     onClick={() => handleDeleteEntry(entry._id)}
-                    className="w-8 h-8 rounded-full hover:bg-[#FF5722]/10 flex items-center justify-center text-[#686E77] hover:text-[#FF5722] transition-colors"
+                    className="p-1.5 text-slate-500 hover:text-rose-600 rounded-lg transition-colors"
                     title="Delete"
                   >
-                    <Trash2 className="w-3.5 h-3.5" />
+                    <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
               ))}
@@ -338,24 +335,24 @@ export default function TimeTrackerPage() {
         >
           <form onSubmit={handleCreateManual} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Activity Title *</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Activity Title *</label>
               <input
                 type="text"
                 required
                 value={newTitle}
                 onChange={(e) => setNewTitle(e.target.value)}
                 placeholder="e.g. Client Design Sprint or Bug Triage"
-                className="w-full px-4 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-[#F7F8FA]"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-slate-50/50"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Category</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Category</label>
                 <select
                   value={newCategory}
                   onChange={(e) => setNewCategory(e.target.value)}
-                  className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 >
                   <option value="Work">Work</option>
                   <option value="Design">Design</option>
@@ -366,12 +363,12 @@ export default function TimeTrackerPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Duration (minutes)</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Duration (minutes)</label>
                 <input
                   type="number"
                   value={newDuration}
                   onChange={(e) => setNewDuration(e.target.value)}
-                  className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
             </div>
@@ -382,18 +379,18 @@ export default function TimeTrackerPage() {
                 id="billable"
                 checked={isBillable}
                 onChange={(e) => setIsBillable(e.target.checked)}
-                className="rounded text-[#111315] focus:ring-0 w-4 h-4"
+                className="rounded text-emerald-600 focus:ring-0"
               />
-              <label htmlFor="billable" className="text-xs font-semibold text-[#111315]">
+              <label htmlFor="billable" className="text-xs text-slate-900">
                 Mark as billable client time
               </label>
             </div>
 
-            <div className="pt-3 flex justify-end gap-2.5 border-t border-[#E5E8ED]">
-              <Button type="button" variant="secondary" onClick={() => setIsModalOpen(false)}>
+            <div className="pt-2 flex justify-end gap-2">
+              <Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)}>
                 Cancel
               </Button>
-              <Button type="submit" variant="primary">Log Time</Button>
+              <Button type="submit">Log Time</Button>
             </div>
           </form>
         </Modal>
@@ -401,3 +398,4 @@ export default function TimeTrackerPage() {
     </AppLayout>
   );
 }
+

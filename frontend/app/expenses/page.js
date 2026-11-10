@@ -103,7 +103,7 @@ export default function ExpenseTrackerPage() {
   };
 
   const handleDeleteTxn = async (id) => {
-    if (!confirm('Delete this transaction record?')) return;
+    if (!confirm('Delete this transaction?')) return;
     try {
       await api.delete(`/expenses/transactions/${id}`);
       showToast('Transaction deleted', 'success');
@@ -122,7 +122,7 @@ export default function ExpenseTrackerPage() {
         targetAmount: Number(goalTargetAmount),
         currentAmount: Number(goalCurrentAmount) || 0,
       });
-      showToast('Savings goal created', 'success');
+      showToast('Savings goal saved', 'success');
       setIsGoalModalOpen(false);
       setGoalTitle('');
       setGoalTargetAmount('');
@@ -133,31 +133,38 @@ export default function ExpenseTrackerPage() {
     }
   };
 
-  const COLORS = ['#111315', '#D4F648', '#FF5722', '#0284C7', '#10B981', '#F59E0B'];
+  // Pie chart calculation for expense categories
+  const expenseCatMap = {};
+  transactions
+    .filter((t) => t.type === 'expense')
+    .forEach((t) => {
+      expenseCatMap[t.category] = (expenseCatMap[t.category] || 0) + t.amount;
+    });
 
-  const chartData = summary.categoryExpenses
-    ? Object.entries(summary.categoryExpenses).map(([name, value]) => ({ name, value }))
-    : [];
+  const chartData = Object.keys(expenseCatMap).map((k) => ({
+    name: k,
+    value: expenseCatMap[k],
+  }));
 
+  const COLORS = ['#10B981', '#3B82F6', '#D6A24A', '#4F9B72', '#D96C6C', '#8DA382'];
   const currency = user?.currency || 'INR';
 
   return (
     <AppLayout>
-      <div className="space-y-6 sm:space-y-7">
+      <div className="space-y-6">
         {/* Top Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#686E77]">Capital & Balances</p>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#111315] tracking-tight">Expense Tracker</h1>
-            <p className="text-xs sm:text-sm text-[#686E77] mt-1">
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Expense Tracker</h1>
+            <p className="text-sm text-slate-500 mt-1">
               Track cash flow, monthly budgets, and personal savings goals in {currency} (₹).
             </p>
           </div>
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2">
             <Button onClick={() => setIsGoalModalOpen(true)} variant="secondary" icon={PiggyBank}>
               New Goal
             </Button>
-            <Button onClick={() => setIsTxnModalOpen(true)} variant="primary" icon={Plus}>
+            <Button onClick={() => setIsTxnModalOpen(true)} icon={Plus}>
               Log Transaction
             </Button>
           </div>
@@ -170,28 +177,28 @@ export default function ExpenseTrackerPage() {
             value={formatCurrency(summary.totalBalance ?? 0, currency)}
             subtitle="Current net liquidity"
             icon={Wallet}
-            trend="14"
+            color="#10B981"
           />
           <StatCard
             title="Total Income"
             value={formatCurrency(summary.totalIncome ?? 0, currency)}
             subtitle="All recorded earnings"
             icon={ArrowUpRight}
-            trend="22"
+            color="#4F9B72"
           />
           <StatCard
             title="Total Expenses"
             value={formatCurrency(summary.totalExpenses ?? 0, currency)}
             subtitle="All outflows"
             icon={ArrowDownLeft}
-            trend="08"
+            color="#D96C6C"
           />
           <StatCard
             title="Net Savings"
             value={formatCurrency(summary.totalSavings ?? 0, currency)}
             subtitle="Available surplus"
             icon={PiggyBank}
-            trend="10"
+            color="#D6A24A"
           />
         </div>
 
@@ -199,12 +206,12 @@ export default function ExpenseTrackerPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Savings Goals Widget */}
           <Card className="lg:col-span-2">
-            <div className="flex items-center justify-between mb-5">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-full bg-[#111315] text-[#D4F648] flex items-center justify-center font-bold">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-amber-500/15 text-amber-600 flex items-center justify-center">
                   <PiggyBank className="w-4 h-4" />
                 </div>
-                <h3 className="font-bold text-base text-[#111315]">Savings & Reserve Goals</h3>
+                <h3 className="font-semibold text-base text-slate-900">Savings & Reserve Goals</h3>
               </div>
               <Button onClick={() => setIsGoalModalOpen(true)} variant="ghost" size="sm" icon={Plus}>
                 Add Goal
@@ -216,25 +223,25 @@ export default function ExpenseTrackerPage() {
                 {savingsGoals.map((goal) => {
                   const pct = Math.min(100, Math.round((goal.currentAmount / goal.targetAmount) * 100));
                   return (
-                    <div key={goal._id} className="p-4 rounded-2xl border border-[#E5E8ED] bg-[#F7F8FA] space-y-2.5">
+                    <div key={goal._id} className="p-4 rounded-xl border border-slate-200 bg-slate-50/60 space-y-2.5">
                       <div className="flex items-start justify-between">
                         <div>
-                          <h4 className="font-bold text-sm text-[#111315]">{goal.title}</h4>
-                          <span className="text-[11px] text-[#686E77]">{goal.category}</span>
+                          <h4 className="font-semibold text-sm text-slate-900">{goal.title}</h4>
+                          <span className="text-[11px] text-slate-500">{goal.category}</span>
                         </div>
-                        <Badge variant={pct >= 100 ? 'lime' : 'default'} size="xs">
+                        <Badge variant={pct >= 100 ? 'success' : 'sage'} size="sm">
                           {pct}%
                         </Badge>
                       </div>
-                      <div className="w-full bg-white rounded-full h-2 border border-[#E5E8ED]">
+                      <div className="w-full bg-white rounded-full h-2 border border-slate-200">
                         <div
-                          className="bg-[#111315] h-2 rounded-full transition-all duration-500"
+                          className="bg-emerald-600 h-2 rounded-full transition-all duration-500"
                           style={{ width: `${pct}%` }}
                         />
                       </div>
                       <div className="flex justify-between items-center text-xs">
-                        <span className="font-bold text-[#111315]">{formatCurrency(goal.currentAmount, currency)}</span>
-                        <span className="text-[#686E77]">Target: {formatCurrency(goal.targetAmount, currency)}</span>
+                        <span className="font-medium text-slate-900">{formatCurrency(goal.currentAmount, currency)}</span>
+                        <span className="text-slate-500">Target: {formatCurrency(goal.targetAmount, currency)}</span>
                       </div>
                     </div>
                   );
@@ -254,11 +261,11 @@ export default function ExpenseTrackerPage() {
           {/* Expense Category Chart */}
           <Card className="flex flex-col justify-between">
             <div>
-              <div className="flex items-center gap-2.5 mb-4">
-                <div className="w-8 h-8 rounded-full bg-[#111315] text-[#D4F648] flex items-center justify-center font-bold">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-8 h-8 rounded-lg bg-emerald-600/15 text-emerald-600 flex items-center justify-center">
                   <PieChartIcon className="w-4 h-4" />
                 </div>
-                <h3 className="font-bold text-base text-[#111315]">Category Outflows</h3>
+                <h3 className="font-semibold text-base text-slate-900">Category Outflows</h3>
               </div>
 
               {chartData.length > 0 ? (
@@ -271,7 +278,7 @@ export default function ExpenseTrackerPage() {
                         nameKey="name"
                         innerRadius={45}
                         outerRadius={70}
-                        paddingAngle={5}
+                        paddingAngle={4}
                       >
                         {chartData.map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -280,10 +287,9 @@ export default function ExpenseTrackerPage() {
                       <Tooltip
                         formatter={(val) => formatCurrency(val, currency)}
                         contentStyle={{
-                          backgroundColor: '#111315',
-                          border: 'none',
-                          borderRadius: '16px',
-                          color: '#fff',
+                          backgroundColor: '#FFFFFF',
+                          borderColor: '#E2E8F0',
+                          borderRadius: '12px',
                           fontSize: '12px',
                         }}
                       />
@@ -291,18 +297,18 @@ export default function ExpenseTrackerPage() {
                   </ResponsiveContainer>
                 </div>
               ) : (
-                <p className="text-xs text-[#686E77] py-12 text-center">No expense categories to chart.</p>
+                <p className="text-xs text-slate-500 py-12 text-center">No expense categories to chart.</p>
               )}
             </div>
 
-            <div className="space-y-2 pt-3 border-t border-[#E5E8ED]">
+            <div className="space-y-1.5 pt-3 border-t border-slate-200">
               {chartData.slice(0, 3).map((item, idx) => (
                 <div key={item.name} className="flex justify-between text-xs">
-                  <span className="flex items-center gap-2 text-[#686E77]">
+                  <span className="flex items-center gap-1.5 text-slate-500">
                     <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: COLORS[idx % COLORS.length] }} />
                     {item.name}
                   </span>
-                  <span className="font-bold text-[#111315]">{formatCurrency(item.value, currency)}</span>
+                  <span className="font-semibold text-slate-900">{formatCurrency(item.value, currency)}</span>
                 </div>
               ))}
             </div>
@@ -311,28 +317,28 @@ export default function ExpenseTrackerPage() {
 
         {/* Transactions Table & Filters */}
         <Card className="p-0 overflow-hidden">
-          <div className="p-4 sm:p-5 border-b border-[#E5E8ED] flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#F7F8FA]">
-            <div className="flex items-center gap-1.5 p-1 bg-[#F0F2F5] rounded-full">
+          <div className="p-4 sm:p-5 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-50/60">
+            <div className="flex items-center gap-2">
               <button
                 onClick={() => setTypeFilter('All')}
-                className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                  typeFilter === 'All' ? 'bg-[#111315] text-white shadow-xs' : 'text-[#686E77] hover:text-[#111315]'
+                className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${
+                  typeFilter === 'All' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-500 border border-slate-200'
                 }`}
               >
                 All
               </button>
               <button
                 onClick={() => setTypeFilter('expense')}
-                className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                  typeFilter === 'expense' ? 'bg-[#FF5722] text-white shadow-xs' : 'text-[#686E77] hover:text-[#111315]'
+                className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${
+                  typeFilter === 'expense' ? 'bg-rose-500 text-white' : 'bg-white text-slate-500 border border-slate-200'
                 }`}
               >
                 Expenses
               </button>
               <button
                 onClick={() => setTypeFilter('income')}
-                className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                  typeFilter === 'income' ? 'bg-[#10B981] text-white shadow-xs' : 'text-[#686E77] hover:text-[#111315]'
+                className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${
+                  typeFilter === 'income' ? 'bg-emerald-500 text-white' : 'bg-white text-slate-500 border border-slate-200'
                 }`}
               >
                 Income
@@ -340,13 +346,13 @@ export default function ExpenseTrackerPage() {
             </div>
 
             <div className="relative">
-              <Search className="w-4 h-4 text-[#686E77] absolute left-3.5 top-2.5" />
+              <Search className="w-4 h-4 text-slate-500 absolute left-3 top-2.5" />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search transactions..."
-                className="pl-9.5 pr-4 py-2 text-xs rounded-full border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white w-full sm:w-60 shadow-xs"
+                className="pl-9 pr-3 py-1.5 text-xs rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white w-full sm:w-56"
               />
             </div>
           </div>
@@ -354,7 +360,7 @@ export default function ExpenseTrackerPage() {
           {transactions.length > 0 ? (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs sm:text-sm">
-                <thead className="bg-[#F7F8FA] text-[#686E77] uppercase text-[10px] font-bold tracking-wider border-b border-[#E5E8ED]">
+                <thead className="bg-slate-50 text-slate-500 uppercase text-[11px] font-semibold border-b border-slate-200">
                   <tr>
                     <th className="px-5 py-3">Transaction</th>
                     <th className="px-5 py-3">Category</th>
@@ -364,34 +370,34 @@ export default function ExpenseTrackerPage() {
                     <th className="px-5 py-3 text-center">Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#E5E8ED]">
+                <tbody className="divide-y divide-slate-200">
                   {transactions.map((txn) => (
-                    <tr key={txn._id} className="hover:bg-[#F7F8FA]/60 transition-colors">
-                      <td className="px-5 py-3.5 font-bold text-[#111315]">
+                    <tr key={txn._id} className="hover:bg-slate-50/40 transition-colors">
+                      <td className="px-5 py-3.5 font-medium text-slate-900">
                         {txn.title}
                         {txn.description && (
-                          <span className="block text-[11px] text-[#686E77] font-normal">{txn.description}</span>
+                          <span className="block text-[11px] text-slate-500 font-normal">{txn.description}</span>
                         )}
                       </td>
-                      <td className="px-5 py-3.5 text-[#686E77] font-medium">{txn.category}</td>
+                      <td className="px-5 py-3.5 text-slate-500">{txn.category}</td>
                       <td className="px-5 py-3.5">
-                        <Badge variant="default" size="xs">
+                        <Badge variant="default" size="sm">
                           {txn.paymentMethod || 'UPI'}
                         </Badge>
                       </td>
-                      <td className="px-5 py-3.5 text-[#686E77]">{formatDate(txn.date)}</td>
-                      <td className="px-5 py-3.5 text-right font-bold">
-                        <span className={txn.type === 'income' ? 'text-[#059669]' : 'text-[#111315]'}>
+                      <td className="px-5 py-3.5 text-slate-500">{formatDate(txn.date)}</td>
+                      <td className="px-5 py-3.5 text-right font-semibold">
+                        <span className={txn.type === 'income' ? 'text-emerald-600' : 'text-slate-900'}>
                           {txn.type === 'income' ? '+' : '-'}{formatCurrency(txn.amount, currency)}
                         </span>
                       </td>
                       <td className="px-5 py-3.5 text-center">
                         <button
                           onClick={() => handleDeleteTxn(txn._id)}
-                          className="w-8 h-8 rounded-full hover:bg-[#FF5722]/10 flex items-center justify-center text-[#686E77] hover:text-[#FF5722] mx-auto transition-colors"
+                          className="p-1.5 text-slate-500 hover:text-rose-600 rounded-lg transition-colors"
                           title="Delete"
                         >
-                          <Trash2 className="w-3.5 h-3.5" />
+                          <Trash2 className="w-4 h-4" />
                         </button>
                       </td>
                     </tr>
@@ -417,12 +423,12 @@ export default function ExpenseTrackerPage() {
           title="Log Transaction"
         >
           <form onSubmit={handleCreateTxn} className="space-y-4">
-            <div className="grid grid-cols-2 gap-2 bg-[#F0F2F5] p-1 rounded-full">
+            <div className="grid grid-cols-2 gap-2 bg-slate-50 p-1 rounded-xl border border-slate-200">
               <button
                 type="button"
                 onClick={() => setType('expense')}
-                className={`py-1.5 text-xs font-semibold rounded-full transition-all ${
-                  type === 'expense' ? 'bg-[#FF5722] text-white shadow-xs' : 'text-[#686E77]'
+                className={`py-1.5 text-xs font-semibold rounded-lg transition-all ${
+                  type === 'expense' ? 'bg-white text-rose-600 shadow-sm' : 'text-slate-500'
                 }`}
               >
                 Expense
@@ -430,8 +436,8 @@ export default function ExpenseTrackerPage() {
               <button
                 type="button"
                 onClick={() => setType('income')}
-                className={`py-1.5 text-xs font-semibold rounded-full transition-all ${
-                  type === 'income' ? 'bg-[#10B981] text-white shadow-xs' : 'text-[#686E77]'
+                className={`py-1.5 text-xs font-semibold rounded-lg transition-all ${
+                  type === 'income' ? 'bg-white text-emerald-600 shadow-sm' : 'text-slate-500'
                 }`}
               >
                 Income
@@ -439,119 +445,116 @@ export default function ExpenseTrackerPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Title *</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Title *</label>
               <input
                 type="text"
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="e.g. Figma Subscription, Client Milestone"
-                className="w-full px-4 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-[#F7F8FA]"
+                placeholder="e.g. Workspace Rent or Consulting Retainer"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-slate-50/50"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Amount (₹) *</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Amount ({currency}) *</label>
                 <input
                   type="number"
                   required
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  placeholder="0.00"
-                  className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white"
+                  placeholder="₹ 5000"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Category</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Category</label>
                 <input
                   type="text"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  placeholder="General"
-                  className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white"
+                  placeholder="e.g. Design, Software, Food"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Payment Method</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Payment Method</label>
               <select
                 value={paymentMethod}
                 onChange={(e) => setPaymentMethod(e.target.value)}
-                className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white"
+                className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               >
                 <option value="UPI">UPI</option>
+                <option value="Bank Transfer">Bank Transfer</option>
                 <option value="Credit Card">Credit Card</option>
                 <option value="Debit Card">Debit Card</option>
-                <option value="Net Banking">Net Banking</option>
                 <option value="Cash">Cash</option>
+                <option value="Net Banking">Net Banking</option>
               </select>
             </div>
 
-            <div className="pt-3 flex justify-end gap-2.5 border-t border-[#E5E8ED]">
-              <Button type="button" variant="secondary" onClick={() => setIsTxnModalOpen(false)}>
+            <div className="pt-2 flex justify-end gap-2">
+              <Button type="button" variant="ghost" onClick={() => setIsTxnModalOpen(false)}>
                 Cancel
               </Button>
-              <Button type="submit" variant="primary">
-                Save Transaction
-              </Button>
+              <Button type="submit">Save Transaction</Button>
             </div>
           </form>
         </Modal>
 
-        {/* Modal: New Savings Goal */}
+        {/* Modal: Savings Goal */}
         <Modal
           isOpen={isGoalModalOpen}
           onClose={() => setIsGoalModalOpen(false)}
-          title="Create Savings Goal"
+          title="New Savings Goal"
         >
           <form onSubmit={handleCreateGoal} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Goal Title *</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Goal Name *</label>
               <input
                 type="text"
                 required
                 value={goalTitle}
                 onChange={(e) => setGoalTitle(e.target.value)}
-                placeholder="e.g. Mac Studio M3, Europe Trip"
-                className="w-full px-4 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-[#F7F8FA]"
+                placeholder="e.g. Emergency Fund or New M4 Mac"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-slate-50/50"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Target Amount (₹) *</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Target Amount ({currency}) *</label>
                 <input
                   type="number"
                   required
                   value={goalTargetAmount}
                   onChange={(e) => setGoalTargetAmount(e.target.value)}
-                  placeholder="100000"
-                  className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white"
+                  placeholder="₹ 150000"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Current Saved (₹)</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Current Saved ({currency})</label>
                 <input
                   type="number"
                   value={goalCurrentAmount}
                   onChange={(e) => setGoalCurrentAmount(e.target.value)}
-                  placeholder="0"
-                  className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white"
+                  placeholder="₹ 25000"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
             </div>
 
-            <div className="pt-3 flex justify-end gap-2.5 border-t border-[#E5E8ED]">
-              <Button type="button" variant="secondary" onClick={() => setIsGoalModalOpen(false)}>
+            <div className="pt-2 flex justify-end gap-2">
+              <Button type="button" variant="ghost" onClick={() => setIsGoalModalOpen(false)}>
                 Cancel
               </Button>
-              <Button type="submit" variant="primary">
-                Create Goal
-              </Button>
+              <Button type="submit">Create Savings Goal</Button>
             </div>
           </form>
         </Modal>
@@ -559,3 +562,4 @@ export default function ExpenseTrackerPage() {
     </AppLayout>
   );
 }
+

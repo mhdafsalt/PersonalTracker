@@ -4,60 +4,39 @@
 
 @layer base {
   body {
-    background-color: #EDEFF2;
-    color: #111315;
+    background-color: #F7F5F0;
+    color: #252923;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 }
 
-/* Custom sleek pill scrollbars */
+/* Custom delicate scrollbars */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #CBD2DC;
+  background: #D5CFBF;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #A0AAB8;
+  background: #A7B99B;
 }
 
-.card-bento {
-  background-color: #FFFFFF;
-  border-radius: 1.75rem;
-  border: 1px solid #E5E8ED;
-  box-shadow: 0 4px 20px -2px rgba(17, 19, 21, 0.03), 0 2px 6px -1px rgba(17, 19, 21, 0.02);
+.card-shadow {
+  box-shadow: 0 4px 20px -2px rgba(37, 41, 35, 0.04), 0 2px 6px -1px rgba(37, 41, 35, 0.02);
+}
+
+.card-shadow-hover {
   transition: all 0.2s ease-in-out;
 }
-
-.card-bento:hover {
-  box-shadow: 0 10px 30px -4px rgba(17, 19, 21, 0.06), 0 4px 10px -2px rgba(17, 19, 21, 0.03);
+.card-shadow-hover:hover {
+  box-shadow: 0 10px 25px -4px rgba(37, 41, 35, 0.08), 0 4px 10px -2px rgba(37, 41, 35, 0.03);
+  transform: translateY(-2px);
 }
 
-.card-bento-lime {
-  background-color: #D4F648;
-  color: #111315;
-  border-radius: 1.75rem;
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  box-shadow: 0 8px 24px -4px rgba(212, 246, 72, 0.35);
-}
-
-.card-bento-blue {
-  background-color: #E1F0FD;
-  color: #111315;
-  border-radius: 1.75rem;
-  border: 1px solid #D0E5F9;
-}
-
-.pill-container {
-  background-color: #FFFFFF;
-  border-radius: 9999px;
-  border: 1px solid #E5E8ED;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
-}

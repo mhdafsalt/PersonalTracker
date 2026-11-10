@@ -59,7 +59,7 @@ export default function AnalyticsPage() {
   }, [timeRange]);
 
   const currency = user?.currency || 'INR';
-  const COLORS = ['#111315', '#D4F648', '#FF5722', '#0284C7', '#10B981', '#F59E0B'];
+  const COLORS = ['#10B981', '#3B82F6', '#D6A24A', '#4F9B72', '#D96C6C', '#8DA382'];
 
   const financials = data?.financials || {};
   const habits = data?.habits || {};
@@ -73,19 +73,18 @@ export default function AnalyticsPage() {
 
   return (
     <AppLayout>
-      <div className="space-y-6 sm:space-y-7">
+      <div className="space-y-6 sm:space-y-8">
         {/* Top Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#686E77]">Intelligence & Metrics</p>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#111315] tracking-tight">Reports & Analytics</h1>
-            <p className="text-xs sm:text-sm text-[#686E77] mt-1">
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Reports & Analytics</h1>
+            <p className="text-sm text-slate-500 mt-1">
               Cross-module intelligence, financial margins, habit consistency, and study trends.
             </p>
           </div>
 
           {/* Time range switcher */}
-          <div className="flex items-center gap-1.5 p-1 bg-[#F0F2F5] rounded-full max-w-fit overflow-x-auto scrollbar-none">
+          <div className="flex items-center gap-1.5 bg-white p-1 rounded-2xl border border-slate-200">
             {[
               { id: 'today', name: 'Today' },
               { id: 'week', name: 'This Week' },
@@ -96,10 +95,10 @@ export default function AnalyticsPage() {
               <button
                 key={t.id}
                 onClick={() => setTimeRange(t.id)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
                   timeRange === t.id
-                    ? 'bg-[#111315] text-white shadow-xs'
-                    : 'text-[#686E77] hover:text-[#111315]'
+                    ? 'bg-emerald-600 text-white shadow-sm'
+                    : 'text-slate-500 hover:text-slate-900'
                 }`}
               >
                 {t.name}
@@ -115,28 +114,28 @@ export default function AnalyticsPage() {
             value={formatCurrency(financials.netSavings ?? 0, currency)}
             subtitle={`${formatCurrency(financials.totalIncome ?? 0, currency)} total income`}
             icon={Wallet}
-            trend="14"
+            color="#4F9B72"
           />
           <StatCard
             title="Productivity Ratio"
             value={`${productivity.completionRate ?? 0}%`}
             subtitle={`${productivity.completedTasks ?? 0} of ${productivity.totalTasks ?? 0} tasks done`}
             icon={Clock}
-            trend="22"
+            color="#10B981"
           />
           <StatCard
             title="Total Study Hours"
             value={`${study.totalStudyHours ?? 0} hrs`}
             subtitle="Deep learning sessions"
             icon={GraduationCap}
-            trend="10"
+            color="#34D399"
           />
           <StatCard
             title="Design Revenue"
             value={formatCurrency(creative.designBilled ?? 0, currency)}
             subtitle={`${creative.totalDesignProjects ?? 0} client projects`}
             icon={Briefcase}
-            trend="18"
+            color="#D6A24A"
           />
         </div>
 
@@ -146,13 +145,11 @@ export default function AnalyticsPage() {
           <Card className="flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-full bg-[#111315] text-[#D4F648] flex items-center justify-center font-bold">
-                    <PieChartIcon className="w-4 h-4" />
-                  </div>
-                  <h3 className="font-bold text-base text-[#111315]">Expense Category Breakdown</h3>
+                <div className="flex items-center gap-2">
+                  <PieChartIcon className="w-5 h-5 text-emerald-600" />
+                  <h3 className="font-semibold text-base text-slate-900">Expense Category Breakdown</h3>
                 </div>
-                <Badge variant="lime" size="xs">
+                <Badge variant="sage" size="sm">
                   {formatCurrency(financials.totalExpenses ?? 0, currency)} total
                 </Badge>
               </div>
@@ -167,7 +164,7 @@ export default function AnalyticsPage() {
                         nameKey="name"
                         innerRadius={50}
                         outerRadius={80}
-                        paddingAngle={5}
+                        paddingAngle={4}
                       >
                         {financials.expenseByCategory.map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -176,10 +173,9 @@ export default function AnalyticsPage() {
                       <Tooltip
                         formatter={(val) => formatCurrency(val, currency)}
                         contentStyle={{
-                          backgroundColor: '#111315',
-                          border: 'none',
-                          borderRadius: '16px',
-                          color: '#fff',
+                          backgroundColor: '#FFFFFF',
+                          borderColor: '#E2E8F0',
+                          borderRadius: '12px',
                           fontSize: '12px',
                         }}
                       />
@@ -187,19 +183,19 @@ export default function AnalyticsPage() {
                   </ResponsiveContainer>
                 </div>
               ) : (
-                <p className="text-xs text-[#686E77] py-16 text-center">No expenses in this timeframe.</p>
+                <p className="text-xs text-slate-500 py-16 text-center">No expenses in this timeframe.</p>
               )}
             </div>
 
             {financials.expenseByCategory && (
-              <div className="grid grid-cols-2 gap-2 pt-4 border-t border-[#E5E8ED]">
+              <div className="grid grid-cols-2 gap-2 pt-4 border-t border-slate-200">
                 {financials.expenseByCategory.map((item, idx) => (
                   <div key={item.name} className="flex justify-between text-xs">
-                    <span className="flex items-center gap-1.5 text-[#686E77]">
+                    <span className="flex items-center gap-1.5 text-slate-500">
                       <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: COLORS[idx % COLORS.length] }} />
                       {item.name}
                     </span>
-                    <span className="font-bold text-[#111315]">{formatCurrency(item.value, currency)}</span>
+                    <span className="font-semibold text-slate-900">{formatCurrency(item.value, currency)}</span>
                   </div>
                 ))}
               </div>
@@ -210,13 +206,11 @@ export default function AnalyticsPage() {
           <Card className="flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-full bg-[#111315] text-[#D4F648] flex items-center justify-center font-bold">
-                    <GraduationCap className="w-4 h-4" />
-                  </div>
-                  <h3 className="font-bold text-base text-[#111315]">Study Hours by Subject</h3>
+                <div className="flex items-center gap-2">
+                  <GraduationCap className="w-5 h-5 text-emerald-600" />
+                  <h3 className="font-semibold text-base text-slate-900">Study Hours by Subject</h3>
                 </div>
-                <Badge variant="default" size="xs">
+                <Badge variant="sage" size="sm">
                   {study.totalStudyHours ?? 0} Total Hours
                 </Badge>
               </div>
@@ -224,71 +218,70 @@ export default function AnalyticsPage() {
               {study.studyBySubject && study.studyBySubject.length > 0 ? (
                 <div className="h-56 w-full">
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={study.studyBySubject} barGap={6}>
-                      <XAxis dataKey="name" stroke="#8C939F" fontSize={11} tickLine={false} axisLine={false} />
-                      <YAxis stroke="#8C939F" fontSize={11} tickLine={false} axisLine={false} />
+                    <BarChart data={study.studyBySubject}>
+                      <XAxis dataKey="name" stroke="#94A3B8" fontSize={11} tickLine={false} axisLine={false} />
+                      <YAxis stroke="#94A3B8" fontSize={11} tickLine={false} axisLine={false} />
                       <Tooltip
                         contentStyle={{
-                          backgroundColor: '#111315',
-                          border: 'none',
-                          borderRadius: '16px',
-                          color: '#fff',
+                          backgroundColor: '#FFFFFF',
+                          borderColor: '#E2E8F0',
+                          borderRadius: '12px',
                           fontSize: '12px',
                         }}
                       />
-                      <Bar dataKey="hours" fill="#111315" radius={[12, 12, 0, 0]} name="Hours Logged" />
+                      <Bar dataKey="hours" fill="#10B981" radius={[6, 6, 0, 0]} name="Hours Logged" />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
               ) : (
-                <p className="text-xs text-[#686E77] py-16 text-center">No study hours in this timeframe.</p>
+                <p className="text-xs text-slate-500 py-16 text-center">No study hours in this timeframe.</p>
               )}
             </div>
 
-            <div className="pt-4 border-t border-[#E5E8ED] text-xs text-[#686E77] flex justify-between font-medium">
+            <div className="pt-4 border-t border-slate-200 text-xs text-slate-500 flex justify-between">
               <span>Goal: 40 hrs / month</span>
-              <span className="font-bold text-[#111315]">{study.totalStudyHours ?? 0} hrs completed</span>
+              <span className="font-semibold text-slate-900">{study.totalStudyHours ?? 0} hrs completed</span>
             </div>
           </Card>
         </div>
 
         {/* Detailed Metrics Table: Cross-Module Summary */}
         <Card className="p-0 overflow-hidden">
-          <div className="p-4 sm:p-5 border-b border-[#E5E8ED] bg-[#F7F8FA]">
-            <h3 className="font-bold text-base text-[#111315]">System Performance Matrix</h3>
-            <p className="text-xs text-[#686E77] mt-0.5">Aggregated summary across your personal management database.</p>
+          <div className="p-4 sm:p-5 border-b border-slate-200 bg-slate-50/60">
+            <h3 className="font-semibold text-base text-slate-900">System Performance Matrix</h3>
+            <p className="text-xs text-slate-500">Aggregated summary across your personal management database.</p>
           </div>
 
-          <div className="divide-y divide-[#E5E8ED] text-xs sm:text-sm">
-            <div className="p-4 sm:p-5 flex items-center justify-between">
-              <span className="text-[#686E77] flex items-center gap-2.5 font-medium">
-                <TrendingUp className="w-4 h-4 text-[#111315]" /> Average Habit Streak
+          <div className="divide-y divide-slate-200 text-xs sm:text-sm">
+            <div className="p-4 flex items-center justify-between">
+              <span className="text-slate-500 flex items-center gap-2">
+                <TrendingUp className="w-4 h-4 text-emerald-600" /> Average Habit Streak
               </span>
-              <span className="font-extrabold text-[#111315]">{habits.avgStreak ?? 0} consecutive days</span>
+              <span className="font-bold text-slate-900">{habits.avgStreak ?? 0} consecutive days</span>
             </div>
-            <div className="p-4 sm:p-5 flex items-center justify-between">
-              <span className="text-[#686E77] flex items-center gap-2.5 font-medium">
-                <Dumbbell className="w-4 h-4 text-[#FF5722]" /> Fitness Energy Burn
+            <div className="p-4 flex items-center justify-between">
+              <span className="text-slate-500 flex items-center gap-2">
+                <Dumbbell className="w-4 h-4 text-rose-600" /> Fitness Energy Burn
               </span>
-              <span className="font-extrabold text-[#111315]">{fitness.totalCaloriesBurned ?? 0} kcal burned</span>
+              <span className="font-bold text-slate-900">{fitness.totalCaloriesBurned ?? 0} kcal burned</span>
             </div>
-            <div className="p-4 sm:p-5 flex items-center justify-between">
-              <span className="text-[#686E77] flex items-center gap-2.5 font-medium">
-                <BookOpen className="w-4 h-4 text-[#0284C7]" /> Literature & Reading Progress
+            <div className="p-4 flex items-center justify-between">
+              <span className="text-slate-500 flex items-center gap-2">
+                <BookOpen className="w-4 h-4 text-amber-600" /> Literature & Reading Progress
               </span>
-              <span className="font-extrabold text-[#111315]">{reading.totalPagesRead ?? 0} pages completed</span>
+              <span className="font-bold text-slate-900">{reading.totalPagesRead ?? 0} pages completed</span>
             </div>
-            <div className="p-4 sm:p-5 flex items-center justify-between">
-              <span className="text-[#686E77] flex items-center gap-2.5 font-medium">
-                <Target className="w-4 h-4 text-[#10B981]" /> Overall Goal Milestone Progression
+            <div className="p-4 flex items-center justify-between">
+              <span className="text-slate-500 flex items-center gap-2">
+                <Target className="w-4 h-4 text-emerald-600" /> Overall Goal Milestone Progression
               </span>
-              <span className="font-extrabold text-[#111315]">{goals.avgGoalProgress ?? 0}% achieved</span>
+              <span className="font-bold text-slate-900">{goals.avgGoalProgress ?? 0}% achieved</span>
             </div>
-            <div className="p-4 sm:p-5 flex items-center justify-between">
-              <span className="text-[#686E77] flex items-center gap-2.5 font-medium">
-                <Clock className="w-4 h-4 text-[#111315]" /> Total Time Tracked in App
+            <div className="p-4 flex items-center justify-between">
+              <span className="text-slate-500 flex items-center gap-2">
+                <Clock className="w-4 h-4 text-emerald-600" /> Total Time Tracked in App
               </span>
-              <span className="font-extrabold text-[#111315]">{time.totalTrackedHours ?? 0} hours</span>
+              <span className="font-bold text-slate-900">{time.totalTrackedHours ?? 0} hours</span>
             </div>
           </div>
         </Card>
@@ -296,3 +289,4 @@ export default function AnalyticsPage() {
     </AppLayout>
   );
 }
+

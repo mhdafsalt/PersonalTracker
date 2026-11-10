@@ -24,21 +24,21 @@ export const Modal = ({ isOpen, onClose, title, children, maxWidth = 'max-w-lg' 
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-[#111315]/40 backdrop-blur-md transition-opacity"
+        className="fixed inset-0 bg-[#252923]/40 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
 
       {/* Modal Dialog Box */}
       <div
-        className={`relative bg-white rounded-[32px] border border-[#E5E8ED] shadow-[0_20px_60px_rgba(0,0,0,0.12)] w-full ${maxWidth} z-10 overflow-hidden transform transition-all my-8`}
+        className={`relative bg-white rounded-3xl border border-[#E9E8E1] shadow-2xl w-full ${maxWidth} z-10 overflow-hidden transform transition-all my-8`}
       >
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#E5E8ED] bg-[#F7F8FA]">
-          <h3 className="font-semibold text-lg text-[#111315]">{title}</h3>
+        <div className="flex items-center justify-between px-6 py-4.5 border-b border-[#E9E8E1] bg-[#FAF8F5]">
+          <h3 className="font-semibold text-lg text-[#252923]">{title}</h3>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-white border border-[#E5E8ED] text-[#686E77] hover:text-[#111315] flex items-center justify-center hover:bg-[#EDEFF2] transition-colors"
+            className="text-[#777D75] hover:text-[#252923] p-1.5 rounded-lg hover:bg-[#EFECE4] transition-colors"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5" />
           </button>
         </div>
         <div className="p-6 max-h-[80vh] overflow-y-auto">{children}</div>
@@ -46,5 +46,4 @@ export const Modal = ({ isOpen, onClose, title, children, maxWidth = 'max-w-lg' 
     </div>
   );
 };
-
 

@@ -7,7 +7,7 @@ import { StatCard } from '../../../components/ui/StatCard';
 import { Button } from '../../../components/ui/Button';
 import { Badge } from '../../../components/ui/Badge';
 import { Modal } from '../../../components/ui/Modal';
-import { EmptyState } from '../../../components/ui/EmptyState';
+import { EmptyState } from '../../..//components/ui/EmptyState';
 import { api } from '../../../services/api';
 import { useAuth } from '../../../context/AuthContext';
 import { useToast } from '../../../context/ToastContext';
@@ -99,7 +99,6 @@ export default function DesignProjectsTrackerPage() {
       setIsModalOpen(false);
       setTitle('');
       setDescription('');
-      setBrief('');
       fetchProjects();
     } catch (err) {
       showToast(err.message, 'error');
@@ -131,21 +130,17 @@ export default function DesignProjectsTrackerPage() {
 
   return (
     <AppLayout>
-      <div className="space-y-6 sm:space-y-7">
+      <div className="space-y-6">
         {/* Top Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 mb-1.5">
-              <Link
-                href="/graphic-design"
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white border border-[#E5E8ED] text-[#686E77] hover:text-[#111315] hover:border-[#111315] transition-all"
-              >
+            <div className="flex items-center gap-2 mb-1">
+              <Link href="/graphic-design" className="text-xs text-emerald-600 hover:underline flex items-center gap-1">
                 <ArrowLeft className="w-3.5 h-3.5" /> Back to Studio
               </Link>
             </div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#686E77]">Production & Commissions</p>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#111315] tracking-tight">Design Projects Tracker</h1>
-            <p className="text-xs sm:text-sm text-[#686E77] mt-1">
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Design Projects Tracker</h1>
+            <p className="text-sm text-slate-500 mt-1">
               Deliverables, client review statuses, payment milestones, and design deadlines.
             </p>
           </div>
@@ -154,47 +149,48 @@ export default function DesignProjectsTrackerPage() {
           </Button>
         </div>
 
-        {/* 4 Bento Stat Cards */}
+        {/* 4 Stats Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <StatCard
             title="Total Projects"
             value={stats.totalProjects ?? 0}
             subtitle="Commissioned works"
             icon={Briefcase}
-            trend="12"
+            color="#10B981"
           />
           <StatCard
             title="In Progress"
             value={stats.inProgress ?? 0}
             subtitle="Active design production"
             icon={Clock}
-            trend="08"
+            color="#D6A24A"
           />
           <StatCard
-            title="Under Review"
+            title="Under Client Review"
             value={stats.awaitingApproval ?? 0}
             subtitle="Awaiting client approval"
             icon={AlertCircle}
+            color="#34D399"
           />
           <StatCard
-            title="Completed"
+            title="Completed Projects"
             value={stats.completed ?? 0}
             subtitle="Approved and delivered"
             icon={CheckCircle2}
-            trend="24"
+            color="#4F9B72"
           />
         </div>
 
         {/* Filter Pills */}
-        <div className="flex items-center gap-1.5 p-1 bg-[#F0F2F5] rounded-full max-w-fit overflow-x-auto scrollbar-none">
+        <div className="flex flex-wrap items-center gap-2">
           {['All', 'New', 'In Progress', 'Review', 'Completed'].map((s) => (
             <button
               key={s}
               onClick={() => setStatusFilter(s)}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all ${
                 statusFilter === s
-                  ? 'bg-[#111315] text-white shadow-xs'
-                  : 'text-[#686E77] hover:text-[#111315]'
+                  ? 'bg-emerald-600 text-white shadow-sm'
+                  : 'bg-white text-slate-500 hover:bg-slate-50 border border-slate-200'
               }`}
             >
               {s}
@@ -204,59 +200,53 @@ export default function DesignProjectsTrackerPage() {
 
         {/* Projects Cards Grid */}
         {projects.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((proj) => (
-              <Card key={proj._id} className="flex flex-col justify-between group hover:border-[#111315]/40 transition-all">
+              <Card key={proj._id} hover className="flex flex-col justify-between">
                 <div>
-                  <div className="flex items-start justify-between gap-2">
+                  <div className="flex items-start justify-between">
                     <div>
-                      <span className="text-[10px] font-bold text-[#686E77] uppercase tracking-wider">
+                      <span className="text-[11px] font-semibold text-emerald-600 uppercase tracking-wider">
                         {proj.category}
                       </span>
-                      <h3 className="font-extrabold text-lg text-[#111315] mt-0.5 leading-snug">{proj.title}</h3>
-                      <p className="text-xs text-[#686E77] font-medium">
-                        Client: <span className="font-bold text-[#111315]">{proj.client?.name || 'Client'}</span>
+                      <h3 className="font-bold text-lg text-slate-900 mt-0.5">{proj.title}</h3>
+                      <p className="text-xs text-slate-500">
+                        Client: <span className="font-semibold text-slate-900">{proj.client?.name || 'Client'}</span>
                       </p>
                     </div>
-                    <Badge variant={proj.status === 'Completed' ? 'lime' : 'default'} size="xs">
+                    <Badge variant={proj.status === 'Completed' ? 'success' : 'sage'} size="sm">
                       {proj.status}
                     </Badge>
                   </div>
 
                   {proj.brief && (
-                    <p className="text-xs text-[#686E77] mt-3 bg-[#F7F8FA] p-3 rounded-2xl border border-[#E5E8ED] font-medium">
+                    <p className="text-xs text-slate-500 mt-2 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
                       {proj.brief}
                     </p>
                   )}
 
                   {/* Financials & Deadline */}
-                  <div className="mt-4 p-3.5 rounded-2xl bg-[#F7F8FA] border border-[#E5E8ED] space-y-2 text-xs">
-                    <div className="flex justify-between items-center">
-                      <span className="text-[#686E77] font-medium">Project Pricing:</span>
-                      <span className="font-extrabold text-[#111315]">{formatCurrency(proj.pricing, currency)}</span>
+                  <div className="mt-4 p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5 text-xs">
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Project Pricing:</span>
+                      <span className="font-bold text-slate-900">{formatCurrency(proj.pricing, currency)}</span>
                     </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-[#686E77] font-medium">Advance Paid:</span>
-                      <span className="font-bold text-[#111315]">{formatCurrency(proj.advancePayment, currency)}</span>
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Advance Paid:</span>
+                      <span className="font-semibold text-emerald-600">{formatCurrency(proj.advancePayment, currency)}</span>
                     </div>
-                    <div className="flex justify-between items-center pt-1 border-t border-[#E5E8ED]">
-                      <span className="text-[#686E77] font-medium">Remaining:</span>
-                      <span className="font-extrabold text-[#FF5722]">{formatCurrency(proj.remainingPayment, currency)}</span>
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Remaining:</span>
+                      <span className="font-semibold text-rose-600">{formatCurrency(proj.remainingPayment, currency)}</span>
                     </div>
-                    {proj.deadline && (
-                      <div className="flex justify-between items-center text-[11px] text-[#686E77] pt-1">
-                        <span>Deadline:</span>
-                        <span className="font-semibold text-[#111315]">{formatDate(proj.deadline)}</span>
-                      </div>
-                    )}
                   </div>
                 </div>
 
-                <div className="mt-4 pt-3.5 border-t border-[#E5E8ED] flex items-center justify-between gap-2 text-xs">
+                <div className="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between text-xs">
                   <select
                     value={proj.status}
                     onChange={(e) => handleStatusChange(proj._id, e.target.value)}
-                    className="px-3 py-1.5 rounded-full border border-[#E5E8ED] bg-[#F7F8FA] text-[#111315] font-semibold text-xs focus:outline-none focus:border-[#111315]"
+                    className="px-2.5 py-1 rounded-lg border border-slate-200 bg-white text-slate-900 font-medium"
                   >
                     <option value="New">New</option>
                     <option value="Brief Received">Brief Received</option>
@@ -269,10 +259,9 @@ export default function DesignProjectsTrackerPage() {
 
                   <button
                     onClick={() => handleDeleteProject(proj._id)}
-                    className="w-8 h-8 rounded-full bg-[#F0F2F5] text-[#8C939F] hover:text-[#FF5722] hover:bg-red-50 flex items-center justify-center transition-colors"
-                    title="Delete Project"
+                    className="p-1.5 text-slate-500 hover:text-rose-600 rounded-lg transition-colors"
                   >
-                    <Trash2 className="w-3.5 h-3.5" />
+                    <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
               </Card>
@@ -296,12 +285,12 @@ export default function DesignProjectsTrackerPage() {
         >
           <form onSubmit={handleCreateProject} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-[#111315] mb-1.5">Select Client *</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Select Client *</label>
               <select
                 required
                 value={selectedClient}
                 onChange={(e) => setSelectedClient(e.target.value)}
-                className="w-full px-3.5 py-2 text-xs font-medium rounded-2xl border border-[#E5E8ED] bg-[#F7F8FA] focus:bg-white focus:outline-none focus:border-[#111315]"
+                className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               >
                 {clients.map((c) => (
                   <option key={c._id} value={c._id}>
@@ -312,24 +301,24 @@ export default function DesignProjectsTrackerPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#111315] mb-1.5">Project Title *</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Project Title *</label>
               <input
                 type="text"
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. Brand Identity & Logo Guidelines"
-                className="w-full px-3.5 py-2 text-xs font-medium rounded-2xl border border-[#E5E8ED] bg-[#F7F8FA] focus:bg-white focus:outline-none focus:border-[#111315]"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-slate-50/50"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-[#111315] mb-1.5">Category</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Category</label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-3.5 py-2 text-xs font-medium rounded-2xl border border-[#E5E8ED] bg-[#F7F8FA] focus:bg-white focus:outline-none focus:border-[#111315]"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 >
                   <option value="Logo Design">Logo Design</option>
                   <option value="Brand Identity">Brand Identity</option>
@@ -344,47 +333,47 @@ export default function DesignProjectsTrackerPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#111315] mb-1.5">Deadline</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Deadline</label>
                 <input
                   type="date"
                   value={deadline}
                   onChange={(e) => setDeadline(e.target.value)}
-                  className="w-full px-3.5 py-2 text-xs font-medium rounded-2xl border border-[#E5E8ED] bg-[#F7F8FA] focus:bg-white focus:outline-none focus:border-[#111315]"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-[#111315] mb-1.5">Pricing ({currency}) *</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Pricing ({currency}) *</label>
                 <input
                   type="number"
                   required
                   value={pricing}
                   onChange={(e) => setPricing(e.target.value)}
-                  className="w-full px-3.5 py-2 text-xs font-medium rounded-2xl border border-[#E5E8ED] bg-[#F7F8FA] focus:bg-white focus:outline-none focus:border-[#111315]"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#111315] mb-1.5">Advance Payment ({currency})</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Advance Payment ({currency})</label>
                 <input
                   type="number"
                   value={advancePayment}
                   onChange={(e) => setAdvancePayment(e.target.value)}
-                  className="w-full px-3.5 py-2 text-xs font-medium rounded-2xl border border-[#E5E8ED] bg-[#F7F8FA] focus:bg-white focus:outline-none focus:border-[#111315]"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#111315] mb-1.5">Design Brief & Deliverables</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Design Brief & Deliverables</label>
               <textarea
                 rows={2}
                 value={brief}
                 onChange={(e) => setBrief(e.target.value)}
                 placeholder="Scope, export formats, revision parameters..."
-                className="w-full px-3.5 py-2 text-xs font-medium rounded-2xl border border-[#E5E8ED] bg-[#F7F8FA] focus:bg-white focus:outline-none focus:border-[#111315]"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 
@@ -400,3 +389,4 @@ export default function DesignProjectsTrackerPage() {
     </AppLayout>
   );
 }
+
