@@ -88,43 +88,44 @@ export default function CentralCalendarPage() {
 
   const types = [
     { id: 'All', name: 'All' },
-    { id: 'task', name: 'Tasks', color: '#10B981' },
-    { id: 'habit', name: 'Habits', color: '#4F9B72' },
-    { id: 'goal', name: 'Goals', color: '#D6A24A' },
-    { id: 'travel', name: 'Trips', color: '#8DA382' },
-    { id: 'event', name: 'Events', color: '#547359' },
-    { id: 'call', name: 'Follow-ups', color: '#D96C6C' },
-    { id: 'design', name: 'Design Deadlines', color: '#3B82F6' },
+    { id: 'task', name: 'Tasks', color: '#111315' },
+    { id: 'habit', name: 'Habits', color: '#10B981' },
+    { id: 'goal', name: 'Goals', color: '#D4F648' },
+    { id: 'travel', name: 'Trips', color: '#0284C7' },
+    { id: 'event', name: 'Events', color: '#8B5CF6' },
+    { id: 'call', name: 'Follow-ups', color: '#FF5722' },
+    { id: 'design', name: 'Design Deadlines', color: '#F59E0B' },
   ];
 
   return (
     <AppLayout>
-      <div className="space-y-6">
+      <div className="space-y-6 sm:space-y-7">
         {/* Top Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Central Calendar</h1>
-            <p className="text-sm text-slate-500 mt-1">
+            <p className="text-xs font-semibold uppercase tracking-wider text-[#686E77]">Schedule & Agendas</p>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#111315] tracking-tight">Central Calendar</h1>
+            <p className="text-xs sm:text-sm text-[#686E77] mt-1">
               Synchronized master agenda combining tasks, travel dates, deadlines, and events.
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <Button onClick={() => setCurrentMonth(new Date())} variant="secondary" size="sm">
               Today
             </Button>
-            <div className="flex items-center bg-white rounded-xl border border-slate-200 p-0.5">
+            <div className="flex items-center bg-white rounded-full border border-[#E5E8ED] p-1 shadow-xs">
               <button
                 onClick={prevMonth}
-                className="p-1.5 text-slate-500 hover:text-slate-900 rounded-lg transition-colors"
+                className="w-8 h-8 rounded-full text-[#686E77] hover:text-[#111315] hover:bg-[#F2F4F7] flex items-center justify-center transition-colors"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
-              <span className="px-3 text-xs font-semibold text-slate-900 min-w-[120px] text-center">
+              <span className="px-4 text-xs font-bold text-[#111315] min-w-[130px] text-center">
                 {monthName}
               </span>
               <button
                 onClick={nextMonth}
-                className="p-1.5 text-slate-500 hover:text-slate-900 rounded-lg transition-colors"
+                className="w-8 h-8 rounded-full text-[#686E77] hover:text-[#111315] hover:bg-[#F2F4F7] flex items-center justify-center transition-colors"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
@@ -133,15 +134,15 @@ export default function CentralCalendarPage() {
         </div>
 
         {/* Category Filters */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1">
+        <div className="flex items-center gap-1.5 p-1 bg-[#F0F2F5] rounded-full max-w-fit overflow-x-auto scrollbar-none">
           {types.map((t) => (
             <button
               key={t.id}
               onClick={() => setFilterType(t.id)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all flex items-center gap-1.5 ${
+              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 ${
                 filterType === t.id
-                  ? 'bg-emerald-600 text-white shadow-sm'
-                  : 'bg-white text-slate-500 hover:bg-slate-50 border border-slate-200'
+                  ? 'bg-[#111315] text-white shadow-xs'
+                  : 'text-[#686E77] hover:text-[#111315]'
               }`}
             >
               {t.color && <span className="w-2 h-2 rounded-full" style={{ backgroundColor: t.color }} />}
@@ -153,7 +154,7 @@ export default function CentralCalendarPage() {
         {/* Master Month Calendar Grid */}
         <Card className="p-0 overflow-hidden">
           {/* Days of week header */}
-          <div className="grid grid-cols-7 border-b border-slate-200 bg-slate-50 text-center text-xs font-semibold text-slate-500 py-2.5">
+          <div className="grid grid-cols-7 border-b border-[#E5E8ED] bg-[#F7F8FA] text-center text-[11px] font-bold uppercase tracking-wider text-[#686E77] py-3">
             <div>Sun</div>
             <div>Mon</div>
             <div>Tue</div>
@@ -164,10 +165,10 @@ export default function CentralCalendarPage() {
           </div>
 
           {/* Calendar Day Cells */}
-          <div className="grid grid-cols-7 auto-rows-fr divide-x divide-y divide-slate-200">
+          <div className="grid grid-cols-7 auto-rows-fr divide-x divide-y divide-[#E5E8ED]">
             {/* Blank leading days */}
             {[...Array(firstDayOfMonth)].map((_, i) => (
-              <div key={`blank-${i}`} className="min-h-[90px] sm:min-h-[110px] bg-slate-50/30 p-2" />
+              <div key={`blank-${i}`} className="min-h-[90px] sm:min-h-[115px] bg-[#F7F8FA]/30 p-2" />
             ))}
 
             {/* Days of current month */}
@@ -181,20 +182,20 @@ export default function CentralCalendarPage() {
                 <div
                   key={dayNum}
                   onClick={() => handleDayClick(dayNum)}
-                  className={`min-h-[90px] sm:min-h-[110px] p-2 sm:p-2.5 transition-colors cursor-pointer hover:bg-slate-50/60 flex flex-col justify-between ${
-                    isToday ? 'bg-emerald-600/5 ring-1 ring-inset ring-[#6B8F71]/30' : ''
+                  className={`min-h-[90px] sm:min-h-[115px] p-2.5 transition-colors cursor-pointer hover:bg-[#F7F8FA]/70 flex flex-col justify-between ${
+                    isToday ? 'bg-[#D4F648]/10 ring-1 ring-inset ring-[#D4F648]' : ''
                   }`}
                 >
                   <div className="flex justify-between items-start">
                     <span
-                      className={`text-xs font-semibold flex items-center justify-center rounded-full w-6 h-6 ${
-                        isToday ? 'bg-emerald-600 text-white' : 'text-slate-900'
+                      className={`text-xs font-extrabold flex items-center justify-center rounded-full w-6 h-6 ${
+                        isToday ? 'bg-[#111315] text-[#D4F648]' : 'text-[#111315]'
                       }`}
                     >
                       {dayNum}
                     </span>
                     {dayEvents.length > 0 && (
-                      <span className="text-[10px] font-bold text-emerald-600 bg-emerald-600/10 px-1.5 py-0.5 rounded-full">
+                      <span className="text-[10px] font-bold text-[#111315] bg-[#D4F648] px-2 py-0.5 rounded-full shadow-xs">
                         {dayEvents.length}
                       </span>
                     )}
@@ -205,18 +206,18 @@ export default function CentralCalendarPage() {
                     {dayEvents.slice(0, 2).map((ev) => (
                       <div
                         key={ev.id}
-                        className="text-[10px] truncate px-1.5 py-0.5 rounded font-medium border"
+                        className="text-[10px] truncate px-2 py-0.5 rounded-full font-semibold border"
                         style={{
                           backgroundColor: `${ev.color}15`,
-                          color: ev.color,
-                          borderColor: `${ev.color}30`,
+                          color: '#111315',
+                          borderColor: `${ev.color}35`,
                         }}
                       >
                         {ev.title}
                       </div>
                     ))}
                     {dayEvents.length > 2 && (
-                      <span className="text-[9px] text-slate-500 pl-1 font-medium block">
+                      <span className="text-[9px] text-[#686E77] pl-1 font-bold block">
                         +{dayEvents.length - 2} more
                       </span>
                     )}
@@ -239,30 +240,30 @@ export default function CentralCalendarPage() {
                 selectedDayEvents.map((ev) => (
                   <div
                     key={ev.id}
-                    className="p-3.5 rounded-xl border border-slate-200 bg-white flex items-center justify-between"
+                    className="p-3.5 rounded-2xl border border-[#E5E8ED] bg-[#F7F8FA] flex items-center justify-between"
                   >
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: ev.color }} />
-                        <h4 className="font-semibold text-sm text-slate-900">{ev.title}</h4>
+                        <h4 className="font-bold text-sm text-[#111315]">{ev.title}</h4>
                       </div>
-                      <p className="text-xs text-slate-500 mt-1 pl-4.5">
-                        Category: <span className="capitalize">{ev.type}</span> • Status: {ev.status}
+                      <p className="text-xs text-[#686E77] mt-1 pl-4.5">
+                        Category: <span className="capitalize font-medium text-[#111315]">{ev.type}</span> • Status: {ev.status}
                       </p>
                     </div>
                     {ev.priority && (
-                      <Badge variant={ev.priority === 'Urgent' ? 'danger' : 'default'} size="sm">
+                      <Badge variant={ev.priority === 'Urgent' ? 'danger' : 'default'} size="xs">
                         {ev.priority}
                       </Badge>
                     )}
                   </div>
                 ))
               ) : (
-                <p className="text-xs text-slate-500 py-6 text-center">
+                <p className="text-xs text-[#686E77] py-6 text-center">
                   No scheduled items or deadlines on this date.
                 </p>
               )}
-              <div className="flex justify-end pt-3 border-t border-slate-200">
+              <div className="flex justify-end pt-3 border-t border-[#E5E8ED]">
                 <Button onClick={() => setSelectedDayEvents(null)} variant="secondary">
                   Close
                 </Button>
@@ -274,4 +275,3 @@ export default function CentralCalendarPage() {
     </AppLayout>
   );
 }
-

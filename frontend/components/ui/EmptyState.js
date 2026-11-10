@@ -9,20 +9,21 @@ export const EmptyState = ({
   onAction,
 }) => {
   return (
-    <div className="flex flex-col items-center justify-center p-8 sm:p-12 text-center rounded-2xl border border-dashed border-[#E9E8E1] bg-[#FAF8F5]/50 my-4">
+    <div className="flex flex-col items-center justify-center p-8 sm:p-10 text-center rounded-[24px] border border-dashed border-[#E5E8ED] bg-[#F7F8FA] my-3">
       {Icon && (
-        <div className="w-14 h-14 rounded-2xl bg-[#EFECE4] flex items-center justify-center text-[#6B8F71] mb-4">
-          <Icon className="w-7 h-7" />
+        <div className="w-12 h-12 rounded-full bg-white border border-[#E5E8ED] flex items-center justify-center text-[#111315] shadow-xs mb-3">
+          <Icon className="w-5 h-5 text-[#686E77]" />
         </div>
       )}
-      <h4 className="font-semibold text-lg text-[#252923]">{title}</h4>
-      {description && <p className="text-sm text-[#777D75] max-w-md mt-1 mb-5">{description}</p>}
+      <h4 className="font-semibold text-base text-[#111315]">{title}</h4>
+      {description && <p className="text-xs text-[#686E77] max-w-sm mt-1 mb-4">{description}</p>}
       {actionLabel && onAction && (
-        <Button onClick={onAction} size="sm">
+        <Button onClick={onAction} size="sm" variant="primary">
           {actionLabel}
         </Button>
       )}
     </div>
   );
 };
+
 

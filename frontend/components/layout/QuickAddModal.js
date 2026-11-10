@@ -95,61 +95,61 @@ export const QuickAddModal = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Quick Add">
+    <Modal isOpen={isOpen} onClose={onClose} title="Quick Action">
       {/* Switcher Tabs */}
-      <div className="flex border-b border-[#E9E8E1] mb-5">
+      <div className="flex p-1 bg-[#F0F2F5] rounded-full mb-6 max-w-sm mx-auto">
         <button
           onClick={() => setActiveTab('task')}
-          className={`flex items-center gap-2 pb-3 px-3 text-xs sm:text-sm font-medium border-b-2 transition-colors ${
+          className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-semibold rounded-full transition-all ${
             activeTab === 'task'
-              ? 'border-[#6B8F71] text-[#6B8F71]'
-              : 'border-transparent text-[#777D75] hover:text-[#252923]'
+              ? 'bg-[#111315] text-white shadow-sm'
+              : 'text-[#686E77] hover:text-[#111315]'
           }`}
         >
-          <Clock className="w-4 h-4" /> Task
+          <Clock className="w-3.5 h-3.5" /> Task
         </button>
         <button
           onClick={() => setActiveTab('habit')}
-          className={`flex items-center gap-2 pb-3 px-3 text-xs sm:text-sm font-medium border-b-2 transition-colors ${
+          className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-semibold rounded-full transition-all ${
             activeTab === 'habit'
-              ? 'border-[#6B8F71] text-[#6B8F71]'
-              : 'border-transparent text-[#777D75] hover:text-[#252923]'
+              ? 'bg-[#111315] text-white shadow-sm'
+              : 'text-[#686E77] hover:text-[#111315]'
           }`}
         >
-          <Sparkles className="w-4 h-4" /> Habit
+          <Sparkles className="w-3.5 h-3.5" /> Habit
         </button>
         <button
           onClick={() => setActiveTab('expense')}
-          className={`flex items-center gap-2 pb-3 px-3 text-xs sm:text-sm font-medium border-b-2 transition-colors ${
+          className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-semibold rounded-full transition-all ${
             activeTab === 'expense'
-              ? 'border-[#6B8F71] text-[#6B8F71]'
-              : 'border-transparent text-[#777D75] hover:text-[#252923]'
+              ? 'bg-[#111315] text-white shadow-sm'
+              : 'text-[#686E77] hover:text-[#111315]'
           }`}
         >
-          <Wallet className="w-4 h-4" /> Expense / Income
+          <Wallet className="w-3.5 h-3.5" /> Finance
         </button>
       </div>
 
       {activeTab === 'task' && (
         <form onSubmit={handleCreateTask} className="space-y-4">
           <div>
-            <label className="block text-xs font-medium text-[#777D75] mb-1">Task Title *</label>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Task Title *</label>
             <input
               type="text"
               required
               value={taskTitle}
               onChange={(e) => setTaskTitle(e.target.value)}
               placeholder="e.g. Complete quarterly product review"
-              className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-[#FAF8F5]/50"
+              className="w-full px-4 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-[#F7F8FA]"
             />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Priority</label>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Priority</label>
               <select
                 value={taskPriority}
                 onChange={(e) => setTaskPriority(e.target.value)}
-                className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white"
               >
                 <option value="Low">Low</option>
                 <option value="Medium">Medium</option>
@@ -158,29 +158,29 @@ export const QuickAddModal = ({ isOpen, onClose }) => {
               </select>
             </div>
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Category</label>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Category</label>
               <input
                 type="text"
                 value={taskCategory}
                 onChange={(e) => setTaskCategory(e.target.value)}
-                className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white"
               />
             </div>
           </div>
           <div>
-            <label className="block text-xs font-medium text-[#777D75] mb-1">Due Date</label>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Due Date</label>
             <input
               type="date"
               value={taskDueDate}
               onChange={(e) => setTaskDueDate(e.target.value)}
-              className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+              className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white"
             />
           </div>
-          <div className="pt-2 flex justify-end gap-2">
-            <Button type="button" variant="ghost" onClick={onClose}>
+          <div className="pt-3 flex justify-end gap-2.5">
+            <Button type="button" variant="secondary" onClick={onClose}>
               Cancel
             </Button>
-            <Button type="submit" loading={loading}>
+            <Button type="submit" variant="primary" loading={loading}>
               Create Task
             </Button>
           </div>
@@ -190,22 +190,22 @@ export const QuickAddModal = ({ isOpen, onClose }) => {
       {activeTab === 'habit' && (
         <form onSubmit={handleCreateHabit} className="space-y-4">
           <div>
-            <label className="block text-xs font-medium text-[#777D75] mb-1">Habit Title *</label>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Habit Title *</label>
             <input
               type="text"
               required
               value={habitTitle}
               onChange={(e) => setHabitTitle(e.target.value)}
               placeholder="e.g. Read 20 pages every day"
-              className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-[#FAF8F5]/50"
+              className="w-full px-4 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-[#F7F8FA]"
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-[#777D75] mb-1">Category</label>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Category</label>
             <select
               value={habitCategory}
               onChange={(e) => setHabitCategory(e.target.value)}
-              className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+              className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white"
             >
               <option value="Health">Health</option>
               <option value="Productivity">Productivity</option>
@@ -216,11 +216,11 @@ export const QuickAddModal = ({ isOpen, onClose }) => {
               <option value="General">General</option>
             </select>
           </div>
-          <div className="pt-2 flex justify-end gap-2">
-            <Button type="button" variant="ghost" onClick={onClose}>
+          <div className="pt-3 flex justify-end gap-2.5">
+            <Button type="button" variant="secondary" onClick={onClose}>
               Cancel
             </Button>
-            <Button type="submit" loading={loading}>
+            <Button type="submit" variant="lime" loading={loading}>
               Create Habit
             </Button>
           </div>
@@ -229,65 +229,68 @@ export const QuickAddModal = ({ isOpen, onClose }) => {
 
       {activeTab === 'expense' && (
         <form onSubmit={handleCreateTxn} className="space-y-4">
-          <div className="grid grid-cols-2 gap-2 bg-[#FAF8F5] p-1 rounded-xl border border-[#E9E8E1]">
-            <button
-              type="button"
-              onClick={() => setTxnType('expense')}
-              className={`py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                txnType === 'expense' ? 'bg-white text-[#D96C6C] shadow-sm' : 'text-[#777D75]'
-              }`}
-            >
-              Expense
-            </button>
-            <button
-              type="button"
-              onClick={() => setTxnType('income')}
-              className={`py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                txnType === 'income' ? 'bg-white text-[#4F9B72] shadow-sm' : 'text-[#777D75]'
-              }`}
-            >
-              Income
-            </button>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Type</label>
+              <div className="flex p-1 bg-[#F0F2F5] rounded-full">
+                <button
+                  type="button"
+                  onClick={() => setTxnType('expense')}
+                  className={`flex-1 py-1.5 text-xs font-semibold rounded-full transition-all ${
+                    txnType === 'expense' ? 'bg-[#FF5722] text-white shadow-xs' : 'text-[#686E77]'
+                  }`}
+                >
+                  Expense
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setTxnType('income')}
+                  className={`flex-1 py-1.5 text-xs font-semibold rounded-full transition-all ${
+                    txnType === 'income' ? 'bg-[#10B981] text-white shadow-xs' : 'text-[#686E77]'
+                  }`}
+                >
+                  Income
+                </button>
+              </div>
+            </div>
+            <div>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Amount (₹) *</label>
+              <input
+                type="number"
+                required
+                value={txnAmount}
+                onChange={(e) => setTxnAmount(e.target.value)}
+                placeholder="0.00"
+                className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white"
+              />
+            </div>
           </div>
           <div>
-            <label className="block text-xs font-medium text-[#777D75] mb-1">Title *</label>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Description *</label>
             <input
               type="text"
               required
               value={txnTitle}
               onChange={(e) => setTxnTitle(e.target.value)}
               placeholder="e.g. Domain Renewal or Client Payment"
-              className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-[#FAF8F5]/50"
+              className="w-full px-4 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-[#F7F8FA]"
             />
           </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Amount (₹) *</label>
-              <input
-                type="number"
-                required
-                value={txnAmount}
-                onChange={(e) => setTxnAmount(e.target.value)}
-                placeholder="₹ Amount"
-                className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Category</label>
-              <input
-                type="text"
-                value={txnCategory}
-                onChange={(e) => setTxnCategory(e.target.value)}
-                placeholder="Category"
-                className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
-              />
-            </div>
+          <div>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Category</label>
+            <input
+              type="text"
+              value={txnCategory}
+              onChange={(e) => setTxnCategory(e.target.value)}
+              placeholder="Category"
+              className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white"
+            />
           </div>
-          <div className="pt-2 flex justify-end gap-2">
-            <Button type="button" variant="ghost" onClick={onClose}>
+          <div className="pt-3 flex justify-end gap-2.5">
+            <Button type="button" variant="secondary" onClick={onClose}>
               Cancel
             </Button>
-            <Button type="submit" loading={loading}>
+            <Button type="submit" variant="primary" loading={loading}>
               Save Transaction
             </Button>
           </div>
@@ -296,4 +299,3 @@ export const QuickAddModal = ({ isOpen, onClose }) => {
     </Modal>
   );
 };
-

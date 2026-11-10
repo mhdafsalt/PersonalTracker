@@ -100,7 +100,7 @@ export default function FitnessTrackerPage() {
         waterLiters: Number(dailyWater),
         sleepHours: Number(dailySleep),
       });
-      showToast('Daily health vitals logged!', 'success');
+      showToast('Daily vitals saved!', 'success');
       setIsRecordModalOpen(false);
       fetchFitness();
     } catch (err) {
@@ -109,10 +109,10 @@ export default function FitnessTrackerPage() {
   };
 
   const handleDeleteWorkout = async (id) => {
-    if (!confirm('Delete this workout?')) return;
+    if (!confirm('Delete this workout record?')) return;
     try {
       await api.delete(`/fitness/workouts/${id}`);
-      showToast('Workout removed', 'success');
+      showToast('Workout deleted', 'success');
       fetchFitness();
     } catch (err) {
       showToast(err.message, 'error');
@@ -121,86 +121,88 @@ export default function FitnessTrackerPage() {
 
   return (
     <AppLayout>
-      <div className="space-y-6">
+      <div className="space-y-6 sm:space-y-7">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Fitness Tracker</h1>
-            <p className="text-sm text-slate-500 mt-1">
-              Log strength training, cardio routines, steps, body weight, and hydration.
+            <p className="text-xs font-semibold uppercase tracking-wider text-[#686E77]">Biometrics & Health</p>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#111315] tracking-tight">Fitness Tracker</h1>
+            <p className="text-xs sm:text-sm text-[#686E77] mt-1">
+              Log strength sessions, monitor daily steps, and record bodyweight progress.
             </p>
           </div>
-          <div className="flex items-center gap-2">
-            <Button onClick={() => setIsRecordModalOpen(true)} variant="secondary" icon={Scale}>
-              Log Vitals
+          <div className="flex items-center gap-2.5">
+            <Button onClick={() => setIsRecordModalOpen(true)} variant="secondary" icon={Activity}>
+              Record Vitals
             </Button>
-            <Button onClick={() => setIsWorkoutModalOpen(true)} icon={Plus}>
+            <Button onClick={() => setIsWorkoutModalOpen(true)} variant="primary" icon={Plus}>
               Log Workout
             </Button>
           </div>
         </div>
 
-        {/* 4 Stats Cards */}
+        {/* 4 Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <StatCard
             title="Total Workouts"
             value={stats.totalWorkouts ?? 0}
-            subtitle={`${stats.totalDurationMinutes ?? 0} mins logged`}
+            subtitle={`${stats.weeklyWorkouts ?? 0} logged this week`}
             icon={Dumbbell}
-            color="#10B981"
+            trend="24"
           />
           <StatCard
             title="Calories Burned"
             value={`${stats.totalCalories ?? 0} kcal`}
             subtitle="Estimated energy expenditure"
             icon={Flame}
-            color="#D96C6C"
+            trend="16"
           />
           <StatCard
             title="Current Weight"
             value={stats.currentWeight ? `${stats.currentWeight} kg` : '--'}
             subtitle="Latest bodyweight log"
             icon={Scale}
-            color="#D6A24A"
+            trend="02"
           />
           <StatCard
             title="Today's Steps"
             value={stats.todaySteps ? stats.todaySteps.toLocaleString() : '0'}
             subtitle="Goal: 10,000 steps"
             icon={Footprints}
-            color="#4F9B72"
+            trend="20"
           />
         </div>
 
         {/* Daily Vitals Summary Bar */}
         {records && records.length > 0 && (
-          <Card className="bg-slate-50/80 p-4">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="font-semibold text-xs sm:text-sm text-slate-900 flex items-center gap-1.5">
-                <Activity className="w-4 h-4 text-emerald-600" /> Latest Recorded Vitals
+          <Card className="p-5 sm:p-6 bg-white">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-bold text-sm text-[#111315] flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#D4F648]" />
+                Latest Recorded Vitals
               </h3>
-              <span className="text-[11px] text-slate-500">Date: {records[0].date}</span>
+              <span className="text-xs font-semibold text-[#686E77]">Date: {records[0].date}</span>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-              <div className="bg-white p-3 rounded-xl border border-slate-200">
-                <Scale className="w-4 h-4 text-amber-600 mx-auto mb-1" />
-                <p className="text-xs text-slate-500">Weight</p>
-                <p className="text-base font-bold text-slate-900">{records[0].weight || '--'} kg</p>
+              <div className="bg-[#F7F8FA] p-4 rounded-2xl border border-[#E5E8ED]">
+                <Scale className="w-4 h-4 text-[#FF5722] mx-auto mb-1.5" />
+                <p className="text-[11px] font-semibold text-[#686E77] uppercase tracking-wider">Weight</p>
+                <p className="text-lg font-extrabold text-[#111315] mt-0.5">{records[0].weight || '--'} kg</p>
               </div>
-              <div className="bg-white p-3 rounded-xl border border-slate-200">
-                <Footprints className="w-4 h-4 text-emerald-600 mx-auto mb-1" />
-                <p className="text-xs text-slate-500">Steps</p>
-                <p className="text-base font-bold text-slate-900">{records[0].steps || 0}</p>
+              <div className="bg-[#F7F8FA] p-4 rounded-2xl border border-[#E5E8ED]">
+                <Footprints className="w-4 h-4 text-[#111315] mx-auto mb-1.5" />
+                <p className="text-[11px] font-semibold text-[#686E77] uppercase tracking-wider">Steps</p>
+                <p className="text-lg font-extrabold text-[#111315] mt-0.5">{records[0].steps || 0}</p>
               </div>
-              <div className="bg-white p-3 rounded-xl border border-slate-200">
-                <Droplets className="w-4 h-4 text-emerald-600 mx-auto mb-1" />
-                <p className="text-xs text-slate-500">Water Intake</p>
-                <p className="text-base font-bold text-slate-900">{records[0].waterLiters || 0} L</p>
+              <div className="bg-[#F7F8FA] p-4 rounded-2xl border border-[#E5E8ED]">
+                <Droplets className="w-4 h-4 text-[#0284C7] mx-auto mb-1.5" />
+                <p className="text-[11px] font-semibold text-[#686E77] uppercase tracking-wider">Water Intake</p>
+                <p className="text-lg font-extrabold text-[#111315] mt-0.5">{records[0].waterLiters || 0} L</p>
               </div>
-              <div className="bg-white p-3 rounded-xl border border-slate-200">
-                <Moon className="w-4 h-4 text-[#8DA382] mx-auto mb-1" />
-                <p className="text-xs text-slate-500">Sleep Hours</p>
-                <p className="text-base font-bold text-slate-900">{records[0].sleepHours || 0} hrs</p>
+              <div className="bg-[#F7F8FA] p-4 rounded-2xl border border-[#E5E8ED]">
+                <Moon className="w-4 h-4 text-[#8B5CF6] mx-auto mb-1.5" />
+                <p className="text-[11px] font-semibold text-[#686E77] uppercase tracking-wider">Sleep Hours</p>
+                <p className="text-lg font-extrabold text-[#111315] mt-0.5">{records[0].sleepHours || 0} hrs</p>
               </div>
             </div>
           </Card>
@@ -208,31 +210,31 @@ export default function FitnessTrackerPage() {
 
         {/* Workout History List */}
         <Card className="p-0 overflow-hidden">
-          <div className="p-4 sm:p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50/60">
+          <div className="p-4 sm:p-5 border-b border-[#E5E8ED] flex items-center justify-between bg-[#F7F8FA]">
             <div>
-              <h3 className="font-semibold text-base text-slate-900">Recent Workouts</h3>
-              <p className="text-xs text-slate-500">Full logs of exercises, sets, and calories.</p>
+              <h3 className="font-bold text-base text-[#111315]">Recent Workouts</h3>
+              <p className="text-xs text-[#686E77] mt-0.5">Full logs of exercises, sets, and calories.</p>
             </div>
-            <Button onClick={() => setIsWorkoutModalOpen(true)} size="sm" icon={Plus}>
+            <Button onClick={() => setIsWorkoutModalOpen(true)} size="sm" variant="secondary" icon={Plus}>
               Log Workout
             </Button>
           </div>
 
           {workouts.length > 0 ? (
-            <div className="divide-y divide-slate-200">
+            <div className="divide-y divide-[#E5E8ED]">
               {workouts.map((w) => (
-                <div key={w._id} className="p-4 sm:p-5 flex items-center justify-between hover:bg-slate-50/30 transition-colors">
-                  <div className="flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-emerald-600/15 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
+                <div key={w._id} className="p-4 sm:p-5 flex items-center justify-between hover:bg-[#F7F8FA]/60 transition-colors">
+                  <div className="flex items-start gap-3.5">
+                    <div className="w-10 h-10 rounded-full bg-[#111315] text-[#D4F648] flex items-center justify-center shrink-0 mt-0.5">
                       <Dumbbell className="w-4 h-4" />
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <h4 className="font-semibold text-sm sm:text-base text-slate-900">{w.exerciseName}</h4>
-                        <Badge variant="sage" size="sm">{w.category}</Badge>
+                        <h4 className="font-bold text-sm sm:text-base text-[#111315]">{w.exerciseName}</h4>
+                        <Badge variant="default" size="xs">{w.category}</Badge>
                       </div>
-                      <div className="flex flex-wrap items-center gap-3 mt-1 text-xs text-slate-500">
-                        <span>Duration: {w.durationMinutes} min</span>
+                      <div className="flex flex-wrap items-center gap-3 mt-1 text-xs text-[#686E77]">
+                        <span className="font-semibold text-[#111315]">{w.durationMinutes} min</span>
                         {w.sets > 0 && <span>• {w.sets} sets × {w.reps} reps</span>}
                         {w.weightKg > 0 && <span>• {w.weightKg} kg</span>}
                         <span>• {w.caloriesBurned} kcal</span>
@@ -242,9 +244,9 @@ export default function FitnessTrackerPage() {
                   </div>
                   <button
                     onClick={() => handleDeleteWorkout(w._id)}
-                    className="p-1.5 text-slate-500 hover:text-rose-600 rounded-lg transition-colors"
+                    className="w-8 h-8 rounded-full hover:bg-[#FF5722]/10 flex items-center justify-center text-[#686E77] hover:text-[#FF5722] transition-colors"
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 </div>
               ))}
@@ -253,8 +255,8 @@ export default function FitnessTrackerPage() {
             <EmptyState
               icon={Dumbbell}
               title="No workouts recorded"
-              description="Log your daily strength training, cardio or yoga sessions."
-              actionLabel="Add Workout"
+              description="Keep your fitness journey moving forward by logging exercises."
+              actionLabel="Log Workout"
               onAction={() => setIsWorkoutModalOpen(true)}
             />
           )}
@@ -264,159 +266,159 @@ export default function FitnessTrackerPage() {
         <Modal
           isOpen={isWorkoutModalOpen}
           onClose={() => setIsWorkoutModalOpen(false)}
-          title="Log Workout"
+          title="Log Workout Session"
         >
           <form onSubmit={handleCreateWorkout} className="space-y-4">
             <div>
-              <label className="block text-xs font-medium text-slate-500 mb-1">Exercise Name *</label>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Exercise Name *</label>
               <input
                 type="text"
                 required
                 value={exerciseName}
                 onChange={(e) => setExerciseName(e.target.value)}
-                placeholder="e.g. Barbell Squats or 5K Trail Run"
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-slate-50/50"
+                placeholder="e.g. Incline Bench Press, 5K Run, Deadlifts"
+                className="w-full px-4 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-[#F7F8FA]"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-slate-500 mb-1">Category</label>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Category</label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
+                  className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white"
                 >
                   <option value="Strength">Strength</option>
                   <option value="Cardio">Cardio</option>
                   <option value="HIIT">HIIT</option>
                   <option value="Yoga">Yoga</option>
-                  <option value="Flexibility">Flexibility</option>
+                  <option value="Mobility">Mobility</option>
                   <option value="Sports">Sports</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-500 mb-1">Duration (mins)</label>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Duration (mins)</label>
                 <input
                   type="number"
                   value={durationMinutes}
                   onChange={(e) => setDurationMinutes(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
+                  className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white"
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-2.5">
               <div>
-                <label className="block text-xs font-medium text-slate-500 mb-1">Sets</label>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Sets</label>
                 <input
                   type="number"
                   value={sets}
                   onChange={(e) => setSets(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
+                  className="w-full px-3 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] bg-white"
                 />
               </div>
-
               <div>
-                <label className="block text-xs font-medium text-slate-500 mb-1">Reps</label>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Reps</label>
                 <input
                   type="number"
                   value={reps}
                   onChange={(e) => setReps(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
+                  className="w-full px-3 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] bg-white"
                 />
               </div>
-
               <div>
-                <label className="block text-xs font-medium text-slate-500 mb-1">Weight (kg)</label>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Weight (kg)</label>
                 <input
                   type="number"
                   value={weightKg}
                   onChange={(e) => setWeightKg(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
+                  className="w-full px-3 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] bg-white"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-500 mb-1">Estimated Calories (kcal)</label>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Calories Burned (kcal)</label>
               <input
                 type="number"
                 value={caloriesBurned}
                 onChange={(e) => setCaloriesBurned(e.target.value)}
-                className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
+                className="w-full px-4 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] bg-white"
               />
             </div>
 
-            <div className="pt-2 flex justify-end gap-2">
-              <Button type="button" variant="ghost" onClick={() => setIsWorkoutModalOpen(false)}>
+            <div className="pt-3 flex justify-end gap-2.5 border-t border-[#E5E8ED]">
+              <Button type="button" variant="secondary" onClick={() => setIsWorkoutModalOpen(false)}>
                 Cancel
               </Button>
-              <Button type="submit">Log Workout</Button>
+              <Button type="submit" variant="primary">
+                Save Workout
+              </Button>
             </div>
           </form>
         </Modal>
 
-        {/* Modal: Log Vitals */}
+        {/* Modal: Daily Vitals */}
         <Modal
           isOpen={isRecordModalOpen}
           onClose={() => setIsRecordModalOpen(false)}
-          title="Log Today's Health Vitals"
+          title="Log Daily Vitals"
         >
           <form onSubmit={handleLogRecord} className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-slate-500 mb-1">Weight (kg)</label>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Body Weight (kg)</label>
                 <input
                   type="number"
                   step="0.1"
                   value={dailyWeight}
                   onChange={(e) => setDailyWeight(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
+                  className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] bg-white"
                 />
               </div>
-
               <div>
-                <label className="block text-xs font-medium text-slate-500 mb-1">Daily Steps</label>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Steps Count</label>
                 <input
                   type="number"
                   value={dailySteps}
                   onChange={(e) => setDailySteps(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
+                  className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] bg-white"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-slate-500 mb-1">Water Intake (Liters)</label>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Water Intake (L)</label>
                 <input
                   type="number"
                   step="0.1"
                   value={dailyWater}
                   onChange={(e) => setDailyWater(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
+                  className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] bg-white"
                 />
               </div>
-
               <div>
-                <label className="block text-xs font-medium text-slate-500 mb-1">Sleep (Hours)</label>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Sleep (Hours)</label>
                 <input
                   type="number"
                   step="0.5"
                   value={dailySleep}
                   onChange={(e) => setDailySleep(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
+                  className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] bg-white"
                 />
               </div>
             </div>
 
-            <div className="pt-2 flex justify-end gap-2">
-              <Button type="button" variant="ghost" onClick={() => setIsRecordModalOpen(false)}>
+            <div className="pt-3 flex justify-end gap-2.5 border-t border-[#E5E8ED]">
+              <Button type="button" variant="secondary" onClick={() => setIsRecordModalOpen(false)}>
                 Cancel
               </Button>
-              <Button type="submit">Save Health Vitals</Button>
+              <Button type="submit" variant="primary">
+                Save Vitals
+              </Button>
             </div>
           </form>
         </Modal>
@@ -424,4 +426,3 @@ export default function FitnessTrackerPage() {
     </AppLayout>
   );
 }
-

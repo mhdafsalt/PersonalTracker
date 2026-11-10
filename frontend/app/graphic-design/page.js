@@ -59,26 +59,29 @@ export default function GraphicDesignStudioPage() {
 
   return (
     <AppLayout>
-      <div className="space-y-6 sm:space-y-8">
+      <div className="space-y-6 sm:space-y-7">
         {/* Top Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Graphic Design Studio</h1>
-              <Badge variant="sage" size="sm">Agency Workspace</Badge>
+              <span className="text-xs font-semibold uppercase tracking-wider text-[#686E77]">Creative Agency Workspace</span>
+              <span className="text-[10px] bg-[#D4F648] text-[#111315] px-2.5 py-0.5 rounded-full font-extrabold shadow-xs">
+                PRO
+              </span>
             </div>
-            <p className="text-sm text-slate-500 mt-1">
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#111315] tracking-tight mt-0.5">Graphic Design Studio</h1>
+            <p className="text-xs sm:text-sm text-[#686E77] mt-1">
               Manage client relationships, brand identities, vector deliverables, and payments.
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <Link href="/graphic-design/clients">
               <Button variant="secondary" icon={Users2}>
                 Client Registry
               </Button>
             </Link>
             <Link href="/graphic-design/projects">
-              <Button icon={Plus}>
+              <Button variant="primary" icon={Plus}>
                 Design Projects
               </Button>
             </Link>
@@ -92,47 +95,47 @@ export default function GraphicDesignStudioPage() {
             value={clients.length}
             subtitle={`${clients.filter((c) => c.status === 'Active').length} active retainers`}
             icon={Users2}
-            color="#10B981"
+            trend="14"
           />
           <StatCard
             title="Design Projects"
             value={stats.totalProjects ?? 0}
             subtitle={`${stats.inProgress ?? 0} in active production`}
             icon={Briefcase}
-            color="#34D399"
+            trend="20"
           />
           <StatCard
             title="Total Invoiced"
             value={formatCurrency(totalBilled, currency)}
             subtitle={`${formatCurrency(totalPaid, currency)} collected`}
             icon={DollarSign}
-            color="#4F9B72"
+            trend="25"
           />
           <StatCard
             title="Pending Receivables"
             value={formatCurrency(totalPending, currency)}
             subtitle={`${stats.pendingPaymentsCount ?? 0} unpaid balances`}
             icon={AlertCircle}
-            color="#D6A24A"
+            trend="08"
           />
         </div>
 
         {/* Two Pillars Banner Cards: Clients & Projects */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card hover className="bg-gradient-to-br from-white to-[#FAF8F5] flex flex-col justify-between">
+          <Card className="flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between">
-                <div className="w-10 h-10 rounded-xl bg-emerald-600/15 text-emerald-600 flex items-center justify-center">
+                <div className="w-11 h-11 rounded-full bg-[#111315] text-[#D4F648] flex items-center justify-center font-bold">
                   <Users2 className="w-5 h-5" />
                 </div>
-                <Badge variant="sage" size="sm">{clients.length} Registered</Badge>
+                <Badge variant="default" size="xs">{clients.length} Registered</Badge>
               </div>
-              <h3 className="font-bold text-xl text-slate-900 mt-3">Client Registry</h3>
-              <p className="text-xs text-slate-500 mt-1">
+              <h3 className="font-extrabold text-xl text-[#111315] mt-4">Client Registry</h3>
+              <p className="text-xs text-[#686E77] mt-1.5 leading-relaxed">
                 Maintain client company directory, brand guidelines, contacts, and view every associated project.
               </p>
             </div>
-            <div className="pt-4 mt-4 border-t border-slate-200">
+            <div className="pt-4 mt-5 border-t border-[#E5E8ED]">
               <Link href="/graphic-design/clients">
                 <Button className="w-full" variant="secondary" icon={ArrowRight}>
                   Open Client Registry
@@ -141,22 +144,22 @@ export default function GraphicDesignStudioPage() {
             </div>
           </Card>
 
-          <Card hover className="bg-gradient-to-br from-white to-[#FAF8F5] flex flex-col justify-between">
+          <Card className="flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between">
-                <div className="w-10 h-10 rounded-xl bg-emerald-400/20 text-emerald-600 flex items-center justify-center">
+                <div className="w-11 h-11 rounded-full bg-[#111315] text-[#D4F648] flex items-center justify-center font-bold">
                   <Palette className="w-5 h-5" />
                 </div>
-                <Badge variant="sage" size="sm">{stats.totalProjects ?? 0} Projects</Badge>
+                <Badge variant="lime" size="xs">{stats.totalProjects ?? 0} Projects</Badge>
               </div>
-              <h3 className="font-bold text-xl text-slate-900 mt-3">Design Projects Tracker</h3>
-              <p className="text-xs text-slate-500 mt-1">
+              <h3 className="font-extrabold text-xl text-[#111315] mt-4">Design Projects Tracker</h3>
+              <p className="text-xs text-[#686E77] mt-1.5 leading-relaxed">
                 Track logo designs, brand identities, social banners, revision versions, and milestones.
               </p>
             </div>
-            <div className="pt-4 mt-4 border-t border-slate-200">
+            <div className="pt-4 mt-5 border-t border-[#E5E8ED]">
               <Link href="/graphic-design/projects">
-                <Button className="w-full" icon={ArrowRight}>
+                <Button className="w-full" variant="primary" icon={ArrowRight}>
                   Open Projects Tracker
                 </Button>
               </Link>
@@ -166,10 +169,10 @@ export default function GraphicDesignStudioPage() {
 
         {/* Recent Design Projects Production Feed */}
         <Card className="p-0 overflow-hidden">
-          <div className="p-4 sm:p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50/60">
+          <div className="p-4 sm:p-5 border-b border-[#E5E8ED] flex items-center justify-between bg-[#F7F8FA]">
             <div>
-              <h3 className="font-semibold text-base text-slate-900">Active Design Production</h3>
-              <p className="text-xs text-slate-500">Latest creative projects across all client accounts.</p>
+              <h3 className="font-bold text-base text-[#111315]">Active Design Production</h3>
+              <p className="text-xs text-[#686E77] mt-0.5">Latest creative projects across all client accounts.</p>
             </div>
             <Link href="/graphic-design/projects">
               <Button size="sm" variant="ghost">View All Projects</Button>
@@ -177,20 +180,20 @@ export default function GraphicDesignStudioPage() {
           </div>
 
           {recentProjects.length > 0 ? (
-            <div className="divide-y divide-slate-200">
+            <div className="divide-y divide-[#E5E8ED]">
               {recentProjects.map((proj) => (
-                <div key={proj._id} className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/30 transition-colors">
-                  <div className="flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-emerald-600/15 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
+                <div key={proj._id} className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[#F7F8FA]/60 transition-colors">
+                  <div className="flex items-start gap-3.5">
+                    <div className="w-10 h-10 rounded-full bg-[#111315] text-[#D4F648] flex items-center justify-center shrink-0 mt-0.5">
                       <Briefcase className="w-4 h-4" />
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <h4 className="font-semibold text-sm sm:text-base text-slate-900">{proj.title}</h4>
-                        <Badge variant="sage" size="sm">{proj.category}</Badge>
+                        <h4 className="font-bold text-sm sm:text-base text-[#111315]">{proj.title}</h4>
+                        <Badge variant="default" size="xs">{proj.category}</Badge>
                       </div>
-                      <p className="text-xs text-slate-500 mt-0.5">
-                        Client: <span className="font-medium text-slate-900">{proj.client?.name || 'Client'}</span>
+                      <p className="text-xs text-[#686E77] mt-0.5">
+                        Client: <span className="font-bold text-[#111315]">{proj.client?.name || 'Client'}</span>
                         {proj.deadline && ` • Due ${formatDate(proj.deadline)}`}
                       </p>
                     </div>
@@ -198,12 +201,12 @@ export default function GraphicDesignStudioPage() {
 
                   <div className="flex items-center gap-3 self-end sm:self-center">
                     <div className="text-right text-xs">
-                      <span className="font-semibold text-slate-900 block">{formatCurrency(proj.pricing, currency)}</span>
-                      <span className={`text-[11px] ${proj.paymentStatus === 'Paid' ? 'text-emerald-600' : 'text-amber-600'}`}>
+                      <span className="font-extrabold text-[#111315] block">{formatCurrency(proj.pricing, currency)}</span>
+                      <span className={`text-[10px] font-bold ${proj.paymentStatus === 'Paid' ? 'text-[#059669]' : 'text-[#FF5722]'}`}>
                         {proj.paymentStatus}
                       </span>
                     </div>
-                    <Badge variant={proj.status === 'Completed' ? 'success' : 'sage'} size="sm">
+                    <Badge variant={proj.status === 'Completed' ? 'lime' : 'default'} size="xs">
                       {proj.status}
                     </Badge>
                   </div>
@@ -211,11 +214,10 @@ export default function GraphicDesignStudioPage() {
               ))}
             </div>
           ) : (
-            <p className="p-8 text-center text-xs text-slate-500">No design projects active yet.</p>
+            <p className="p-8 text-center text-xs text-[#686E77]">No design projects active yet.</p>
           )}
         </Card>
       </div>
     </AppLayout>
   );
 }
-

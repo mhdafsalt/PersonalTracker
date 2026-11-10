@@ -154,62 +154,63 @@ export default function HabitTrackerPage() {
 
   return (
     <AppLayout>
-      <div className="space-y-6">
+      <div className="space-y-6 sm:space-y-7">
         {/* Top Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Habit Tracker</h1>
-            <p className="text-sm text-slate-500 mt-1">
+            <p className="text-xs font-semibold uppercase tracking-wider text-[#686E77]">Daily Discipline</p>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#111315] tracking-tight">Habit Tracker</h1>
+            <p className="text-xs sm:text-sm text-[#686E77] mt-1">
               Build lasting consistency, monitor daily streaks, and stay disciplined.
             </p>
           </div>
-          <Button onClick={openCreateModal} icon={Plus}>
+          <Button onClick={openCreateModal} variant="primary" icon={Plus}>
             Create New Habit
           </Button>
         </div>
 
-        {/* Metric Cards */}
+        {/* Metric Bento Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <StatCard
             title="Total Habits"
             value={totalHabits}
             subtitle={`${habits.filter((h) => h.active).length} currently active`}
             icon={CheckSquare}
-            color="#10B981"
+            trend="12"
           />
           <StatCard
             title="Done Today"
             value={`${completedToday}/${totalHabits}`}
             subtitle={`${completionRate}% completion today`}
             icon={Award}
-            color="#4F9B72"
+            trend="08"
           />
           <StatCard
             title="Best Streak"
             value={`${bestStreak} days`}
             subtitle="All-time personal record"
             icon={Flame}
-            color="#D6A24A"
+            trend="24"
           />
           <StatCard
             title="Consistency"
             value={`${completionRate}%`}
             subtitle="Today's goal progress"
             icon={Sparkles}
-            color="#10B981"
+            trend="15"
           />
         </div>
 
-        {/* Category Filters */}
+        {/* Category Pill Filters */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
+              className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
                 selectedCategory === cat
-                  ? 'bg-emerald-600 text-white shadow-sm'
-                  : 'bg-white text-slate-500 hover:bg-slate-50 border border-slate-200'
+                  ? 'bg-[#111315] text-white shadow-xs'
+                  : 'bg-white text-[#686E77] hover:text-[#111315] hover:bg-[#F2F4F7] border border-[#E5E8ED]'
               }`}
             >
               {cat}
@@ -219,32 +220,32 @@ export default function HabitTrackerPage() {
 
         {/* Habits Checklist & Weekly Matrix */}
         <Card className="overflow-hidden p-0 sm:p-0">
-          <div className="p-4 sm:p-6 border-b border-slate-200 flex items-center justify-between bg-slate-50/50">
+          <div className="p-5 sm:p-6 border-b border-[#E5E8ED] flex items-center justify-between bg-[#F7F8FA]">
             <div>
-              <h3 className="font-semibold text-base text-slate-900">Habits Matrix</h3>
-              <p className="text-xs text-slate-500 mt-0.5">Click any day to mark habit completed or undone.</p>
+              <h3 className="font-bold text-base text-[#111315]">Habits Matrix</h3>
+              <p className="text-xs text-[#686E77] mt-0.5">Click any day to mark habit completed or undone.</p>
             </div>
-            <span className="text-xs font-medium text-emerald-600 bg-emerald-600/10 px-3 py-1 rounded-full">
+            <span className="text-xs font-bold text-[#111315] bg-[#D4F648] px-3.5 py-1 rounded-full shadow-xs">
               Weekly Overview
             </span>
           </div>
 
           {filteredHabits.length > 0 ? (
-            <div className="divide-y divide-slate-200">
+            <div className="divide-y divide-[#E5E8ED]">
               {filteredHabits.map((habit) => {
                 const isDoneToday = habit.completedDates && habit.completedDates.includes(todayStr);
                 return (
                   <div
                     key={habit._id}
-                    className="p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-slate-50/30 transition-colors"
+                    className="p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-[#F7F8FA]/60 transition-colors"
                   >
                     <div className="flex items-start sm:items-center gap-3">
                       <button
                         onClick={() => handleToggleDate(habit._id, todayStr)}
-                        className={`w-7 h-7 rounded-lg border flex items-center justify-center transition-all ${
+                        className={`w-7 h-7 rounded-full border flex items-center justify-center transition-all ${
                           isDoneToday
-                            ? 'bg-emerald-500 border-[#4F9B72] text-white shadow-sm'
-                            : 'border-[#D5CFBF] bg-white hover:border-emerald-600'
+                            ? 'bg-[#111315] border-[#111315] text-[#D4F648] shadow-xs'
+                            : 'border-[#C5CAD3] bg-white hover:border-[#111315]'
                         }`}
                         title="Mark today"
                       >
@@ -252,18 +253,18 @@ export default function HabitTrackerPage() {
                       </button>
                       <div>
                         <div className="flex items-center gap-2">
-                          <h4 className={`font-semibold text-sm sm:text-base ${isDoneToday ? 'text-emerald-600' : 'text-slate-900'}`}>
+                          <h4 className={`font-bold text-sm sm:text-base ${isDoneToday ? 'text-[#686E77] line-through' : 'text-[#111315]'}`}>
                             {habit.title}
                           </h4>
-                          <Badge variant="sage" size="sm">
+                          <Badge variant="default" size="xs">
                             {habit.category}
                           </Badge>
                         </div>
                         {habit.description && (
-                          <p className="text-xs text-slate-500 mt-0.5">{habit.description}</p>
+                          <p className="text-xs text-[#686E77] mt-0.5">{habit.description}</p>
                         )}
-                        <div className="flex items-center gap-3 mt-1.5 text-xs text-slate-500">
-                          <span className="flex items-center gap-1 font-medium text-amber-600">
+                        <div className="flex items-center gap-3 mt-1.5 text-xs text-[#686E77]">
+                          <span className="flex items-center gap-1 font-semibold text-[#FF5722]">
                             <Flame className="w-3.5 h-3.5 fill-current" /> {habit.currentStreak || 0} streak
                           </span>
                           <span>•</span>
@@ -274,7 +275,7 @@ export default function HabitTrackerPage() {
 
                     {/* 7-Day Matrix */}
                     <div className="flex items-center gap-2 self-end md:self-center">
-                      <div className="flex items-center gap-1.5 bg-slate-50 p-1.5 rounded-xl border border-slate-200">
+                      <div className="flex items-center gap-1.5 bg-[#F0F2F5] p-1.5 rounded-full border border-[#E5E8ED]">
                         {past7Days.map((day) => {
                           const isDone = habit.completedDates && habit.completedDates.includes(day.dateStr);
                           return (
@@ -282,15 +283,15 @@ export default function HabitTrackerPage() {
                               key={day.dateStr}
                               onClick={() => handleToggleDate(habit._id, day.dateStr)}
                               title={`${day.dateStr} — ${isDone ? 'Completed' : 'Missed'}`}
-                              className={`w-7 h-8 rounded-lg flex flex-col items-center justify-center text-[10px] transition-all ${
+                              className={`w-7 h-8 rounded-full flex flex-col items-center justify-center text-[10px] transition-all ${
                                 isDone
-                                  ? 'bg-emerald-600 text-white font-semibold shadow-xs'
+                                  ? 'bg-[#111315] text-[#D4F648] font-bold shadow-xs'
                                   : day.isToday
-                                  ? 'border border-emerald-600 text-emerald-600 bg-white'
-                                  : 'text-slate-500 hover:bg-[#EFECE4]'
+                                  ? 'border border-[#111315] text-[#111315] bg-white'
+                                  : 'text-[#686E77] hover:bg-white'
                               }`}
                             >
-                              <span>{day.dayName}</span>
+                              <span className="font-semibold">{day.dayName}</span>
                               <span className="text-[9px] opacity-80">{day.dayNum}</span>
                             </button>
                           );
@@ -298,20 +299,22 @@ export default function HabitTrackerPage() {
                       </div>
 
                       {/* Actions */}
-                      <button
-                        onClick={() => openEditModal(habit)}
-                        className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-50 rounded-lg transition-colors"
-                        title="Edit"
-                      >
-                        <Edit2 className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => handleDeleteHabit(habit._id)}
-                        className="p-2 text-slate-500 hover:text-rose-600 hover:bg-slate-50 rounded-lg transition-colors"
-                        title="Delete"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
+                      <div className="flex items-center gap-1 pl-2 border-l border-[#E5E8ED]">
+                        <button
+                          onClick={() => openEditModal(habit)}
+                          className="w-8 h-8 rounded-full hover:bg-white flex items-center justify-center text-[#686E77] hover:text-[#111315] border border-transparent hover:border-[#E5E8ED] transition-colors"
+                          title="Edit"
+                        >
+                          <Edit2 className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteHabit(habit._id)}
+                          className="w-8 h-8 rounded-full hover:bg-[#FF5722]/10 flex items-center justify-center text-[#686E77] hover:text-[#FF5722] border border-transparent hover:border-[#FF5722]/20 transition-colors"
+                          title="Delete"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 );
@@ -321,14 +324,14 @@ export default function HabitTrackerPage() {
             <EmptyState
               icon={CheckSquare}
               title="No habits found"
-              description="Create a habit to build discipline and monitor your progress over time."
-              actionLabel="Create First Habit"
+              description={selectedCategory === 'All' ? 'You haven’t created any habits yet. Start with your first habit!' : `No habits found in the "${selectedCategory}" category.`}
+              actionLabel="Create Habit"
               onAction={openCreateModal}
             />
           )}
         </Card>
 
-        {/* Modal for creating / editing habit */}
+        {/* Create/Edit Habit Modal */}
         <Modal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
@@ -336,52 +339,48 @@ export default function HabitTrackerPage() {
         >
           <form onSubmit={handleSaveHabit} className="space-y-4">
             <div>
-              <label className="block text-xs font-medium text-slate-500 mb-1">Habit Title *</label>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Habit Title *</label>
               <input
                 type="text"
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="e.g. Read 20 pages every day"
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-slate-50/50"
+                placeholder="e.g. Read 20 pages, 30 min workout, Drink 3L water"
+                className="w-full px-4 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-[#F7F8FA]"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-500 mb-1">Description</label>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Description (optional)</label>
               <textarea
-                rows={2}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Why is this habit important to you?"
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
+                rows={2}
+                className="w-full px-4 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-[#F7F8FA]"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-slate-500 mb-1">Category</label>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Category</label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
+                  className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white"
                 >
-                  <option value="Health">Health</option>
-                  <option value="Productivity">Productivity</option>
-                  <option value="Mindfulness">Mindfulness</option>
-                  <option value="Learning">Learning</option>
-                  <option value="Fitness">Fitness</option>
-                  <option value="Finance">Finance</option>
-                  <option value="General">General</option>
+                  {categories.filter((c) => c !== 'All').map((c) => (
+                    <option key={c} value={c}>{c}</option>
+                  ))}
                 </select>
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-500 mb-1">Frequency</label>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#686E77] mb-1.5">Frequency</label>
                 <select
                   value={frequency}
                   onChange={(e) => setFrequency(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
+                  className="w-full px-3.5 py-2.5 text-sm rounded-2xl border border-[#E5E8ED] focus:outline-none focus:border-[#111315] bg-white"
                 >
                   <option value="daily">Daily</option>
                   <option value="weekly">Weekly</option>
@@ -390,11 +389,11 @@ export default function HabitTrackerPage() {
               </div>
             </div>
 
-            <div className="pt-2 flex justify-end gap-2">
-              <Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)}>
+            <div className="pt-3 flex justify-end gap-2.5 border-t border-[#E5E8ED]">
+              <Button type="button" variant="secondary" onClick={() => setIsModalOpen(false)}>
                 Cancel
               </Button>
-              <Button type="submit">
+              <Button type="submit" variant="primary">
                 {editingHabit ? 'Save Changes' : 'Create Habit'}
               </Button>
             </div>
@@ -404,4 +403,3 @@ export default function HabitTrackerPage() {
     </AppLayout>
   );
 }
-

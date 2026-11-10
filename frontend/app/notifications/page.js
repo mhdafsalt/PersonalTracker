@@ -80,19 +80,20 @@ export default function NotificationsPage() {
 
   return (
     <AppLayout>
-      <div className="space-y-6">
+      <div className="space-y-6 sm:space-y-7">
         {/* Top Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Notification Center</h1>
+              <span className="text-xs font-semibold uppercase tracking-wider text-[#686E77]">Activity Alerts</span>
               {unreadCount > 0 && (
-                <span className="bg-rose-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                <span className="bg-[#111315] text-[#D4F648] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full shadow-xs">
                   {unreadCount} New
                 </span>
               )}
             </div>
-            <p className="text-sm text-slate-500 mt-1">
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#111315] tracking-tight mt-0.5">Notification Center</h1>
+            <p className="text-xs sm:text-sm text-[#686E77] mt-1">
               Automated reminders for pending tasks, habit streaks, upcoming trips, and client calls.
             </p>
           </div>
@@ -104,15 +105,15 @@ export default function NotificationsPage() {
         </div>
 
         {/* Filters */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 p-1 bg-[#F0F2F5] rounded-full max-w-fit">
           {['All', 'Unread'].map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all ${
+              className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
                 filter === f
-                  ? 'bg-emerald-600 text-white shadow-sm'
-                  : 'bg-white text-slate-500 hover:bg-slate-50 border border-slate-200'
+                  ? 'bg-[#111315] text-white shadow-xs'
+                  : 'text-[#686E77] hover:text-[#111315]'
               }`}
             >
               {f === 'Unread' ? `Unread (${unreadCount})` : 'All Notifications'}
@@ -123,51 +124,41 @@ export default function NotificationsPage() {
         {/* Notifications List */}
         <Card className="p-0 overflow-hidden">
           {filteredNotifs.length > 0 ? (
-            <div className="divide-y divide-slate-200">
+            <div className="divide-y divide-[#E5E8ED]">
               {filteredNotifs.map((n) => (
                 <div
                   key={n._id}
                   className={`p-4 sm:p-5 flex items-start justify-between gap-4 transition-colors ${
-                    !n.isRead ? 'bg-slate-50/80' : 'hover:bg-slate-50/30'
+                    !n.isRead ? 'bg-[#F7F8FA]' : 'hover:bg-[#F7F8FA]/60'
                   }`}
                 >
-                  <div className="flex items-start gap-3">
-                    <div
-                      className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 mt-0.5 ${
-                        n.type === 'task'
-                          ? 'bg-rose-500/15 text-rose-600'
-                          : n.type === 'trip'
-                          ? 'bg-emerald-500/15 text-emerald-600'
-                          : n.type === 'call'
-                          ? 'bg-amber-500/15 text-amber-600'
-                          : 'bg-emerald-600/15 text-emerald-600'
-                      }`}
-                    >
+                  <div className="flex items-start gap-3.5">
+                    <div className="w-10 h-10 rounded-full bg-[#111315] text-[#D4F648] flex items-center justify-center shrink-0 mt-0.5">
                       {n.type === 'task' ? (
-                        <AlertTriangle className="w-4 h-4" />
+                        <AlertTriangle className="w-4 h-4 text-[#FF5722]" />
                       ) : n.type === 'trip' ? (
-                        <Compass className="w-4 h-4" />
+                        <Compass className="w-4 h-4 text-[#0284C7]" />
                       ) : n.type === 'call' ? (
-                        <PhoneCall className="w-4 h-4" />
+                        <PhoneCall className="w-4 h-4 text-[#D4F648]" />
                       ) : (
-                        <Bell className="w-4 h-4" />
+                        <Bell className="w-4 h-4 text-white" />
                       )}
                     </div>
 
                     <div>
                       <div className="flex items-center gap-2">
-                        <h4 className={`text-sm sm:text-base font-semibold ${!n.isRead ? 'text-slate-900' : 'text-slate-500'}`}>
+                        <h4 className={`text-sm sm:text-base font-bold ${!n.isRead ? 'text-[#111315]' : 'text-[#686E77]'}`}>
                           {n.title}
                         </h4>
                         {!n.isRead && (
-                          <span className="w-2 h-2 rounded-full bg-emerald-600" />
+                          <span className="w-2 h-2 rounded-full bg-[#FF5722]" />
                         )}
                       </div>
-                      <p className="text-xs text-slate-500 mt-1">{n.message}</p>
+                      <p className="text-xs text-[#686E77] mt-1 leading-relaxed">{n.message}</p>
                       <div className="flex items-center gap-3 mt-2 text-xs">
-                        <span className="text-slate-500">{formatDate(n.createdAt)}</span>
+                        <span className="text-[#686E77] font-medium">{formatDate(n.createdAt)}</span>
                         {n.link && (
-                          <Link href={n.link} className="text-emerald-600 font-medium hover:underline">
+                          <Link href={n.link} className="text-[#111315] font-bold hover:underline">
                             View details →
                           </Link>
                         )}
@@ -175,22 +166,22 @@ export default function NotificationsPage() {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-1 shrink-0">
+                  <div className="flex items-center gap-1.5 shrink-0">
                     {!n.isRead && (
                       <button
                         onClick={() => handleMarkAsRead(n._id)}
-                        className="p-1.5 text-slate-500 hover:text-emerald-600 rounded-lg transition-colors"
+                        className="w-8 h-8 rounded-full hover:bg-white flex items-center justify-center text-[#686E77] hover:text-[#111315] transition-colors"
                         title="Mark as Read"
                       >
-                        <Check className="w-4 h-4" />
+                        <Check className="w-3.5 h-3.5" />
                       </button>
                     )}
                     <button
                       onClick={() => handleDeleteNotif(n._id)}
-                      className="p-1.5 text-slate-500 hover:text-rose-600 rounded-lg transition-colors"
+                      className="w-8 h-8 rounded-full hover:bg-[#FF5722]/10 flex items-center justify-center text-[#686E77] hover:text-[#FF5722] transition-colors"
                       title="Delete Notification"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 </div>
@@ -208,4 +199,3 @@ export default function NotificationsPage() {
     </AppLayout>
   );
 }
-
