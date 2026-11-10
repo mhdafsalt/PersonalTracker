@@ -11,6 +11,7 @@ import { api } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { formatCurrency, formatDate } from '../utils/format';
+import { MobileDashboard } from '../components/mobile/MobileDashboard';
 import Link from 'next/link';
 import {
   CheckSquare,
@@ -90,7 +91,22 @@ export default function DashboardPage() {
 
   return (
     <AppLayout>
-      <div className="space-y-6 sm:space-y-8">
+      {/* Mobile Responsive Modern View (matching user reference image) */}
+      <div className="block lg:hidden">
+        <MobileDashboard
+          data={data}
+          onOpenQuickAdd={() => {
+            if (typeof window !== 'undefined') {
+              window.dispatchEvent(new CustomEvent('pt-open-quickadd'));
+            }
+          }}
+          onToggleHabit={handleToggleHabit}
+          onToggleTask={handleToggleTask}
+        />
+      </div>
+
+      {/* Desktop Dashboard View */}
+      <div className="hidden lg:block space-y-6 sm:space-y-8">
         {/* Banner Card */}
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#6B8F71] to-[#547359] text-white p-6 sm:p-8 shadow-medium">
           <div className="relative z-10 max-w-2xl">

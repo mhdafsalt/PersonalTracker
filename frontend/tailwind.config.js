@@ -34,6 +34,13 @@ module.exports = {
         success: '#4F9B72',
         warning: '#D6A24A',
         danger: '#D96C6C',
+        // Modern Mobile App Theme Tokens
+        darkBg: '#121316',
+        darkCard: '#1C1E24',
+        darkCardLight: '#242731',
+        darkBorder: '#2A2E38',
+        limeAccent: '#D2F542',
+        blueAccent: '#4D62E5',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
