@@ -85,3 +85,4 @@ Go back to your **Vercel** project settings -> **Environment Variables** -> upda
 Click **Redeploy**.
 
 Your full-stack application is now globally accessible!
+
