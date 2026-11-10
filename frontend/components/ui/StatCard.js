@@ -1,34 +1,58 @@
 import React from 'react';
 import { Card } from './Card';
 
-export const StatCard = ({ title, value, subtitle, icon: Icon, color = '#6B8F71', trend }) => {
+export const StatCard = ({
+  title,
+  value,
+  subtitle,
+  icon: Icon,
+  color = '#0f110f',
+  trend,
+  className = '',
+}) => {
+  const isPositiveTrend = trend && (typeof trend === 'string' ? !trend.startsWith('-') : trend > 0);
+
   return (
-    <Card hover className="relative overflow-hidden">
-      <div className="flex items-start justify-between">
-        <div>
-          <p className="text-xs font-medium uppercase tracking-wider text-[#777D75]">{title}</p>
-          <h3 className="text-2xl sm:text-3xl font-bold text-[#252923] mt-1.5">{value}</h3>
-          {subtitle && (
-            <p className="text-xs text-[#777D75] mt-1.5 flex items-center gap-1">
-              {trend && (
-                <span className={trend > 0 ? 'text-[#4F9B72] font-semibold' : 'text-[#D96C6C] font-semibold'}>
-                  {trend > 0 ? `+${trend}%` : `${trend}%`}
+    <Card hover className={`relative overflow-hidden ${className}`}>
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-[#6b6b68] truncate">
+            {title}
+          </p>
+          <h3 className="text-3xl sm:text-4xl font-semibold tracking-tight text-[#0f110f] mt-1.5">
+            {value}
+          </h3>
+
+          {(subtitle || trend) && (
+            <div className="mt-3 flex items-center flex-wrap gap-2 text-xs text-[#6b6b68]">
+              {trend !== undefined && trend !== null && (
+                <span
+                  className={`font-mono text-[11px] px-2.5 py-0.5 rounded-full font-medium inline-flex items-center ${
+                    isPositiveTrend
+                      ? 'bg-[#f1f7da] text-[#3f7a1e]'
+                      : 'bg-[#ffd9c7] text-[#b4501e]'
+                  }`}
+                >
+                  {isPositiveTrend && typeof trend === 'number' ? `+${trend}%` : typeof trend === 'number' ? `${trend}%` : trend}
                 </span>
               )}
-              {subtitle}
-            </p>
+              {subtitle && (
+                <span className="text-[12px] text-[#6b6b68] truncate">
+                  {subtitle}
+                </span>
+              )}
+            </div>
           )}
         </div>
+
         {Icon && (
           <div
-            className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
-            style={{ backgroundColor: `${color}15`, color }}
+            className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-[#f1f1ef] text-[#0f110f]"
           >
-            <Icon className="w-5 h-5" />
+            <Icon className="w-4 h-4 stroke-[2]" />
           </div>
         )}
       </div>
     </Card>
   );
 };
-

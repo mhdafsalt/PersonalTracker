@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -22,21 +22,51 @@ import {
   Ticket,
   BarChart3,
   Settings,
-  ChevronLeft,
-  ChevronRight,
   LogOut,
-  Sparkles,
+  X,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
-export const Sidebar = ({ isMobileOpen, setIsMobileOpen }) => {
+export const Sidebar = ({
+  isOpen,
+  setIsOpen,
+  isMobileOpen,
+  setIsMobileOpen,
+}) => {
   const pathname = usePathname();
   const { user, logout } = useAuth();
-  const [collapsed, setCollapsed] = useState(false);
 
+  const open = isOpen !== undefined ? isOpen : isMobileOpen;
+  const close = () => {
+    if (setIsOpen) setIsOpen(false);
+    if (setIsMobileOpen) setIsMobileOpen(false);
+  };
+
+  // Close on Escape key press
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && open) close();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [open]);
+
+  // Prevent background scroll when sidebar drawer is open
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [open]);
+
+  // Navigation Items (All 18 Modules)
   const navigation = [
     {
-      group: 'Overview',
+      group: 'OVERVIEW',
       items: [
         { name: 'Dashboard', href: '/', icon: LayoutDashboard },
         { name: 'Calendar', href: '/calendar', icon: Calendar },
@@ -44,7 +74,7 @@ export const Sidebar = ({ isMobileOpen, setIsMobileOpen }) => {
       ],
     },
     {
-      group: 'Personal Management',
+      group: 'PERSONAL MANAGEMENT',
       items: [
         { name: 'Habit Tracker', href: '/habits', icon: CheckSquare },
         { name: 'Expense Tracker', href: '/expenses', icon: Wallet },
@@ -57,27 +87,27 @@ export const Sidebar = ({ isMobileOpen, setIsMobileOpen }) => {
       ],
     },
     {
-      group: 'Travel & Connections',
+      group: 'TRAVEL & CONNECTIONS',
       items: [
         { name: 'Travel Planner', href: '/travel', icon: Compass },
         { name: 'Orbit & Calls', href: '/orbit', icon: Users2 },
       ],
     },
     {
-      group: 'Creative Workspace',
+      group: 'CREATIVE WORKSPACE',
       items: [
         { name: 'Creative Projects', href: '/creative', icon: Palette },
         { name: 'Graphic Design Studio', href: '/graphic-design', icon: Briefcase },
       ],
     },
     {
-      group: 'Programs & Events',
+      group: 'PROGRAMS & EVENTS',
       items: [
         { name: 'Programs & Events', href: '/events', icon: Ticket },
       ],
     },
     {
-      group: 'System',
+      group: 'SYSTEM',
       items: [
         { name: 'Analytics', href: '/analytics', icon: BarChart3 },
         { name: 'Settings', href: '/settings', icon: Settings },
@@ -85,71 +115,78 @@ export const Sidebar = ({ isMobileOpen, setIsMobileOpen }) => {
     },
   ];
 
+  const isActiveRoute = (href) => {
+    if (href === '/') return pathname === '/';
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
+
   return (
     <>
-      {/* Mobile Backdrop */}
-      {isMobileOpen && (
+      {/* BACKDROP OVERLAY */}
+      {open && (
         <div
-          className="fixed inset-0 z-40 bg-[#252923]/40 backdrop-blur-sm lg:hidden"
-          onClick={() => setIsMobileOpen(false)}
+          className="fixed inset-0 z-40 bg-[#0f110f]/40 backdrop-blur-sm transition-opacity"
+          onClick={close}
+          aria-hidden="true"
         />
       )}
 
-      {/* Sidebar container */}
+      {/* SLIDE-OVER DRAWER (From Right) */}
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-40 flex flex-col bg-white border-r border-[#E9E8E1] transition-all duration-300 ease-in-out ${
-          collapsed ? 'w-20' : 'w-64'
-        } ${isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
+        style={{ backgroundColor: '#ffffff' }}
+        className={`
+          fixed top-0 bottom-0 right-0 z-50
+          w-[310px] sm:w-[350px] max-w-[88vw]
+          flex flex-col
+          bg-white
+          border-l border-[#e8e8e5]
+          shadow-[-16px_0_48px_rgba(15,17,15,0.12)]
+          transition-transform duration-300 ease-out
+          ${open ? 'translate-x-0' : 'translate-x-full pointer-events-none'}
+        `}
       >
-        {/* Brand Header */}
-        <div className="flex items-center justify-between h-16 px-5 border-b border-[#E9E8E1]">
-          <Link href="/" className="flex items-center gap-3 overflow-hidden">
-            <div className="w-9 h-9 rounded-xl bg-[#6B8F71] text-white flex items-center justify-center font-bold text-lg shadow-sm shrink-0">
-              P
-            </div>
-            {!collapsed && (
-              <div className="truncate">
-                <span className="font-bold text-base tracking-tight text-[#252923]">PERSONAL</span>
-                <span className="text-xs ml-1 font-semibold text-[#6B8F71] uppercase tracking-wider block -mt-1">
-                  Tracker
-                </span>
-              </div>
-            )}
-          </Link>
+        {/* TOP CLOSE ACTION (NO CLUNKY HEADER BAR) */}
+        <div className="flex items-center justify-end px-5 pt-4 pb-1 shrink-0">
           <button
-            onClick={() => setCollapsed(!collapsed)}
-            className="hidden lg:flex p-1.5 text-[#777D75] hover:text-[#252923] hover:bg-[#FAF8F5] rounded-lg transition-colors"
+            onClick={close}
+            aria-label="Close menu"
+            className="w-8 h-8 rounded-full flex items-center justify-center bg-[#f1f1ef] hover:bg-[#e8e8e5] text-[#6b6b68] hover:text-[#0f110f] transition-all active:scale-95 shadow-sm"
           >
-            {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+            <X size={16} />
           </button>
         </div>
 
-        {/* Navigation List */}
-        <div className="flex-1 overflow-y-auto px-3 py-4 space-y-6">
-          {navigation.map((section, idx) => (
-            <div key={idx} className="space-y-1">
-              {!collapsed && (
-                <p className="px-3 text-[11px] font-semibold uppercase tracking-wider text-[#777D75]/80 mb-2">
-                  {section.group}
-                </p>
-              )}
+        {/* NAVIGATION LIST (SCROLLABLE ON SOLID WHITE BG) */}
+        <div className="flex-1 overflow-y-auto px-4 py-2 space-y-5 bg-white">
+          {navigation.map((section) => (
+            <div key={section.group} className="space-y-1">
+              <p className="px-3 font-mono text-[10px] font-semibold tracking-[0.14em] text-[#6b6b68] uppercase mb-1.5">
+                {section.group}
+              </p>
+
               {section.items.map((item) => {
-                const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
-                const Icon = item.icon;
+                const active = isActiveRoute(item.href);
+                const IconComponent = item.icon;
+
                 return (
                   <Link
-                    key={item.name}
+                    key={item.href}
                     href={item.href}
-                    onClick={() => setIsMobileOpen(false)}
-                    className={`flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-all ${
-                      isActive
-                        ? 'bg-[#6B8F71]/15 text-[#6B8F71] font-semibold'
-                        : 'text-[#777D75] hover:bg-[#FAF8F5] hover:text-[#252923]'
-                    } ${collapsed ? 'justify-center' : ''}`}
-                    title={collapsed ? item.name : ''}
+                    onClick={close}
+                    className={`
+                      flex items-center gap-3 px-3.5 py-2.5 rounded-full text-xs font-medium transition-all duration-150 select-none
+                      ${
+                        active
+                          ? 'bg-[#0f110f] text-white shadow-sm'
+                          : 'text-[#252923] hover:text-[#0f110f] hover:bg-[#f6f6f5]'
+                      }
+                    `}
                   >
-                    <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-[#6B8F71]' : 'text-[#777D75]'}`} />
-                    {!collapsed && <span className="truncate">{item.name}</span>}
+                    <IconComponent
+                      size={16}
+                      className={`shrink-0 ${active ? 'text-[#d7f43a]' : 'text-[#6b6b68]'}`}
+                    />
+                    <span className="truncate">{item.name}</span>
                   </Link>
                 );
               })}
@@ -157,37 +194,49 @@ export const Sidebar = ({ isMobileOpen, setIsMobileOpen }) => {
           ))}
         </div>
 
-        {/* User Footer Profile */}
-        <div className="p-3 border-t border-[#E9E8E1] bg-[#FAF8F5]">
-          <div className={`flex items-center ${collapsed ? 'justify-center' : 'justify-between'} gap-2`}>
-            <div className="flex items-center gap-2.5 overflow-hidden">
-              <div className="w-9 h-9 rounded-full bg-[#E5E1D5] text-[#252923] font-semibold flex items-center justify-center shrink-0 border border-[#E9E8E1] overflow-hidden">
+        {/* FOOTER USER PROFILE & LOGOUT */}
+        <div className="p-4 border-t border-[#ececea] bg-[#faf9f6] shrink-0">
+          <div className="flex items-center justify-between gap-2">
+            <Link
+              href="/settings"
+              onClick={close}
+              className="flex items-center gap-2.5 min-w-0 hover:opacity-85 transition-opacity"
+            >
+              <div className="w-8 h-8 rounded-full bg-[#0f110f] text-white font-mono font-medium text-xs flex items-center justify-center shrink-0">
                 {user?.avatar ? (
-                  <img src={user.avatar} alt="Profile" className="w-full h-full object-cover" />
+                  <img
+                    src={user.avatar}
+                    alt="User"
+                    className="w-full h-full object-cover rounded-full"
+                  />
                 ) : (
-                  <span>{user?.name?.charAt(0) || 'U'}</span>
+                  user?.name?.charAt(0)?.toUpperCase() || 'U'
                 )}
               </div>
-              {!collapsed && (
-                <div className="truncate">
-                  <p className="text-xs font-semibold text-[#252923] truncate">{user?.name || 'Personal User'}</p>
-                  <p className="text-[11px] text-[#777D75] truncate">{user?.email || 'demo@tracker.com'}</p>
-                </div>
-              )}
-            </div>
-            {!collapsed && (
-              <button
-                onClick={logout}
-                title="Logout"
-                className="p-1.5 text-[#777D75] hover:text-[#D96C6C] hover:bg-white rounded-lg transition-colors"
-              >
-                <LogOut className="w-4 h-4" />
-              </button>
-            )}
+
+              <div className="min-w-0">
+                <p className="text-xs font-semibold text-[#0f110f] truncate">
+                  {user?.name || 'Personal User'}
+                </p>
+                <p className="font-mono text-[10px] text-[#6b6b68] truncate">
+                  {user?.email || 'user@example.com'}
+                </p>
+              </div>
+            </Link>
+
+            <button
+              onClick={() => {
+                close();
+                logout();
+              }}
+              title="Log out"
+              className="w-8 h-8 rounded-full flex items-center justify-center text-[#6b6b68] hover:text-[#d96c6c] hover:bg-[#ffe5e5] transition-colors"
+            >
+              <LogOut size={14} />
+            </button>
           </div>
         </div>
       </aside>
     </>
   );
 };
-

@@ -3,16 +3,119 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --mira-bg: #efefee;
+    --mira-surface: #ffffff;
+    --mira-subsurface: #f6f6f5;
+    --mira-border: #e8e8e5;
+    --mira-dark: #0f110f;
+    --mira-lime: #d7f43a;
+    --mira-green: #8fd94e;
+    --mira-forest: #3f7a1e;
+    --mira-coral: #ff8a4a;
+  }
+
   body {
-    background-color: #F7F5F0;
-    color: #252923;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #efefee;
+    color: #0f110f;
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+    overflow-x: hidden;
   }
 }
 
-/* Custom delicate scrollbars */
+/* Mira Ambient Background Glowing Blobs */
+.mira-blob-lime {
+  position: fixed;
+  top: -180px;
+  right: -100px;
+  width: 50vw;
+  max-width: 650px;
+  height: 55vh;
+  max-height: 600px;
+  background-color: #f1f7c8;
+  filter: blur(120px);
+  opacity: 0.65;
+  border-radius: 9999px;
+  pointer-events: none;
+  z-index: 0;
+  transform: translateZ(0);
+}
+
+.mira-blob-grey {
+  position: fixed;
+  top: -200px;
+  left: -120px;
+  width: 45vw;
+  max-width: 600px;
+  height: 50vh;
+  max-height: 550px;
+  background-color: #e3e3e0;
+  filter: blur(110px);
+  opacity: 0.5;
+  border-radius: 9999px;
+  pointer-events: none;
+  z-index: 0;
+  transform: translateZ(0);
+}
+
+/* Floating Glassmorphic Pill Header */
+.mira-glass-pill {
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  background-color: rgba(255, 255, 255, 0.65);
+  box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 0.8), 0px 12px 36px 0px rgba(15, 17, 15, 0.05);
+  border-radius: 9999px;
+}
+
+/* Bento Cards */
+.mira-bento-card {
+  background-color: #ffffff;
+  border-radius: 32px;
+  border: 1px solid #e8e8e5;
+  box-shadow: 0 4px 20px -2px rgba(15, 17, 15, 0.02);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mira-bento-card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px -4px rgba(15, 17, 15, 0.06);
+  border-color: #d2d2ce;
+}
+
+/* Dark Highlight Bento Card with Ambient Lime Blob */
+.mira-dark-card {
+  background-color: #0f110f;
+  color: #ffffff;
+  border-radius: 32px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mira-dark-glow {
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 260px;
+  height: 260px;
+  background-color: #d7f43a;
+  filter: blur(70px);
+  opacity: 0.28;
+  border-radius: 9999px;
+  pointer-events: none;
+}
+
+/* Inner Subcard / Metric Row */
+.mira-subcard {
+  background-color: #f6f6f5;
+  border-radius: 20px;
+  border: 1px solid #ececea;
+}
+
+/* Custom Delicate Scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -21,22 +124,21 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #D5CFBF;
+  background: #d2d2ce;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #A7B99B;
+  background: #b5b5b0;
 }
 
 .card-shadow {
-  box-shadow: 0 4px 20px -2px rgba(37, 41, 35, 0.04), 0 2px 6px -1px rgba(37, 41, 35, 0.02);
+  box-shadow: 0 4px 20px -2px rgba(15, 17, 15, 0.02), 0 1px 3px -1px rgba(15, 17, 15, 0.02);
 }
 
 .card-shadow-hover {
   transition: all 0.2s ease-in-out;
 }
 .card-shadow-hover:hover {
-  box-shadow: 0 10px 25px -4px rgba(37, 41, 35, 0.08), 0 4px 10px -2px rgba(37, 41, 35, 0.03);
+  box-shadow: 0 10px 28px -4px rgba(15, 17, 15, 0.06);
   transform: translateY(-2px);
 }
-

@@ -6,21 +6,28 @@ import { Navbar } from './Navbar';
 import { QuickAddModal } from './QuickAddModal';
 
 export const AppLayout = ({ children }) => {
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isQuickAddOpen, setIsQuickAddOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#F7F5F0]">
-      {/* Sidebar */}
-      <Sidebar isMobileOpen={isMobileOpen} setIsMobileOpen={setIsMobileOpen} />
+    <div className="min-h-screen bg-[#efefee] text-[#0f110f] relative overflow-hidden font-sans">
+      {/* Mira Ambient Glowing Blobs */}
+      <div className="mira-blob-lime" aria-hidden="true" />
+      <div className="mira-blob-grey" aria-hidden="true" />
 
-      {/* Main Content Area */}
-      <div className="lg:pl-64 flex flex-col min-h-screen transition-all duration-300">
+      {/* Slide-over Drawer for All 18 Modules */}
+      <Sidebar
+        isOpen={isSidebarOpen}
+        setIsOpen={setIsSidebarOpen}
+      />
+
+      {/* Main Centered Content Canvas */}
+      <div className="flex flex-col min-h-screen transition-all duration-300 relative z-10">
         <Navbar
-          onOpenMobile={() => setIsMobileOpen(true)}
+          onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
           onOpenQuickAdd={() => setIsQuickAddOpen(true)}
         />
-        <main className="flex-1 p-4 sm:p-6 md:p-8 max-w-7xl w-full mx-auto">
+        <main className="flex-1 px-4 sm:px-6 md:px-8 pb-14 max-w-7xl w-full mx-auto">
           {children}
         </main>
       </div>
@@ -33,4 +40,3 @@ export const AppLayout = ({ children }) => {
     </div>
   );
 };
-
