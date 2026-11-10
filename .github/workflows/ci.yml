@@ -52,3 +52,4 @@ jobs:
       - name: Test Server Syntax
         working-directory: backend
         run: node -c server.js
+

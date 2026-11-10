@@ -123,3 +123,4 @@ export const MobileHeader = ({ onOpenQuickAdd, selectedDate, onSelectDate }) => 
     </div>
   );
 };
+

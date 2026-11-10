@@ -332,3 +332,4 @@ export const MobileDashboard = ({ data, onOpenQuickAdd, onToggleHabit, onToggleT
     </div>
   );
 };
+

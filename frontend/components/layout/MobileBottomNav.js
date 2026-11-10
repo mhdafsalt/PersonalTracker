@@ -85,3 +85,4 @@ export const MobileBottomNav = ({ onOpenMenu, onOpenQuickAdd }) => {
     </div>
   );
 };
+
