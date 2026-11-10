@@ -121,8 +121,8 @@ export default function GoalTrackerPage() {
         {/* Top Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-[#252923] tracking-tight">Goal Tracker</h1>
-            <p className="text-sm text-[#777D75] mt-1">
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Goal Tracker</h1>
+            <p className="text-sm text-slate-500 mt-1">
               Define vision, track short & long-term ambitions, and conquer incremental milestones.
             </p>
           </div>
@@ -138,7 +138,7 @@ export default function GoalTrackerPage() {
             value={stats.totalGoals ?? 0}
             subtitle="Short & long term"
             icon={Target}
-            color="#6B8F71"
+            color="#10B981"
           />
           <StatCard
             title="Active Goals"
@@ -171,8 +171,8 @@ export default function GoalTrackerPage() {
               onClick={() => setFilterType(t)}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-medium capitalize transition-all ${
                 filterType === t
-                  ? 'bg-[#6B8F71] text-white shadow-sm'
-                  : 'bg-white text-[#777D75] hover:bg-[#FAF8F5] border border-[#E9E8E1]'
+                  ? 'bg-emerald-600 text-white shadow-sm'
+                  : 'bg-white text-slate-500 hover:bg-slate-50 border border-slate-200'
               }`}
             >
               {t === 'All' ? 'All Goals' : `${t} Goals`}
@@ -196,14 +196,14 @@ export default function GoalTrackerPage() {
                           </Badge>
                           <Badge variant="default" size="sm">{goal.category}</Badge>
                         </div>
-                        <h3 className="font-bold text-lg text-[#252923] mt-2">{goal.title}</h3>
+                        <h3 className="font-bold text-lg text-slate-900 mt-2">{goal.title}</h3>
                         {goal.description && (
-                          <p className="text-xs text-[#777D75] mt-1">{goal.description}</p>
+                          <p className="text-xs text-slate-500 mt-1">{goal.description}</p>
                         )}
                       </div>
                       <button
                         onClick={() => handleDeleteGoal(goal._id)}
-                        className="p-1.5 text-[#777D75] hover:text-[#D96C6C] rounded-lg transition-colors"
+                        className="p-1.5 text-slate-500 hover:text-rose-600 rounded-lg transition-colors"
                         title="Delete Goal"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -213,12 +213,12 @@ export default function GoalTrackerPage() {
                     {/* Progress Bar */}
                     <div className="mt-4 space-y-1.5">
                       <div className="flex justify-between text-xs">
-                        <span className="text-[#777D75]">Progress</span>
-                        <span className="font-semibold text-[#6B8F71]">{goal.progress}%</span>
+                        <span className="text-slate-500">Progress</span>
+                        <span className="font-semibold text-emerald-600">{goal.progress}%</span>
                       </div>
-                      <div className="w-full bg-[#FAF8F5] rounded-full h-2 border border-[#E9E8E1]">
+                      <div className="w-full bg-slate-50 rounded-full h-2 border border-slate-200">
                         <div
-                          className="bg-[#6B8F71] h-2 rounded-full transition-all duration-500"
+                          className="bg-emerald-600 h-2 rounded-full transition-all duration-500"
                           style={{ width: `${goal.progress}%` }}
                         />
                       </div>
@@ -226,23 +226,23 @@ export default function GoalTrackerPage() {
 
                     {/* Milestones Checklist */}
                     {goal.milestones && goal.milestones.length > 0 && (
-                      <div className="mt-4 space-y-2 border-t border-[#E9E8E1] pt-3">
-                        <span className="text-[11px] font-semibold text-[#777D75] uppercase tracking-wider block">
+                      <div className="mt-4 space-y-2 border-t border-slate-200 pt-3">
+                        <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
                           Milestones ({goal.milestones.filter((m) => m.completed).length}/{goal.milestones.length})
                         </span>
                         {goal.milestones.map((m, idx) => (
                           <div
                             key={idx}
                             onClick={() => handleToggleMilestone(goal, idx)}
-                            className="flex items-center gap-2.5 text-xs cursor-pointer select-none p-1.5 rounded-lg hover:bg-[#FAF8F5] transition-colors"
+                            className="flex items-center gap-2.5 text-xs cursor-pointer select-none p-1.5 rounded-lg hover:bg-slate-50 transition-colors"
                           >
                             <input
                               type="checkbox"
                               checked={m.completed}
                               readOnly
-                              className="rounded text-[#6B8F71] focus:ring-0 cursor-pointer"
+                              className="rounded text-emerald-600 focus:ring-0 cursor-pointer"
                             />
-                            <span className={m.completed ? 'line-through text-[#777D75]' : 'text-[#252923] font-medium'}>
+                            <span className={m.completed ? 'line-through text-slate-500' : 'text-slate-900 font-medium'}>
                               {m.title}
                             </span>
                           </div>
@@ -251,8 +251,8 @@ export default function GoalTrackerPage() {
                     )}
                   </div>
 
-                  <div className="mt-5 pt-3 border-t border-[#E9E8E1] flex items-center justify-between text-xs">
-                    <span className={`flex items-center gap-1.5 ${isPast ? 'text-[#D96C6C] font-semibold' : 'text-[#777D75]'}`}>
+                  <div className="mt-5 pt-3 border-t border-slate-200 flex items-center justify-between text-xs">
+                    <span className={`flex items-center gap-1.5 ${isPast ? 'text-rose-600 font-semibold' : 'text-slate-500'}`}>
                       <Calendar className="w-3.5 h-3.5" /> Target: {formatDate(goal.targetDate)}
                     </span>
                     <Badge variant={goal.status === 'Completed' ? 'success' : 'sage'} size="sm">
@@ -281,35 +281,35 @@ export default function GoalTrackerPage() {
         >
           <form onSubmit={handleCreateGoal} className="space-y-4">
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Goal Title *</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Goal Title *</label>
               <input
                 type="text"
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. Launch Commercial SaaS MVP"
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-[#FAF8F5]/50"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-slate-50/50"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Description</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Description</label>
               <textarea
                 rows={2}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Why is this goal important?"
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Type</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Type</label>
                 <select
                   value={type}
                   onChange={(e) => setType(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 >
                   <option value="short-term">Short-Term (&lt; 3 months)</option>
                   <option value="long-term">Long-Term (1+ years)</option>
@@ -317,11 +317,11 @@ export default function GoalTrackerPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Category</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Category</label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 >
                   <option value="Career">Career</option>
                   <option value="Health">Health</option>
@@ -334,18 +334,18 @@ export default function GoalTrackerPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Target Date *</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Target Date *</label>
               <input
                 type="date"
                 required
                 value={targetDate}
                 onChange={(e) => setTargetDate(e.target.value)}
-                className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">
+              <label className="block text-xs font-medium text-slate-500 mb-1">
                 Milestones (one per line)
               </label>
               <textarea
@@ -353,7 +353,7 @@ export default function GoalTrackerPage() {
                 value={milestonesText}
                 onChange={(e) => setMilestonesText(e.target.value)}
                 placeholder="Step 1: Write technical specification&#10;Step 2: Build prototype&#10;Step 3: User testing"
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 

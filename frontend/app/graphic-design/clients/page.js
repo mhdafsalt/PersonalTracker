@@ -114,12 +114,12 @@ export default function ClientRegistryPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <Link href="/graphic-design" className="text-xs text-[#6B8F71] hover:underline flex items-center gap-1">
+              <Link href="/graphic-design" className="text-xs text-emerald-600 hover:underline flex items-center gap-1">
                 <ArrowLeft className="w-3.5 h-3.5" /> Back to Studio
               </Link>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-[#252923] tracking-tight">Client Registry</h1>
-            <p className="text-sm text-[#777D75] mt-1">
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Client Registry</h1>
+            <p className="text-sm text-slate-500 mt-1">
               Directory of design clients, brand specifications, project history, and billing records.
             </p>
           </div>
@@ -136,12 +136,12 @@ export default function ClientRegistryPage() {
                 <div>
                   <div className="flex items-start justify-between">
                     <div>
-                      <span className="text-[11px] font-semibold text-[#6B8F71] uppercase tracking-wider">
+                      <span className="text-[11px] font-semibold text-emerald-600 uppercase tracking-wider">
                         {client.company || 'CLIENT'}
                       </span>
-                      <h3 className="font-bold text-lg text-[#252923] mt-0.5">{client.name}</h3>
+                      <h3 className="font-bold text-lg text-slate-900 mt-0.5">{client.name}</h3>
                       {client.brandName && (
-                        <p className="text-xs text-[#777D75]">Brand: {client.brandName}</p>
+                        <p className="text-xs text-slate-500">Brand: {client.brandName}</p>
                       )}
                     </div>
                     <Badge variant={client.status === 'Active' ? 'success' : 'default'} size="sm">
@@ -150,41 +150,41 @@ export default function ClientRegistryPage() {
                   </div>
 
                   {/* Financials & Projects info */}
-                  <div className="mt-4 p-3 rounded-xl bg-[#FAF8F5] border border-[#E9E8E1] space-y-1.5 text-xs">
+                  <div className="mt-4 p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5 text-xs">
                     <div className="flex justify-between">
-                      <span className="text-[#777D75]">Associated Projects:</span>
-                      <span className="font-semibold text-[#252923]">{client.projectsCount || 0}</span>
+                      <span className="text-slate-500">Associated Projects:</span>
+                      <span className="font-semibold text-slate-900">{client.projectsCount || 0}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[#777D75]">Total Billed:</span>
-                      <span className="font-semibold text-[#252923]">{formatCurrency(client.totalBilled || 0, currency)}</span>
+                      <span className="text-slate-500">Total Billed:</span>
+                      <span className="font-semibold text-slate-900">{formatCurrency(client.totalBilled || 0, currency)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[#777D75]">Pending Payment:</span>
-                      <span className="font-semibold text-[#D96C6C]">
+                      <span className="text-slate-500">Pending Payment:</span>
+                      <span className="font-semibold text-rose-600">
                         {formatCurrency(client.pendingPayment || 0, currency)}
                       </span>
                     </div>
                   </div>
 
                   {/* Contact channels */}
-                  <div className="mt-3 space-y-1 text-xs text-[#777D75]">
+                  <div className="mt-3 space-y-1 text-xs text-slate-500">
                     {client.email && (
                       <div className="flex items-center gap-1.5 truncate">
-                        <Mail className="w-3.5 h-3.5 text-[#6B8F71]" />
+                        <Mail className="w-3.5 h-3.5 text-emerald-600" />
                         <span className="truncate">{client.email}</span>
                       </div>
                     )}
                     {client.phone && (
                       <div className="flex items-center gap-1.5">
-                        <Phone className="w-3.5 h-3.5 text-[#6B8F71]" />
+                        <Phone className="w-3.5 h-3.5 text-emerald-600" />
                         <span>{client.phone}</span>
                       </div>
                     )}
                   </div>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-[#E9E8E1] flex items-center justify-between">
+                <div className="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between">
                   <Button
                     onClick={() => handleOpenClientDetails(client)}
                     size="sm"
@@ -195,7 +195,7 @@ export default function ClientRegistryPage() {
                   </Button>
                   <button
                     onClick={() => handleDeleteClient(client._id)}
-                    className="p-1.5 text-[#777D75] hover:text-[#D96C6C] rounded-lg transition-colors"
+                    className="p-1.5 text-slate-500 hover:text-rose-600 rounded-lg transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -221,73 +221,73 @@ export default function ClientRegistryPage() {
         >
           <form onSubmit={handleCreateClient} className="space-y-4">
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Contact Name *</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Contact Name *</label>
               <input
                 type="text"
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. Rohan Verma"
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-[#FAF8F5]/50"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-slate-50/50"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Brand Name</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Brand Name</label>
                 <input
                   type="text"
                   value={brandName}
                   onChange={(e) => setBrandName(e.target.value)}
                   placeholder="Nordic Craft"
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Company Entity</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Company Entity</label>
                 <input
                   type="text"
                   value={company}
                   onChange={(e) => setCompany(e.target.value)}
                   placeholder="Nordic Craft Ltd."
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Email</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Email</label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="client@brand.com"
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Phone</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Phone</label>
                 <input
                   type="text"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="+91..."
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Requirements & Guidelines</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Requirements & Guidelines</label>
               <textarea
                 rows={2}
                 value={requirements}
                 onChange={(e) => setRequirements(e.target.value)}
                 placeholder="Preferred color aesthetics, brand values..."
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 
@@ -310,19 +310,19 @@ export default function ClientRegistryPage() {
           {selectedClientDetails && (
             <div className="space-y-5">
               {/* Client Header Info */}
-              <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-[#E9E8E1] space-y-2 text-xs">
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 text-xs">
                 <div className="flex justify-between items-center">
-                  <h4 className="font-bold text-base text-[#252923]">
+                  <h4 className="font-bold text-base text-slate-900">
                     {selectedClientDetails.client.brandName || selectedClientDetails.client.name}
                   </h4>
                   <Badge variant="sage" size="sm">{selectedClientDetails.client.status}</Badge>
                 </div>
                 {selectedClientDetails.client.requirements && (
-                  <p className="text-[#777D75]">{selectedClientDetails.client.requirements}</p>
+                  <p className="text-slate-500">{selectedClientDetails.client.requirements}</p>
                 )}
-                <div className="flex justify-between pt-2 border-t border-[#E9E8E1] font-semibold text-xs text-[#252923]">
+                <div className="flex justify-between pt-2 border-t border-slate-200 font-semibold text-xs text-slate-900">
                   <span>Total Billed: {formatCurrency(selectedClientDetails.financials?.totalBilled, currency)}</span>
-                  <span className="text-[#D96C6C]">
+                  <span className="text-rose-600">
                     Pending: {formatCurrency(selectedClientDetails.financials?.pendingPayment, currency)}
                   </span>
                 </div>
@@ -330,7 +330,7 @@ export default function ClientRegistryPage() {
 
               {/* Interconnected Associated Projects */}
               <div>
-                <h4 className="font-semibold text-sm text-[#252923] mb-3">
+                <h4 className="font-semibold text-sm text-slate-900 mb-3">
                   Associated Design Projects ({selectedClientDetails.projects?.length || 0})
                 </h4>
 
@@ -339,14 +339,14 @@ export default function ClientRegistryPage() {
                     {selectedClientDetails.projects.map((proj) => (
                       <div
                         key={proj._id}
-                        className="p-3.5 rounded-xl border border-[#E9E8E1] bg-white hover:border-[#6B8F71]/50 transition-colors flex items-center justify-between"
+                        className="p-3.5 rounded-xl border border-slate-200 bg-white hover:border-emerald-600/50 transition-colors flex items-center justify-between"
                       >
                         <div>
                           <div className="flex items-center gap-2">
-                            <h5 className="font-bold text-sm text-[#252923]">{proj.title}</h5>
+                            <h5 className="font-bold text-sm text-slate-900">{proj.title}</h5>
                             <Badge variant="sage" size="sm">{proj.category}</Badge>
                           </div>
-                          <p className="text-xs text-[#777D75] mt-0.5">
+                          <p className="text-xs text-slate-500 mt-0.5">
                             Pricing: {formatCurrency(proj.pricing, currency)} • Status: {proj.status}
                           </p>
                         </div>
@@ -360,11 +360,11 @@ export default function ClientRegistryPage() {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-xs text-[#777D75]">No design projects created for this client yet.</p>
+                  <p className="text-xs text-slate-500">No design projects created for this client yet.</p>
                 )}
               </div>
 
-              <div className="flex justify-end pt-3 border-t border-[#E9E8E1]">
+              <div className="flex justify-end pt-3 border-t border-slate-200">
                 <Button onClick={() => setSelectedClientDetails(null)} variant="secondary">
                   Close
                 </Button>

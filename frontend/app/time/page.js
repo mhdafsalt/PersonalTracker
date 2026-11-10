@@ -155,8 +155,8 @@ export default function TimeTrackerPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-[#252923] tracking-tight">Time Tracker</h1>
-            <p className="text-sm text-[#777D75] mt-1">
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Time Tracker</h1>
+            <p className="text-sm text-slate-500 mt-1">
               Track billable client hours, design sessions, deep work, and daily activities.
             </p>
           </div>
@@ -172,7 +172,7 @@ export default function TimeTrackerPage() {
             value={`${stats.totalHours ?? 0} hrs`}
             subtitle="All logged activities"
             icon={Timer}
-            color="#6B8F71"
+            color="#10B981"
           />
           <StatCard
             title="Productive Hours"
@@ -191,15 +191,15 @@ export default function TimeTrackerPage() {
         </div>
 
         {/* Live Stopwatch Tracker Banner */}
-        <Card className="bg-white border-2 border-[#6B8F71]/30 p-6">
+        <Card className="bg-white border-2 border-emerald-600/30 p-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="w-full md:w-auto">
-              <span className="text-xs font-semibold uppercase tracking-wider text-[#6B8F71] block mb-1">
+              <span className="text-xs font-semibold uppercase tracking-wider text-emerald-600 block mb-1">
                 {activeTimer ? 'Timer Active & Running' : 'Start New Activity'}
               </span>
               {activeTimer ? (
                 <div>
-                  <h3 className="text-xl font-bold text-[#252923]">{activeTimer.title}</h3>
+                  <h3 className="text-xl font-bold text-slate-900">{activeTimer.title}</h3>
                   <Badge variant="sage" size="sm" className="mt-1">
                     {activeTimer.category}
                   </Badge>
@@ -211,12 +211,12 @@ export default function TimeTrackerPage() {
                     value={timerTitle}
                     onChange={(e) => setTimerTitle(e.target.value)}
                     placeholder="What are you working on?"
-                    className="px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-[#FAF8F5]/50 w-full sm:w-64"
+                    className="px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-slate-50/50 w-full sm:w-64"
                   />
                   <select
                     value={timerCategory}
                     onChange={(e) => setTimerCategory(e.target.value)}
-                    className="px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                    className="px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                   >
                     <option value="Work">Work</option>
                     <option value="Design">Design</option>
@@ -230,7 +230,7 @@ export default function TimeTrackerPage() {
 
             {/* Stopwatch Display */}
             <div className="flex flex-col items-center">
-              <div className="text-4xl sm:text-5xl font-mono font-bold text-[#252923] tracking-wider">
+              <div className="text-4xl sm:text-5xl font-mono font-bold text-slate-900 tracking-wider">
                 {activeTimer ? formatElapsed(elapsedSeconds) : '00:00:00'}
               </div>
             </div>
@@ -254,23 +254,23 @@ export default function TimeTrackerPage() {
         {categoryBreakdown.length > 0 && (
           <Card>
             <div className="flex items-center gap-2 mb-4">
-              <PieChartIcon className="w-5 h-5 text-[#6B8F71]" />
-              <h3 className="font-semibold text-base text-[#252923]">Time Distribution by Category</h3>
+              <PieChartIcon className="w-5 h-5 text-emerald-600" />
+              <h3 className="font-semibold text-base text-slate-900">Time Distribution by Category</h3>
             </div>
             <div className="h-44 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={categoryBreakdown}>
-                  <XAxis dataKey="name" stroke="#777D75" fontSize={11} tickLine={false} axisLine={false} />
-                  <YAxis stroke="#777D75" fontSize={11} tickLine={false} axisLine={false} />
+                  <XAxis dataKey="name" stroke="#94A3B8" fontSize={11} tickLine={false} axisLine={false} />
+                  <YAxis stroke="#94A3B8" fontSize={11} tickLine={false} axisLine={false} />
                   <Tooltip
                     contentStyle={{
                       backgroundColor: '#FFFFFF',
-                      borderColor: '#E9E8E1',
+                      borderColor: '#E2E8F0',
                       borderRadius: '12px',
                       fontSize: '12px',
                     }}
                   />
-                  <Bar dataKey="hours" fill="#6B8F71" radius={[4, 4, 0, 0]} name="Hours Logged" />
+                  <Bar dataKey="hours" fill="#10B981" radius={[4, 4, 0, 0]} name="Hours Logged" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -279,28 +279,28 @@ export default function TimeTrackerPage() {
 
         {/* Timeline Log Table */}
         <Card className="p-0 overflow-hidden">
-          <div className="p-4 sm:p-5 border-b border-[#E9E8E1] flex items-center justify-between bg-[#FAF8F5]/60">
+          <div className="p-4 sm:p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50/60">
             <div>
-              <h3 className="font-semibold text-base text-[#252923]">Activity Timeline</h3>
-              <p className="text-xs text-[#777D75]">Recorded activities with start and stop timestamps.</p>
+              <h3 className="font-semibold text-base text-slate-900">Activity Timeline</h3>
+              <p className="text-xs text-slate-500">Recorded activities with start and stop timestamps.</p>
             </div>
           </div>
 
           {entries.length > 0 ? (
-            <div className="divide-y divide-[#E9E8E1]">
+            <div className="divide-y divide-slate-200">
               {entries.map((entry) => (
-                <div key={entry._id} className="p-4 sm:p-5 flex items-center justify-between hover:bg-[#FAF8F5]/30 transition-colors">
+                <div key={entry._id} className="p-4 sm:p-5 flex items-center justify-between hover:bg-slate-50/30 transition-colors">
                   <div className="flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-[#6B8F71]/15 text-[#6B8F71] flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-9 h-9 rounded-xl bg-emerald-600/15 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
                       <Clock className="w-4 h-4" />
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <h4 className="font-semibold text-sm sm:text-base text-[#252923]">{entry.title}</h4>
+                        <h4 className="font-semibold text-sm sm:text-base text-slate-900">{entry.title}</h4>
                         <Badge variant="sage" size="sm">{entry.category}</Badge>
                         {entry.billable && <Badge variant="warning" size="sm">Billable</Badge>}
                       </div>
-                      <div className="flex flex-wrap items-center gap-3 mt-1 text-xs text-[#777D75]">
+                      <div className="flex flex-wrap items-center gap-3 mt-1 text-xs text-slate-500">
                         <span>Duration: {entry.durationMinutes} mins ({(entry.durationMinutes / 60).toFixed(1)} hrs)</span>
                         <span>• Started {formatDate(entry.startTime)} at {formatTime(entry.startTime)}</span>
                       </div>
@@ -308,7 +308,7 @@ export default function TimeTrackerPage() {
                   </div>
                   <button
                     onClick={() => handleDeleteEntry(entry._id)}
-                    className="p-1.5 text-[#777D75] hover:text-[#D96C6C] rounded-lg transition-colors"
+                    className="p-1.5 text-slate-500 hover:text-rose-600 rounded-lg transition-colors"
                     title="Delete"
                   >
                     <Trash2 className="w-4 h-4" />
@@ -335,24 +335,24 @@ export default function TimeTrackerPage() {
         >
           <form onSubmit={handleCreateManual} className="space-y-4">
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Activity Title *</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Activity Title *</label>
               <input
                 type="text"
                 required
                 value={newTitle}
                 onChange={(e) => setNewTitle(e.target.value)}
                 placeholder="e.g. Client Design Sprint or Bug Triage"
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-[#FAF8F5]/50"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-slate-50/50"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Category</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Category</label>
                 <select
                   value={newCategory}
                   onChange={(e) => setNewCategory(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 >
                   <option value="Work">Work</option>
                   <option value="Design">Design</option>
@@ -363,12 +363,12 @@ export default function TimeTrackerPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Duration (minutes)</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Duration (minutes)</label>
                 <input
                   type="number"
                   value={newDuration}
                   onChange={(e) => setNewDuration(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
             </div>
@@ -379,9 +379,9 @@ export default function TimeTrackerPage() {
                 id="billable"
                 checked={isBillable}
                 onChange={(e) => setIsBillable(e.target.checked)}
-                className="rounded text-[#6B8F71] focus:ring-0"
+                className="rounded text-emerald-600 focus:ring-0"
               />
-              <label htmlFor="billable" className="text-xs text-[#252923]">
+              <label htmlFor="billable" className="text-xs text-slate-900">
                 Mark as billable client time
               </label>
             </div>

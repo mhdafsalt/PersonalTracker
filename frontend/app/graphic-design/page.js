@@ -64,10 +64,10 @@ export default function GraphicDesignStudioPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-2xl sm:text-3xl font-bold text-[#252923] tracking-tight">Graphic Design Studio</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Graphic Design Studio</h1>
               <Badge variant="sage" size="sm">Agency Workspace</Badge>
             </div>
-            <p className="text-sm text-[#777D75] mt-1">
+            <p className="text-sm text-slate-500 mt-1">
               Manage client relationships, brand identities, vector deliverables, and payments.
             </p>
           </div>
@@ -92,14 +92,14 @@ export default function GraphicDesignStudioPage() {
             value={clients.length}
             subtitle={`${clients.filter((c) => c.status === 'Active').length} active retainers`}
             icon={Users2}
-            color="#6B8F71"
+            color="#10B981"
           />
           <StatCard
             title="Design Projects"
             value={stats.totalProjects ?? 0}
             subtitle={`${stats.inProgress ?? 0} in active production`}
             icon={Briefcase}
-            color="#A7B99B"
+            color="#34D399"
           />
           <StatCard
             title="Total Invoiced"
@@ -122,17 +122,17 @@ export default function GraphicDesignStudioPage() {
           <Card hover className="bg-gradient-to-br from-white to-[#FAF8F5] flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between">
-                <div className="w-10 h-10 rounded-xl bg-[#6B8F71]/15 text-[#6B8F71] flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-emerald-600/15 text-emerald-600 flex items-center justify-center">
                   <Users2 className="w-5 h-5" />
                 </div>
                 <Badge variant="sage" size="sm">{clients.length} Registered</Badge>
               </div>
-              <h3 className="font-bold text-xl text-[#252923] mt-3">Client Registry</h3>
-              <p className="text-xs text-[#777D75] mt-1">
+              <h3 className="font-bold text-xl text-slate-900 mt-3">Client Registry</h3>
+              <p className="text-xs text-slate-500 mt-1">
                 Maintain client company directory, brand guidelines, contacts, and view every associated project.
               </p>
             </div>
-            <div className="pt-4 mt-4 border-t border-[#E9E8E1]">
+            <div className="pt-4 mt-4 border-t border-slate-200">
               <Link href="/graphic-design/clients">
                 <Button className="w-full" variant="secondary" icon={ArrowRight}>
                   Open Client Registry
@@ -144,17 +144,17 @@ export default function GraphicDesignStudioPage() {
           <Card hover className="bg-gradient-to-br from-white to-[#FAF8F5] flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between">
-                <div className="w-10 h-10 rounded-xl bg-[#A7B99B]/20 text-[#6B8F71] flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-emerald-400/20 text-emerald-600 flex items-center justify-center">
                   <Palette className="w-5 h-5" />
                 </div>
                 <Badge variant="sage" size="sm">{stats.totalProjects ?? 0} Projects</Badge>
               </div>
-              <h3 className="font-bold text-xl text-[#252923] mt-3">Design Projects Tracker</h3>
-              <p className="text-xs text-[#777D75] mt-1">
+              <h3 className="font-bold text-xl text-slate-900 mt-3">Design Projects Tracker</h3>
+              <p className="text-xs text-slate-500 mt-1">
                 Track logo designs, brand identities, social banners, revision versions, and milestones.
               </p>
             </div>
-            <div className="pt-4 mt-4 border-t border-[#E9E8E1]">
+            <div className="pt-4 mt-4 border-t border-slate-200">
               <Link href="/graphic-design/projects">
                 <Button className="w-full" icon={ArrowRight}>
                   Open Projects Tracker
@@ -166,10 +166,10 @@ export default function GraphicDesignStudioPage() {
 
         {/* Recent Design Projects Production Feed */}
         <Card className="p-0 overflow-hidden">
-          <div className="p-4 sm:p-5 border-b border-[#E9E8E1] flex items-center justify-between bg-[#FAF8F5]/60">
+          <div className="p-4 sm:p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50/60">
             <div>
-              <h3 className="font-semibold text-base text-[#252923]">Active Design Production</h3>
-              <p className="text-xs text-[#777D75]">Latest creative projects across all client accounts.</p>
+              <h3 className="font-semibold text-base text-slate-900">Active Design Production</h3>
+              <p className="text-xs text-slate-500">Latest creative projects across all client accounts.</p>
             </div>
             <Link href="/graphic-design/projects">
               <Button size="sm" variant="ghost">View All Projects</Button>
@@ -177,20 +177,20 @@ export default function GraphicDesignStudioPage() {
           </div>
 
           {recentProjects.length > 0 ? (
-            <div className="divide-y divide-[#E9E8E1]">
+            <div className="divide-y divide-slate-200">
               {recentProjects.map((proj) => (
-                <div key={proj._id} className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[#FAF8F5]/30 transition-colors">
+                <div key={proj._id} className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/30 transition-colors">
                   <div className="flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-[#6B8F71]/15 text-[#6B8F71] flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-9 h-9 rounded-xl bg-emerald-600/15 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
                       <Briefcase className="w-4 h-4" />
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <h4 className="font-semibold text-sm sm:text-base text-[#252923]">{proj.title}</h4>
+                        <h4 className="font-semibold text-sm sm:text-base text-slate-900">{proj.title}</h4>
                         <Badge variant="sage" size="sm">{proj.category}</Badge>
                       </div>
-                      <p className="text-xs text-[#777D75] mt-0.5">
-                        Client: <span className="font-medium text-[#252923]">{proj.client?.name || 'Client'}</span>
+                      <p className="text-xs text-slate-500 mt-0.5">
+                        Client: <span className="font-medium text-slate-900">{proj.client?.name || 'Client'}</span>
                         {proj.deadline && ` • Due ${formatDate(proj.deadline)}`}
                       </p>
                     </div>
@@ -198,8 +198,8 @@ export default function GraphicDesignStudioPage() {
 
                   <div className="flex items-center gap-3 self-end sm:self-center">
                     <div className="text-right text-xs">
-                      <span className="font-semibold text-[#252923] block">{formatCurrency(proj.pricing, currency)}</span>
-                      <span className={`text-[11px] ${proj.paymentStatus === 'Paid' ? 'text-[#4F9B72]' : 'text-[#D6A24A]'}`}>
+                      <span className="font-semibold text-slate-900 block">{formatCurrency(proj.pricing, currency)}</span>
+                      <span className={`text-[11px] ${proj.paymentStatus === 'Paid' ? 'text-emerald-600' : 'text-amber-600'}`}>
                         {proj.paymentStatus}
                       </span>
                     </div>
@@ -211,7 +211,7 @@ export default function GraphicDesignStudioPage() {
               ))}
             </div>
           ) : (
-            <p className="p-8 text-center text-xs text-[#777D75]">No design projects active yet.</p>
+            <p className="p-8 text-center text-xs text-slate-500">No design projects active yet.</p>
           )}
         </Card>
       </div>

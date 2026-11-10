@@ -35,7 +35,7 @@ export default function HabitTrackerPage() {
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('General');
   const [frequency, setFrequency] = useState('daily');
-  const [color, setColor] = useState('#6B8F71');
+  const [color, setColor] = useState('#10B981');
 
   const categories = ['All', 'Health', 'Productivity', 'Mindfulness', 'Learning', 'Fitness', 'Finance', 'General'];
 
@@ -62,7 +62,7 @@ export default function HabitTrackerPage() {
     setDescription('');
     setCategory('General');
     setFrequency('daily');
-    setColor('#6B8F71');
+    setColor('#10B981');
     setIsModalOpen(true);
   };
 
@@ -72,7 +72,7 @@ export default function HabitTrackerPage() {
     setDescription(h.description || '');
     setCategory(h.category || 'General');
     setFrequency(h.frequency || 'daily');
-    setColor(h.color || '#6B8F71');
+    setColor(h.color || '#10B981');
     setIsModalOpen(true);
   };
 
@@ -158,8 +158,8 @@ export default function HabitTrackerPage() {
         {/* Top Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-[#252923] tracking-tight">Habit Tracker</h1>
-            <p className="text-sm text-[#777D75] mt-1">
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Habit Tracker</h1>
+            <p className="text-sm text-slate-500 mt-1">
               Build lasting consistency, monitor daily streaks, and stay disciplined.
             </p>
           </div>
@@ -175,7 +175,7 @@ export default function HabitTrackerPage() {
             value={totalHabits}
             subtitle={`${habits.filter((h) => h.active).length} currently active`}
             icon={CheckSquare}
-            color="#6B8F71"
+            color="#10B981"
           />
           <StatCard
             title="Done Today"
@@ -196,7 +196,7 @@ export default function HabitTrackerPage() {
             value={`${completionRate}%`}
             subtitle="Today's goal progress"
             icon={Sparkles}
-            color="#6B8F71"
+            color="#10B981"
           />
         </div>
 
@@ -208,8 +208,8 @@ export default function HabitTrackerPage() {
               onClick={() => setSelectedCategory(cat)}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
                 selectedCategory === cat
-                  ? 'bg-[#6B8F71] text-white shadow-sm'
-                  : 'bg-white text-[#777D75] hover:bg-[#FAF8F5] border border-[#E9E8E1]'
+                  ? 'bg-emerald-600 text-white shadow-sm'
+                  : 'bg-white text-slate-500 hover:bg-slate-50 border border-slate-200'
               }`}
             >
               {cat}
@@ -219,32 +219,32 @@ export default function HabitTrackerPage() {
 
         {/* Habits Checklist & Weekly Matrix */}
         <Card className="overflow-hidden p-0 sm:p-0">
-          <div className="p-4 sm:p-6 border-b border-[#E9E8E1] flex items-center justify-between bg-[#FAF8F5]/50">
+          <div className="p-4 sm:p-6 border-b border-slate-200 flex items-center justify-between bg-slate-50/50">
             <div>
-              <h3 className="font-semibold text-base text-[#252923]">Habits Matrix</h3>
-              <p className="text-xs text-[#777D75] mt-0.5">Click any day to mark habit completed or undone.</p>
+              <h3 className="font-semibold text-base text-slate-900">Habits Matrix</h3>
+              <p className="text-xs text-slate-500 mt-0.5">Click any day to mark habit completed or undone.</p>
             </div>
-            <span className="text-xs font-medium text-[#6B8F71] bg-[#6B8F71]/10 px-3 py-1 rounded-full">
+            <span className="text-xs font-medium text-emerald-600 bg-emerald-600/10 px-3 py-1 rounded-full">
               Weekly Overview
             </span>
           </div>
 
           {filteredHabits.length > 0 ? (
-            <div className="divide-y divide-[#E9E8E1]">
+            <div className="divide-y divide-slate-200">
               {filteredHabits.map((habit) => {
                 const isDoneToday = habit.completedDates && habit.completedDates.includes(todayStr);
                 return (
                   <div
                     key={habit._id}
-                    className="p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-[#FAF8F5]/30 transition-colors"
+                    className="p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-slate-50/30 transition-colors"
                   >
                     <div className="flex items-start sm:items-center gap-3">
                       <button
                         onClick={() => handleToggleDate(habit._id, todayStr)}
                         className={`w-7 h-7 rounded-lg border flex items-center justify-center transition-all ${
                           isDoneToday
-                            ? 'bg-[#4F9B72] border-[#4F9B72] text-white shadow-sm'
-                            : 'border-[#D5CFBF] bg-white hover:border-[#6B8F71]'
+                            ? 'bg-emerald-500 border-[#4F9B72] text-white shadow-sm'
+                            : 'border-[#D5CFBF] bg-white hover:border-emerald-600'
                         }`}
                         title="Mark today"
                       >
@@ -252,7 +252,7 @@ export default function HabitTrackerPage() {
                       </button>
                       <div>
                         <div className="flex items-center gap-2">
-                          <h4 className={`font-semibold text-sm sm:text-base ${isDoneToday ? 'text-[#4F9B72]' : 'text-[#252923]'}`}>
+                          <h4 className={`font-semibold text-sm sm:text-base ${isDoneToday ? 'text-emerald-600' : 'text-slate-900'}`}>
                             {habit.title}
                           </h4>
                           <Badge variant="sage" size="sm">
@@ -260,10 +260,10 @@ export default function HabitTrackerPage() {
                           </Badge>
                         </div>
                         {habit.description && (
-                          <p className="text-xs text-[#777D75] mt-0.5">{habit.description}</p>
+                          <p className="text-xs text-slate-500 mt-0.5">{habit.description}</p>
                         )}
-                        <div className="flex items-center gap-3 mt-1.5 text-xs text-[#777D75]">
-                          <span className="flex items-center gap-1 font-medium text-[#D6A24A]">
+                        <div className="flex items-center gap-3 mt-1.5 text-xs text-slate-500">
+                          <span className="flex items-center gap-1 font-medium text-amber-600">
                             <Flame className="w-3.5 h-3.5 fill-current" /> {habit.currentStreak || 0} streak
                           </span>
                           <span>•</span>
@@ -274,7 +274,7 @@ export default function HabitTrackerPage() {
 
                     {/* 7-Day Matrix */}
                     <div className="flex items-center gap-2 self-end md:self-center">
-                      <div className="flex items-center gap-1.5 bg-[#FAF8F5] p-1.5 rounded-xl border border-[#E9E8E1]">
+                      <div className="flex items-center gap-1.5 bg-slate-50 p-1.5 rounded-xl border border-slate-200">
                         {past7Days.map((day) => {
                           const isDone = habit.completedDates && habit.completedDates.includes(day.dateStr);
                           return (
@@ -284,10 +284,10 @@ export default function HabitTrackerPage() {
                               title={`${day.dateStr} — ${isDone ? 'Completed' : 'Missed'}`}
                               className={`w-7 h-8 rounded-lg flex flex-col items-center justify-center text-[10px] transition-all ${
                                 isDone
-                                  ? 'bg-[#6B8F71] text-white font-semibold shadow-xs'
+                                  ? 'bg-emerald-600 text-white font-semibold shadow-xs'
                                   : day.isToday
-                                  ? 'border border-[#6B8F71] text-[#6B8F71] bg-white'
-                                  : 'text-[#777D75] hover:bg-[#EFECE4]'
+                                  ? 'border border-emerald-600 text-emerald-600 bg-white'
+                                  : 'text-slate-500 hover:bg-[#EFECE4]'
                               }`}
                             >
                               <span>{day.dayName}</span>
@@ -300,14 +300,14 @@ export default function HabitTrackerPage() {
                       {/* Actions */}
                       <button
                         onClick={() => openEditModal(habit)}
-                        className="p-2 text-[#777D75] hover:text-[#252923] hover:bg-[#FAF8F5] rounded-lg transition-colors"
+                        className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-50 rounded-lg transition-colors"
                         title="Edit"
                       >
                         <Edit2 className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => handleDeleteHabit(habit._id)}
-                        className="p-2 text-[#777D75] hover:text-[#D96C6C] hover:bg-[#FAF8F5] rounded-lg transition-colors"
+                        className="p-2 text-slate-500 hover:text-rose-600 hover:bg-slate-50 rounded-lg transition-colors"
                         title="Delete"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -336,35 +336,35 @@ export default function HabitTrackerPage() {
         >
           <form onSubmit={handleSaveHabit} className="space-y-4">
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Habit Title *</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Habit Title *</label>
               <input
                 type="text"
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. Read 20 pages every day"
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-[#FAF8F5]/50"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-slate-50/50"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Description</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Description</label>
               <textarea
                 rows={2}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Why is this habit important to you?"
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Category</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Category</label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 >
                   <option value="Health">Health</option>
                   <option value="Productivity">Productivity</option>
@@ -377,11 +377,11 @@ export default function HabitTrackerPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Frequency</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Frequency</label>
                 <select
                   value={frequency}
                   onChange={(e) => setFrequency(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 >
                   <option value="daily">Daily</option>
                   <option value="weekly">Weekly</option>

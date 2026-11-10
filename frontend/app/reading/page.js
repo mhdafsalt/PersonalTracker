@@ -122,8 +122,8 @@ export default function ReadingTrackerPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-[#252923] tracking-tight">Reading Tracker</h1>
-            <p className="text-sm text-[#777D75] mt-1">
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Reading Tracker</h1>
+            <p className="text-sm text-slate-500 mt-1">
               Curate your personal library, track daily reading sessions, and record ratings.
             </p>
           </div>
@@ -139,7 +139,7 @@ export default function ReadingTrackerPage() {
             value={stats.totalBooks ?? 0}
             subtitle="Library shelf"
             icon={BookOpen}
-            color="#6B8F71"
+            color="#10B981"
           />
           <StatCard
             title="Currently Reading"
@@ -160,7 +160,7 @@ export default function ReadingTrackerPage() {
             value={(stats.totalPagesRead ?? 0).toLocaleString()}
             subtitle="Cumulative pages"
             icon={Star}
-            color="#6B8F71"
+            color="#10B981"
           />
         </div>
 
@@ -172,8 +172,8 @@ export default function ReadingTrackerPage() {
               onClick={() => setStatusFilter(s)}
               className={`px-3 py-1 rounded-xl text-xs font-medium transition-all ${
                 statusFilter === s
-                  ? 'bg-[#6B8F71] text-white shadow-sm'
-                  : 'bg-white text-[#777D75] hover:bg-[#FAF8F5] border border-[#E9E8E1]'
+                  ? 'bg-emerald-600 text-white shadow-sm'
+                  : 'bg-white text-slate-500 hover:bg-slate-50 border border-slate-200'
               }`}
             >
               {s}
@@ -194,11 +194,11 @@ export default function ReadingTrackerPage() {
                         <img
                           src={book.coverImage}
                           alt={book.title}
-                          className="w-16 h-24 object-cover rounded-lg border border-[#E9E8E1] shrink-0"
+                          className="w-16 h-24 object-cover rounded-lg border border-slate-200 shrink-0"
                         />
                       ) : (
-                        <div className="w-16 h-24 rounded-lg bg-[#FAF8F5] border border-[#E9E8E1] flex flex-col items-center justify-center text-[#777D75] shrink-0">
-                          <BookOpen className="w-6 h-6 text-[#6B8F71]" />
+                        <div className="w-16 h-24 rounded-lg bg-slate-50 border border-slate-200 flex flex-col items-center justify-center text-slate-500 shrink-0">
+                          <BookOpen className="w-6 h-6 text-emerald-600" />
                         </div>
                       )}
                       <div className="flex-1 truncate">
@@ -214,9 +214,9 @@ export default function ReadingTrackerPage() {
                         >
                           {book.status}
                         </Badge>
-                        <h4 className="font-bold text-base text-[#252923] mt-1 truncate">{book.title}</h4>
-                        <p className="text-xs text-[#777D75] truncate">by {book.author}</p>
-                        <div className="flex items-center gap-1 mt-2 text-xs text-[#D6A24A]">
+                        <h4 className="font-bold text-base text-slate-900 mt-1 truncate">{book.title}</h4>
+                        <p className="text-xs text-slate-500 truncate">by {book.author}</p>
+                        <div className="flex items-center gap-1 mt-2 text-xs text-amber-600">
                           {[...Array(book.rating || 5)].map((_, i) => (
                             <Star key={i} className="w-3.5 h-3.5 fill-current" />
                           ))}
@@ -227,21 +227,21 @@ export default function ReadingTrackerPage() {
                     {/* Progress Bar */}
                     <div className="mt-4 space-y-1.5">
                       <div className="flex justify-between text-xs">
-                        <span className="text-[#777D75]">
+                        <span className="text-slate-500">
                           Page {book.currentPage || 0} of {book.totalPages}
                         </span>
-                        <span className="font-semibold text-[#252923]">{progressPct}%</span>
+                        <span className="font-semibold text-slate-900">{progressPct}%</span>
                       </div>
-                      <div className="w-full bg-[#FAF8F5] rounded-full h-2 border border-[#E9E8E1]">
+                      <div className="w-full bg-slate-50 rounded-full h-2 border border-slate-200">
                         <div
-                          className="bg-[#6B8F71] h-2 rounded-full transition-all duration-500"
+                          className="bg-emerald-600 h-2 rounded-full transition-all duration-500"
                           style={{ width: `${progressPct}%` }}
                         />
                       </div>
                     </div>
                   </div>
 
-                  <div className="mt-4 pt-3 border-t border-[#E9E8E1] flex items-center justify-between">
+                  <div className="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between">
                     <Button
                       onClick={() => {
                         setSelectedBook(book);
@@ -254,7 +254,7 @@ export default function ReadingTrackerPage() {
                     </Button>
                     <button
                       onClick={() => handleDeleteBook(book._id)}
-                      className="p-1.5 text-[#777D75] hover:text-[#D96C6C] rounded-lg transition-colors"
+                      className="p-1.5 text-slate-500 hover:text-rose-600 rounded-lg transition-colors"
                       title="Delete"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -282,58 +282,58 @@ export default function ReadingTrackerPage() {
         >
           <form onSubmit={handleCreateBook} className="space-y-4">
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Book Title *</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Book Title *</label>
               <input
                 type="text"
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. Atomic Habits or Clean Architecture"
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-[#FAF8F5]/50"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-slate-50/50"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Author *</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Author *</label>
               <input
                 type="text"
                 required
                 value={author}
                 onChange={(e) => setAuthor(e.target.value)}
                 placeholder="Author name"
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Total Pages</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Total Pages</label>
                 <input
                   type="number"
                   value={totalPages}
                   onChange={(e) => setTotalPages(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Current Page</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Current Page</label>
                 <input
                   type="number"
                   value={currentPage}
                   onChange={(e) => setCurrentPage(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Status</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Status</label>
                 <select
                   value={status}
                   onChange={(e) => setStatus(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 >
                   <option value="Reading">Reading</option>
                   <option value="Want to Read">Want to Read</option>
@@ -343,11 +343,11 @@ export default function ReadingTrackerPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Rating (1-5)</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Rating (1-5)</label>
                 <select
                   value={rating}
                   onChange={(e) => setRating(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 >
                   <option value={5}>5 Stars</option>
                   <option value={4}>4 Stars</option>
@@ -359,13 +359,13 @@ export default function ReadingTrackerPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Cover Image URL (optional)</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Cover Image URL (optional)</label>
               <input
                 type="text"
                 value={coverImage}
                 onChange={(e) => setCoverImage(e.target.value)}
                 placeholder="https://..."
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 
@@ -386,13 +386,13 @@ export default function ReadingTrackerPage() {
         >
           <form onSubmit={handleLogProgress} className="space-y-4">
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">How many pages did you read?</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">How many pages did you read?</label>
               <input
                 type="number"
                 required
                 value={pagesRead}
                 onChange={(e) => setPagesRead(e.target.value)}
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 

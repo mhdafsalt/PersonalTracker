@@ -126,8 +126,8 @@ export default function StudyTrackerPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-[#252923] tracking-tight">Study & Learning Tracker</h1>
-            <p className="text-sm text-[#777D75] mt-1">
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Study & Learning Tracker</h1>
+            <p className="text-sm text-slate-500 mt-1">
               Organize academic subjects, log hours, track course progress, and prepare for exams.
             </p>
           </div>
@@ -148,7 +148,7 @@ export default function StudyTrackerPage() {
             value={`${stats.totalHours ?? 0} hrs`}
             subtitle="Accumulated across all courses"
             icon={GraduationCap}
-            color="#6B8F71"
+            color="#10B981"
           />
           <StatCard
             title="Today's Study Time"
@@ -169,15 +169,15 @@ export default function StudyTrackerPage() {
             value={stats.totalSessionsCount ?? 0}
             subtitle="Recorded deep study sprints"
             icon={Award}
-            color="#6B8F71"
+            color="#10B981"
           />
         </div>
 
         {/* Subject Progress Cards Grid */}
         <div>
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-base text-[#252923]">Subjects & Target Hours</h3>
-            <span className="text-xs text-[#777D75]">Progress toward mastery</span>
+            <h3 className="font-semibold text-base text-slate-900">Subjects & Target Hours</h3>
+            <span className="text-xs text-slate-500">Progress toward mastery</span>
           </div>
 
           {subjectProgress.length > 0 ? (
@@ -192,14 +192,14 @@ export default function StudyTrackerPage() {
                     <div>
                       <div className="flex items-start justify-between">
                         <div>
-                          <span className="text-[11px] font-semibold text-[#6B8F71] uppercase tracking-wider">
+                          <span className="text-[11px] font-semibold text-emerald-600 uppercase tracking-wider">
                             {sub.code || 'COURSE'}
                           </span>
-                          <h4 className="font-bold text-base text-[#252923] mt-0.5">{sub.name}</h4>
+                          <h4 className="font-bold text-base text-slate-900 mt-0.5">{sub.name}</h4>
                         </div>
                         <button
                           onClick={() => handleDeleteSubject(sub._id)}
-                          className="p-1 text-[#777D75] hover:text-[#D96C6C] rounded-lg transition-colors"
+                          className="p-1 text-slate-500 hover:text-rose-600 rounded-lg transition-colors"
                           title="Delete Subject"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -209,14 +209,14 @@ export default function StudyTrackerPage() {
                       {/* Progress bar */}
                       <div className="mt-4 space-y-1.5">
                         <div className="flex justify-between text-xs">
-                          <span className="text-[#777D75]">Hours Logged</span>
-                          <span className="font-semibold text-[#252923]">
+                          <span className="text-slate-500">Hours Logged</span>
+                          <span className="font-semibold text-slate-900">
                             {sub.loggedHours} / {sub.targetHours}h ({sub.percentage}%)
                           </span>
                         </div>
-                        <div className="w-full bg-[#FAF8F5] rounded-full h-2 border border-[#E9E8E1]">
+                        <div className="w-full bg-slate-50 rounded-full h-2 border border-slate-200">
                           <div
-                            className="bg-[#6B8F71] h-2 rounded-full transition-all duration-500"
+                            className="bg-emerald-600 h-2 rounded-full transition-all duration-500"
                             style={{ width: `${sub.percentage}%` }}
                           />
                         </div>
@@ -224,8 +224,8 @@ export default function StudyTrackerPage() {
                     </div>
 
                     {daysUntilExam !== null && (
-                      <div className="mt-4 pt-3 border-t border-[#E9E8E1] flex items-center justify-between text-xs">
-                        <span className="text-[#777D75] flex items-center gap-1">
+                      <div className="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between text-xs">
+                        <span className="text-slate-500 flex items-center gap-1">
                           <Calendar className="w-3.5 h-3.5" /> Exam Date
                         </span>
                         <Badge variant={daysUntilExam <= 7 ? 'danger' : 'warning'} size="sm">
@@ -250,10 +250,10 @@ export default function StudyTrackerPage() {
 
         {/* Study History Session Logs */}
         <Card className="p-0 overflow-hidden">
-          <div className="p-4 sm:p-5 border-b border-[#E9E8E1] flex items-center justify-between bg-[#FAF8F5]/60">
+          <div className="p-4 sm:p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50/60">
             <div>
-              <h3 className="font-semibold text-base text-[#252923]">Study Session History</h3>
-              <p className="text-xs text-[#777D75]">Recent study sessions and topics mastered.</p>
+              <h3 className="font-semibold text-base text-slate-900">Study Session History</h3>
+              <p className="text-xs text-slate-500">Recent study sessions and topics mastered.</p>
             </div>
             <Button onClick={() => setIsSessionModalOpen(true)} size="sm" icon={Plus}>
               Log Session
@@ -261,27 +261,27 @@ export default function StudyTrackerPage() {
           </div>
 
           {sessions.length > 0 ? (
-            <div className="divide-y divide-[#E9E8E1]">
+            <div className="divide-y divide-slate-200">
               {sessions.map((s) => (
-                <div key={s._id} className="p-4 sm:p-5 flex items-center justify-between hover:bg-[#FAF8F5]/30 transition-colors">
+                <div key={s._id} className="p-4 sm:p-5 flex items-center justify-between hover:bg-slate-50/30 transition-colors">
                   <div className="flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-[#6B8F71]/15 text-[#6B8F71] flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-9 h-9 rounded-xl bg-emerald-600/15 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
                       <BookOpen className="w-4 h-4" />
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <h4 className="font-semibold text-sm sm:text-base text-[#252923]">
+                        <h4 className="font-semibold text-sm sm:text-base text-slate-900">
                           {s.subject?.name || 'Subject'}
                         </h4>
                         <Badge variant="sage" size="sm">{s.durationMinutes} mins</Badge>
                       </div>
                       {s.topic && (
-                        <p className="text-xs text-[#252923] font-medium mt-0.5">Topic: {s.topic}</p>
+                        <p className="text-xs text-slate-900 font-medium mt-0.5">Topic: {s.topic}</p>
                       )}
                       {s.notes && (
-                        <p className="text-xs text-[#777D75] mt-0.5">{s.notes}</p>
+                        <p className="text-xs text-slate-500 mt-0.5">{s.notes}</p>
                       )}
-                      <span className="text-[11px] text-[#777D75] block mt-1">
+                      <span className="text-[11px] text-slate-500 block mt-1">
                         Logged on {formatDate(s.date)}
                       </span>
                     </div>
@@ -308,47 +308,47 @@ export default function StudyTrackerPage() {
         >
           <form onSubmit={handleCreateSubject} className="space-y-4">
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Subject Name *</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Subject Name *</label>
               <input
                 type="text"
                 required
                 value={subjectName}
                 onChange={(e) => setSubjectName(e.target.value)}
                 placeholder="e.g. Distributed Systems or Economics"
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-[#FAF8F5]/50"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-slate-50/50"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Course Code</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Course Code</label>
                 <input
                   type="text"
                   value={subjectCode}
                   onChange={(e) => setSubjectCode(e.target.value)}
                   placeholder="CS-401"
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Target Hours</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Target Hours</label>
                 <input
                   type="number"
                   value={targetHours}
                   onChange={(e) => setTargetHours(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Upcoming Exam Date</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Upcoming Exam Date</label>
               <input
                 type="date"
                 value={examDate}
                 onChange={(e) => setExamDate(e.target.value)}
-                className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 
@@ -369,12 +369,12 @@ export default function StudyTrackerPage() {
         >
           <form onSubmit={handleLogSession} className="space-y-4">
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Subject *</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Subject *</label>
               <select
                 required
                 value={selectedSubjectId}
                 onChange={(e) => setSelectedSubjectId(e.target.value)}
-                className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               >
                 {subjects.map((sub) => (
                   <option key={sub._id} value={sub._id}>
@@ -385,35 +385,35 @@ export default function StudyTrackerPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Duration (minutes) *</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Duration (minutes) *</label>
               <input
                 type="number"
                 required
                 value={durationMinutes}
                 onChange={(e) => setDurationMinutes(e.target.value)}
-                className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Topic Covered</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Topic Covered</label>
               <input
                 type="text"
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
                 placeholder="e.g. Dynamic Programming & Memoization"
-                className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Key Takeaways & Notes</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Key Takeaways & Notes</label>
               <textarea
                 rows={2}
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="Summary notes..."
-                className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 

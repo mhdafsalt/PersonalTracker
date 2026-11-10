@@ -151,8 +151,8 @@ export default function TravelPlannerPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-[#252923] tracking-tight">Travel Planner</h1>
-            <p className="text-sm text-[#777D75] mt-1">
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Travel Planner</h1>
+            <p className="text-sm text-slate-500 mt-1">
               Organize expeditions, packing checklists, itineraries, and vacation budgets.
             </p>
           </div>
@@ -168,7 +168,7 @@ export default function TravelPlannerPage() {
             value={stats.totalTrips ?? 0}
             subtitle="Lifetime adventures"
             icon={Compass}
-            color="#6B8F71"
+            color="#10B981"
           />
           <StatCard
             title="Upcoming Trips"
@@ -189,7 +189,7 @@ export default function TravelPlannerPage() {
             value={formatCurrency(stats.totalExpense ?? 0, currency)}
             subtitle="Trip outlays recorded"
             icon={Wallet}
-            color="#6B8F71"
+            color="#10B981"
           />
         </div>
 
@@ -201,8 +201,8 @@ export default function TravelPlannerPage() {
               onClick={() => setActiveTab(tab)}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
                 activeTab === tab
-                  ? 'bg-[#6B8F71] text-white shadow-sm'
-                  : 'bg-white text-[#777D75] hover:bg-[#FAF8F5] border border-[#E9E8E1]'
+                  ? 'bg-emerald-600 text-white shadow-sm'
+                  : 'bg-white text-slate-500 hover:bg-slate-50 border border-slate-200'
               }`}
             >
               {tab}
@@ -222,7 +222,7 @@ export default function TravelPlannerPage() {
                 <Card key={trip._id} hover className="flex flex-col justify-between overflow-hidden p-0">
                   <div>
                     {/* Cover image or fallback */}
-                    <div className="h-44 w-full relative bg-[#FAF8F5] overflow-hidden">
+                    <div className="h-44 w-full relative bg-slate-50 overflow-hidden">
                       {trip.coverImage ? (
                         <img
                           src={trip.coverImage}
@@ -230,8 +230,8 @@ export default function TravelPlannerPage() {
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        <div className="w-full h-full flex flex-col items-center justify-center text-[#777D75] bg-[#EFECE4]">
-                          <Compass className="w-8 h-8 text-[#6B8F71]" />
+                        <div className="w-full h-full flex flex-col items-center justify-center text-slate-500 bg-[#EFECE4]">
+                          <Compass className="w-8 h-8 text-emerald-600" />
                         </div>
                       )}
                       <div className="absolute top-3 right-3 flex gap-1">
@@ -240,32 +240,32 @@ export default function TravelPlannerPage() {
                         </Badge>
                       </div>
                       <div className="absolute bottom-3 left-3 bg-black/60 backdrop-blur-sm px-2.5 py-1 rounded-lg text-white text-xs font-medium flex items-center gap-1">
-                        <MapPin className="w-3.5 h-3.5 text-[#A7B99B]" /> {trip.destination}
+                        <MapPin className="w-3.5 h-3.5 text-emerald-500" /> {trip.destination}
                       </div>
                     </div>
 
                     <div className="p-5 space-y-3">
                       <div>
-                        <h3 className="font-bold text-lg text-[#252923]">{trip.title}</h3>
+                        <h3 className="font-bold text-lg text-slate-900">{trip.title}</h3>
                         {trip.description && (
-                          <p className="text-xs text-[#777D75] mt-1">{trip.description}</p>
+                          <p className="text-xs text-slate-500 mt-1">{trip.description}</p>
                         )}
                       </div>
 
-                      <div className="flex items-center gap-2 text-xs text-[#777D75]">
-                        <Calendar className="w-3.5 h-3.5 text-[#6B8F71]" />
+                      <div className="flex items-center gap-2 text-xs text-slate-500">
+                        <Calendar className="w-3.5 h-3.5 text-emerald-600" />
                         <span>{formatDate(trip.startDate)} - {formatDate(trip.endDate)}</span>
                       </div>
 
                       {/* Budget & Spend */}
-                      <div className="p-3 rounded-xl bg-[#FAF8F5] border border-[#E9E8E1] space-y-1 text-xs">
+                      <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1 text-xs">
                         <div className="flex justify-between">
-                          <span className="text-[#777D75]">Budget:</span>
-                          <span className="font-semibold text-[#252923]">{formatCurrency(trip.budget, currency)}</span>
+                          <span className="text-slate-500">Budget:</span>
+                          <span className="font-semibold text-slate-900">{formatCurrency(trip.budget, currency)}</span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-[#777D75]">Expenses Logged:</span>
-                          <span className="font-semibold text-[#D96C6C]">{formatCurrency(tripExpensesTotal, currency)}</span>
+                          <span className="text-slate-500">Expenses Logged:</span>
+                          <span className="font-semibold text-rose-600">{formatCurrency(tripExpensesTotal, currency)}</span>
                         </div>
                       </div>
 
@@ -273,8 +273,8 @@ export default function TravelPlannerPage() {
                       {trip.packingList && trip.packingList.length > 0 && (
                         <div className="space-y-1.5 pt-2">
                           <div className="flex justify-between text-xs font-medium">
-                            <span className="text-[#777D75]">Packing List</span>
-                            <span className="text-[#6B8F71]">{packedCount}/{totalPacking} Packed</span>
+                            <span className="text-slate-500">Packing List</span>
+                            <span className="text-emerald-600">{packedCount}/{totalPacking} Packed</span>
                           </div>
                           <div className="space-y-1 max-h-24 overflow-y-auto">
                             {trip.packingList.map((item) => (
@@ -287,9 +287,9 @@ export default function TravelPlannerPage() {
                                   type="checkbox"
                                   checked={item.packed}
                                   readOnly
-                                  className="rounded text-[#6B8F71] focus:ring-0 cursor-pointer"
+                                  className="rounded text-emerald-600 focus:ring-0 cursor-pointer"
                                 />
-                                <span className={item.packed ? 'line-through text-[#777D75]' : 'text-[#252923]'}>
+                                <span className={item.packed ? 'line-through text-slate-500' : 'text-slate-900'}>
                                   {item.item}
                                 </span>
                               </div>
@@ -300,7 +300,7 @@ export default function TravelPlannerPage() {
                     </div>
                   </div>
 
-                  <div className="p-4 border-t border-[#E9E8E1] bg-[#FAF8F5]/50 flex items-center justify-between">
+                  <div className="p-4 border-t border-slate-200 bg-slate-50/50 flex items-center justify-between">
                     <Button
                       onClick={() => {
                         setSelectedTrip(trip);
@@ -313,7 +313,7 @@ export default function TravelPlannerPage() {
                     </Button>
                     <button
                       onClick={() => handleDeleteTrip(trip._id)}
-                      className="p-1.5 text-[#777D75] hover:text-[#D96C6C] rounded-lg transition-colors"
+                      className="p-1.5 text-slate-500 hover:text-rose-600 rounded-lg transition-colors"
                       title="Delete Trip"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -341,84 +341,84 @@ export default function TravelPlannerPage() {
         >
           <form onSubmit={handleCreateTrip} className="space-y-4">
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Destination *</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Destination *</label>
               <input
                 type="text"
                 required
                 value={destination}
                 onChange={(e) => setDestination(e.target.value)}
                 placeholder="e.g. Manali, Himachal Pradesh or Tokyo, Japan"
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-[#FAF8F5]/50"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-slate-50/50"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Trip Title *</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Trip Title *</label>
               <input
                 type="text"
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. Autumn Retreat & Highland Trails"
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Start Date *</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Start Date *</label>
                 <input
                   type="date"
                   required
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">End Date *</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">End Date *</label>
                 <input
                   type="date"
                   required
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Budget ({currency})</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Budget ({currency})</label>
                 <input
                   type="number"
                   value={budget}
                   onChange={(e) => setBudget(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Cover Image URL</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Cover Image URL</label>
                 <input
                   type="text"
                   value={coverImage}
                   onChange={(e) => setCoverImage(e.target.value)}
                   placeholder="https://..."
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Notes & Description</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Notes & Description</label>
               <textarea
                 rows={2}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Hotel booking details, flights, and activities..."
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 
@@ -439,36 +439,36 @@ export default function TravelPlannerPage() {
         >
           <form onSubmit={handleAddExpense} className="space-y-4">
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Expense Title *</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Expense Title *</label>
               <input
                 type="text"
                 required
                 value={expenseTitle}
                 onChange={(e) => setExpenseTitle(e.target.value)}
                 placeholder="e.g. Hotel Deposit or Train Tickets"
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Amount ({currency}) *</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Amount ({currency}) *</label>
                 <input
                   type="number"
                   required
                   value={expenseAmount}
                   onChange={(e) => setExpenseAmount(e.target.value)}
                   placeholder="₹ 5000"
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Category</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Category</label>
                 <select
                   value={expenseCategory}
                   onChange={(e) => setExpenseCategory(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 >
                   <option value="Stay">Stay & Lodging</option>
                   <option value="Transport">Transport & Flights</option>

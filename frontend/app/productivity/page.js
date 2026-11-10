@@ -177,8 +177,8 @@ export default function ProductivityPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-[#252923] tracking-tight">Productivity Tracker</h1>
-            <p className="text-sm text-[#777D75] mt-1">
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Productivity Tracker</h1>
+            <p className="text-sm text-slate-500 mt-1">
               Organize priority tasks, execute deep work sessions, and avoid burnout.
             </p>
           </div>
@@ -194,7 +194,7 @@ export default function ProductivityPage() {
             value={stats.totalTasks ?? 0}
             subtitle={`${stats.pendingTasks ?? 0} pending`}
             icon={Clock}
-            color="#6B8F71"
+            color="#10B981"
           />
           <StatCard
             title="Completed Tasks"
@@ -220,23 +220,23 @@ export default function ProductivityPage() {
         </div>
 
         {/* Pomodoro Timer Banner Card */}
-        <Card className="bg-gradient-to-r from-white via-[#FAF8F5] to-white border border-[#E9E8E1] p-6">
+        <Card className="bg-gradient-to-r from-white via-[#FAF8F5] to-white border border-slate-200 p-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="space-y-1 text-center md:text-left">
-              <span className="text-xs font-semibold uppercase tracking-wider text-[#6B8F71]">
+              <span className="text-xs font-semibold uppercase tracking-wider text-emerald-600">
                 Pomodoro Focus Engine
               </span>
-              <h3 className="text-xl font-bold text-[#252923]">
+              <h3 className="text-xl font-bold text-slate-900">
                 {timerMode === 'pomodoro' ? '25-Minute Deep Focus Sprint' : '5-Minute Rest & Recharge'}
               </h3>
-              <p className="text-xs text-[#777D75]">
+              <p className="text-xs text-slate-500">
                 Block distractions and direct complete concentration onto one task.
               </p>
             </div>
 
             {/* Timer Display */}
             <div className="flex flex-col items-center gap-3">
-              <div className="text-4xl sm:text-5xl font-mono font-bold tracking-tight text-[#252923]">
+              <div className="text-4xl sm:text-5xl font-mono font-bold tracking-tight text-slate-900">
                 {formatTimer(timerSeconds)}
               </div>
               <div className="flex items-center gap-2">
@@ -244,7 +244,7 @@ export default function ProductivityPage() {
                   onClick={() => setIsTimerRunning(!isTimerRunning)}
                   icon={isTimerRunning ? Pause : Play}
                   size="sm"
-                  className={isTimerRunning ? 'bg-[#D6A24A]' : 'bg-[#6B8F71]'}
+                  className={isTimerRunning ? 'bg-amber-500' : 'bg-emerald-600'}
                 >
                   {isTimerRunning ? 'Pause' : 'Start Focus'}
                 </Button>
@@ -260,8 +260,8 @@ export default function ProductivityPage() {
                 onClick={() => setMode('pomodoro')}
                 className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
                   timerMode === 'pomodoro'
-                    ? 'bg-[#6B8F71] text-white shadow-sm'
-                    : 'bg-white text-[#777D75] border border-[#E9E8E1]'
+                    ? 'bg-emerald-600 text-white shadow-sm'
+                    : 'bg-white text-slate-500 border border-slate-200'
                 }`}
               >
                 Focus (25m)
@@ -270,8 +270,8 @@ export default function ProductivityPage() {
                 onClick={() => setMode('short_break')}
                 className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
                   timerMode === 'short_break'
-                    ? 'bg-[#4F9B72] text-white shadow-sm'
-                    : 'bg-white text-[#777D75] border border-[#E9E8E1]'
+                    ? 'bg-emerald-500 text-white shadow-sm'
+                    : 'bg-white text-slate-500 border border-slate-200'
                 }`}
               >
                 Short Break (5m)
@@ -282,15 +282,15 @@ export default function ProductivityPage() {
 
         {/* Task List & Filters */}
         <Card className="p-0 overflow-hidden">
-          <div className="p-4 sm:p-5 border-b border-[#E9E8E1] flex flex-col md:flex-row md:items-center justify-between gap-3 bg-[#FAF8F5]/60">
+          <div className="p-4 sm:p-5 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-3 bg-slate-50/60">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs font-semibold text-[#777D75]">Status:</span>
+              <span className="text-xs font-semibold text-slate-500">Status:</span>
               {['All', 'Pending', 'In Progress', 'Completed'].map((s) => (
                 <button
                   key={s}
                   onClick={() => setStatusFilter(s)}
                   className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${
-                    statusFilter === s ? 'bg-[#6B8F71] text-white' : 'bg-white text-[#777D75] border border-[#E9E8E1]'
+                    statusFilter === s ? 'bg-emerald-600 text-white' : 'bg-white text-slate-500 border border-slate-200'
                   }`}
                 >
                   {s}
@@ -299,37 +299,37 @@ export default function ProductivityPage() {
             </div>
 
             <div className="relative">
-              <Search className="w-4 h-4 text-[#777D75] absolute left-3 top-2.5" />
+              <Search className="w-4 h-4 text-slate-500 absolute left-3 top-2.5" />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search tasks..."
-                className="pl-9 pr-3 py-1.5 text-xs rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white w-full md:w-56"
+                className="pl-9 pr-3 py-1.5 text-xs rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white w-full md:w-56"
               />
             </div>
           </div>
 
           {tasks.length > 0 ? (
-            <div className="divide-y divide-[#E9E8E1]">
+            <div className="divide-y divide-slate-200">
               {tasks.map((task) => {
                 const isDone = task.status === 'Completed';
                 const isOverdue = !isDone && task.dueDate && new Date(task.dueDate) < new Date();
                 return (
                   <div
                     key={task._id}
-                    className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[#FAF8F5]/30 transition-colors"
+                    className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/30 transition-colors"
                   >
                     <div className="flex items-start gap-3">
                       <input
                         type="checkbox"
                         checked={isDone}
                         onChange={(e) => handleStatusChange(task._id, e.target.checked ? 'Completed' : 'Pending')}
-                        className="mt-1 rounded text-[#6B8F71] focus:ring-0 cursor-pointer w-4 h-4"
+                        className="mt-1 rounded text-emerald-600 focus:ring-0 cursor-pointer w-4 h-4"
                       />
                       <div>
                         <div className="flex items-center gap-2">
-                          <h4 className={`text-sm sm:text-base font-medium ${isDone ? 'line-through text-[#777D75]' : 'text-[#252923]'}`}>
+                          <h4 className={`text-sm sm:text-base font-medium ${isDone ? 'line-through text-slate-500' : 'text-slate-900'}`}>
                             {task.title}
                           </h4>
                           <Badge
@@ -346,14 +346,14 @@ export default function ProductivityPage() {
                           </Badge>
                         </div>
                         {task.description && (
-                          <p className="text-xs text-[#777D75] mt-0.5">{task.description}</p>
+                          <p className="text-xs text-slate-500 mt-0.5">{task.description}</p>
                         )}
-                        <div className="flex flex-wrap items-center gap-3 mt-1.5 text-xs text-[#777D75]">
-                          <span className="font-medium text-[#252923]">{task.category}</span>
+                        <div className="flex flex-wrap items-center gap-3 mt-1.5 text-xs text-slate-500">
+                          <span className="font-medium text-slate-900">{task.category}</span>
                           {task.dueDate && (
                             <>
                               <span>•</span>
-                              <span className={`flex items-center gap-1 ${isOverdue ? 'text-[#D96C6C] font-semibold' : ''}`}>
+                              <span className={`flex items-center gap-1 ${isOverdue ? 'text-rose-600 font-semibold' : ''}`}>
                                 <Calendar className="w-3.5 h-3.5" /> Due {formatDate(task.dueDate)}
                               </span>
                             </>
@@ -368,7 +368,7 @@ export default function ProductivityPage() {
                       <select
                         value={task.status}
                         onChange={(e) => handleStatusChange(task._id, e.target.value)}
-                        className="px-2.5 py-1 text-xs rounded-lg border border-[#E9E8E1] bg-white text-[#252923] focus:outline-none"
+                        className="px-2.5 py-1 text-xs rounded-lg border border-slate-200 bg-white text-slate-900 focus:outline-none"
                       >
                         <option value="Pending">Pending</option>
                         <option value="In Progress">In Progress</option>
@@ -376,7 +376,7 @@ export default function ProductivityPage() {
                       </select>
                       <button
                         onClick={() => handleDeleteTask(task._id)}
-                        className="p-1.5 text-[#777D75] hover:text-[#D96C6C] rounded-lg transition-colors"
+                        className="p-1.5 text-slate-500 hover:text-rose-600 rounded-lg transition-colors"
                         title="Delete"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -405,35 +405,35 @@ export default function ProductivityPage() {
         >
           <form onSubmit={handleCreateTask} className="space-y-4">
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Task Title *</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Task Title *</label>
               <input
                 type="text"
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. Architect API pagination and filtering"
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-[#FAF8F5]/50"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-slate-50/50"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Description</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Description</label>
               <textarea
                 rows={2}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Add subtasks or instructions..."
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Priority</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Priority</label>
                 <select
                   value={priority}
                   onChange={(e) => setPriority(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 >
                   <option value="Low">Low</option>
                   <option value="Medium">Medium</option>
@@ -443,23 +443,23 @@ export default function ProductivityPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Category</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Category</label>
                 <input
                   type="text"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Due Date</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Due Date</label>
               <input
                 type="date"
                 value={dueDate}
                 onChange={(e) => setDueDate(e.target.value)}
-                className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 

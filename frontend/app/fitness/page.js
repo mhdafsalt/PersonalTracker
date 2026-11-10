@@ -125,8 +125,8 @@ export default function FitnessTrackerPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-[#252923] tracking-tight">Fitness Tracker</h1>
-            <p className="text-sm text-[#777D75] mt-1">
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Fitness Tracker</h1>
+            <p className="text-sm text-slate-500 mt-1">
               Log strength training, cardio routines, steps, body weight, and hydration.
             </p>
           </div>
@@ -147,7 +147,7 @@ export default function FitnessTrackerPage() {
             value={stats.totalWorkouts ?? 0}
             subtitle={`${stats.totalDurationMinutes ?? 0} mins logged`}
             icon={Dumbbell}
-            color="#6B8F71"
+            color="#10B981"
           />
           <StatCard
             title="Calories Burned"
@@ -174,33 +174,33 @@ export default function FitnessTrackerPage() {
 
         {/* Daily Vitals Summary Bar */}
         {records && records.length > 0 && (
-          <Card className="bg-[#FAF8F5]/80 p-4">
+          <Card className="bg-slate-50/80 p-4">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="font-semibold text-xs sm:text-sm text-[#252923] flex items-center gap-1.5">
-                <Activity className="w-4 h-4 text-[#6B8F71]" /> Latest Recorded Vitals
+              <h3 className="font-semibold text-xs sm:text-sm text-slate-900 flex items-center gap-1.5">
+                <Activity className="w-4 h-4 text-emerald-600" /> Latest Recorded Vitals
               </h3>
-              <span className="text-[11px] text-[#777D75]">Date: {records[0].date}</span>
+              <span className="text-[11px] text-slate-500">Date: {records[0].date}</span>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-              <div className="bg-white p-3 rounded-xl border border-[#E9E8E1]">
-                <Scale className="w-4 h-4 text-[#D6A24A] mx-auto mb-1" />
-                <p className="text-xs text-[#777D75]">Weight</p>
-                <p className="text-base font-bold text-[#252923]">{records[0].weight || '--'} kg</p>
+              <div className="bg-white p-3 rounded-xl border border-slate-200">
+                <Scale className="w-4 h-4 text-amber-600 mx-auto mb-1" />
+                <p className="text-xs text-slate-500">Weight</p>
+                <p className="text-base font-bold text-slate-900">{records[0].weight || '--'} kg</p>
               </div>
-              <div className="bg-white p-3 rounded-xl border border-[#E9E8E1]">
-                <Footprints className="w-4 h-4 text-[#4F9B72] mx-auto mb-1" />
-                <p className="text-xs text-[#777D75]">Steps</p>
-                <p className="text-base font-bold text-[#252923]">{records[0].steps || 0}</p>
+              <div className="bg-white p-3 rounded-xl border border-slate-200">
+                <Footprints className="w-4 h-4 text-emerald-600 mx-auto mb-1" />
+                <p className="text-xs text-slate-500">Steps</p>
+                <p className="text-base font-bold text-slate-900">{records[0].steps || 0}</p>
               </div>
-              <div className="bg-white p-3 rounded-xl border border-[#E9E8E1]">
-                <Droplets className="w-4 h-4 text-[#6B8F71] mx-auto mb-1" />
-                <p className="text-xs text-[#777D75]">Water Intake</p>
-                <p className="text-base font-bold text-[#252923]">{records[0].waterLiters || 0} L</p>
+              <div className="bg-white p-3 rounded-xl border border-slate-200">
+                <Droplets className="w-4 h-4 text-emerald-600 mx-auto mb-1" />
+                <p className="text-xs text-slate-500">Water Intake</p>
+                <p className="text-base font-bold text-slate-900">{records[0].waterLiters || 0} L</p>
               </div>
-              <div className="bg-white p-3 rounded-xl border border-[#E9E8E1]">
+              <div className="bg-white p-3 rounded-xl border border-slate-200">
                 <Moon className="w-4 h-4 text-[#8DA382] mx-auto mb-1" />
-                <p className="text-xs text-[#777D75]">Sleep Hours</p>
-                <p className="text-base font-bold text-[#252923]">{records[0].sleepHours || 0} hrs</p>
+                <p className="text-xs text-slate-500">Sleep Hours</p>
+                <p className="text-base font-bold text-slate-900">{records[0].sleepHours || 0} hrs</p>
               </div>
             </div>
           </Card>
@@ -208,10 +208,10 @@ export default function FitnessTrackerPage() {
 
         {/* Workout History List */}
         <Card className="p-0 overflow-hidden">
-          <div className="p-4 sm:p-5 border-b border-[#E9E8E1] flex items-center justify-between bg-[#FAF8F5]/60">
+          <div className="p-4 sm:p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50/60">
             <div>
-              <h3 className="font-semibold text-base text-[#252923]">Recent Workouts</h3>
-              <p className="text-xs text-[#777D75]">Full logs of exercises, sets, and calories.</p>
+              <h3 className="font-semibold text-base text-slate-900">Recent Workouts</h3>
+              <p className="text-xs text-slate-500">Full logs of exercises, sets, and calories.</p>
             </div>
             <Button onClick={() => setIsWorkoutModalOpen(true)} size="sm" icon={Plus}>
               Log Workout
@@ -219,19 +219,19 @@ export default function FitnessTrackerPage() {
           </div>
 
           {workouts.length > 0 ? (
-            <div className="divide-y divide-[#E9E8E1]">
+            <div className="divide-y divide-slate-200">
               {workouts.map((w) => (
-                <div key={w._id} className="p-4 sm:p-5 flex items-center justify-between hover:bg-[#FAF8F5]/30 transition-colors">
+                <div key={w._id} className="p-4 sm:p-5 flex items-center justify-between hover:bg-slate-50/30 transition-colors">
                   <div className="flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-[#6B8F71]/15 text-[#6B8F71] flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-9 h-9 rounded-xl bg-emerald-600/15 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
                       <Dumbbell className="w-4 h-4" />
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <h4 className="font-semibold text-sm sm:text-base text-[#252923]">{w.exerciseName}</h4>
+                        <h4 className="font-semibold text-sm sm:text-base text-slate-900">{w.exerciseName}</h4>
                         <Badge variant="sage" size="sm">{w.category}</Badge>
                       </div>
-                      <div className="flex flex-wrap items-center gap-3 mt-1 text-xs text-[#777D75]">
+                      <div className="flex flex-wrap items-center gap-3 mt-1 text-xs text-slate-500">
                         <span>Duration: {w.durationMinutes} min</span>
                         {w.sets > 0 && <span>• {w.sets} sets × {w.reps} reps</span>}
                         {w.weightKg > 0 && <span>• {w.weightKg} kg</span>}
@@ -242,7 +242,7 @@ export default function FitnessTrackerPage() {
                   </div>
                   <button
                     onClick={() => handleDeleteWorkout(w._id)}
-                    className="p-1.5 text-[#777D75] hover:text-[#D96C6C] rounded-lg transition-colors"
+                    className="p-1.5 text-slate-500 hover:text-rose-600 rounded-lg transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -268,24 +268,24 @@ export default function FitnessTrackerPage() {
         >
           <form onSubmit={handleCreateWorkout} className="space-y-4">
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Exercise Name *</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Exercise Name *</label>
               <input
                 type="text"
                 required
                 value={exerciseName}
                 onChange={(e) => setExerciseName(e.target.value)}
                 placeholder="e.g. Barbell Squats or 5K Trail Run"
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-[#FAF8F5]/50"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-slate-50/50"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Category</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Category</label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 >
                   <option value="Strength">Strength</option>
                   <option value="Cardio">Cardio</option>
@@ -297,55 +297,55 @@ export default function FitnessTrackerPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Duration (mins)</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Duration (mins)</label>
                 <input
                   type="number"
                   value={durationMinutes}
                   onChange={(e) => setDurationMinutes(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-3 gap-3">
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Sets</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Sets</label>
                 <input
                   type="number"
                   value={sets}
                   onChange={(e) => setSets(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Reps</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Reps</label>
                 <input
                   type="number"
                   value={reps}
                   onChange={(e) => setReps(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Weight (kg)</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Weight (kg)</label>
                 <input
                   type="number"
                   value={weightKg}
                   onChange={(e) => setWeightKg(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Estimated Calories (kcal)</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Estimated Calories (kcal)</label>
               <input
                 type="number"
                 value={caloriesBurned}
                 onChange={(e) => setCaloriesBurned(e.target.value)}
-                className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 
@@ -367,47 +367,47 @@ export default function FitnessTrackerPage() {
           <form onSubmit={handleLogRecord} className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Weight (kg)</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Weight (kg)</label>
                 <input
                   type="number"
                   step="0.1"
                   value={dailyWeight}
                   onChange={(e) => setDailyWeight(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Daily Steps</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Daily Steps</label>
                 <input
                   type="number"
                   value={dailySteps}
                   onChange={(e) => setDailySteps(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Water Intake (Liters)</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Water Intake (Liters)</label>
                 <input
                   type="number"
                   step="0.1"
                   value={dailyWater}
                   onChange={(e) => setDailyWater(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Sleep (Hours)</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Sleep (Hours)</label>
                 <input
                   type="number"
                   step="0.5"
                   value={dailySleep}
                   onChange={(e) => setDailySleep(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
             </div>

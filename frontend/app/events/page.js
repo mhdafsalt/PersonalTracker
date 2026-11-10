@@ -129,8 +129,8 @@ export default function EventsPortalPage() {
         {/* Top Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-[#252923] tracking-tight">Programs & Events Portal</h1>
-            <p className="text-sm text-[#777D75] mt-1">
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Programs & Events Portal</h1>
+            <p className="text-sm text-slate-500 mt-1">
               Host workshops, webinars, hackathons, and community meetups with participant registers.
             </p>
           </div>
@@ -146,7 +146,7 @@ export default function EventsPortalPage() {
             value={stats.totalEvents ?? 0}
             subtitle="Programs organized"
             icon={Ticket}
-            color="#6B8F71"
+            color="#10B981"
           />
           <StatCard
             title="Upcoming"
@@ -167,7 +167,7 @@ export default function EventsPortalPage() {
             value={stats.completedCount ?? 0}
             subtitle="Concluded programs"
             icon={CheckCircle2}
-            color="#6B8F71"
+            color="#10B981"
           />
         </div>
 
@@ -183,14 +183,14 @@ export default function EventsPortalPage() {
                         <Badge variant="sage" size="sm">{ev.category}</Badge>
                         <Badge variant="default" size="sm">{ev.status}</Badge>
                       </div>
-                      <h3 className="font-bold text-lg text-[#252923] mt-2">{ev.title}</h3>
+                      <h3 className="font-bold text-lg text-slate-900 mt-2">{ev.title}</h3>
                       {ev.description && (
-                        <p className="text-xs text-[#777D75] mt-1">{ev.description}</p>
+                        <p className="text-xs text-slate-500 mt-1">{ev.description}</p>
                       )}
                     </div>
                     <button
                       onClick={() => handleDeleteEvent(ev._id)}
-                      className="p-1.5 text-[#777D75] hover:text-[#D96C6C] rounded-lg transition-colors"
+                      className="p-1.5 text-slate-500 hover:text-rose-600 rounded-lg transition-colors"
                       title="Delete Event"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -198,17 +198,17 @@ export default function EventsPortalPage() {
                   </div>
 
                   {/* Dates & Location */}
-                  <div className="mt-4 p-3 rounded-xl bg-[#FAF8F5] border border-[#E9E8E1] space-y-1.5 text-xs text-[#777D75]">
-                    <div className="flex items-center gap-2 text-[#252923] font-medium">
-                      <Calendar className="w-3.5 h-3.5 text-[#6B8F71]" />
+                  <div className="mt-4 p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5 text-xs text-slate-500">
+                    <div className="flex items-center gap-2 text-slate-900 font-medium">
+                      <Calendar className="w-3.5 h-3.5 text-emerald-600" />
                       <span>{formatDate(ev.startDate)} - {formatDate(ev.endDate)}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <MapPin className="w-3.5 h-3.5 text-[#6B8F71]" />
+                      <MapPin className="w-3.5 h-3.5 text-emerald-600" />
                       <span>{ev.location}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <DollarSign className="w-3.5 h-3.5 text-[#6B8F71]" />
+                      <DollarSign className="w-3.5 h-3.5 text-emerald-600" />
                       <span>Budget: {formatCurrency(ev.budget, currency)}</span>
                     </div>
                   </div>
@@ -216,22 +216,22 @@ export default function EventsPortalPage() {
                   {/* Schedule items */}
                   {ev.schedule && ev.schedule.length > 0 && (
                     <div className="mt-4 space-y-1.5">
-                      <span className="text-[11px] font-semibold text-[#777D75] uppercase tracking-wider block">
+                      <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
                         Schedule
                       </span>
                       {ev.schedule.map((item, idx) => (
-                        <div key={idx} className="flex justify-between text-xs p-1.5 rounded-lg bg-[#FAF8F5]/80 border border-[#E9E8E1]">
-                          <span className="font-medium text-[#252923]">{item.title}</span>
-                          <span className="text-[#6B8F71] font-semibold">{item.time}</span>
+                        <div key={idx} className="flex justify-between text-xs p-1.5 rounded-lg bg-slate-50/80 border border-slate-200">
+                          <span className="font-medium text-slate-900">{item.title}</span>
+                          <span className="text-emerald-600 font-semibold">{item.time}</span>
                         </div>
                       ))}
                     </div>
                   )}
 
                   {/* Participants Count */}
-                  <div className="mt-4 flex items-center justify-between text-xs pt-3 border-t border-[#E9E8E1]">
-                    <span className="text-[#777D75] flex items-center gap-1.5 font-medium">
-                      <Users2 className="w-3.5 h-3.5 text-[#6B8F71]" />
+                  <div className="mt-4 flex items-center justify-between text-xs pt-3 border-t border-slate-200">
+                    <span className="text-slate-500 flex items-center gap-1.5 font-medium">
+                      <Users2 className="w-3.5 h-3.5 text-emerald-600" />
                       {ev.participants ? ev.participants.length : 0} Attendees Registered
                     </span>
                     <Button
@@ -267,24 +267,24 @@ export default function EventsPortalPage() {
         >
           <form onSubmit={handleCreateEvent} className="space-y-4">
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Event Title *</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Event Title *</label>
               <input
                 type="text"
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. Full-Stack SaaS Architecture Masterclass"
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-[#FAF8F5]/50"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-slate-50/50"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Category</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Category</label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 >
                   <option value="Workshop">Workshop</option>
                   <option value="Conference">Conference</option>
@@ -296,59 +296,59 @@ export default function EventsPortalPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Location</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Location</label>
                 <input
                   type="text"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   placeholder="e.g. Online / Zoom or Bangalore"
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Start Date *</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Start Date *</label>
                 <input
                   type="date"
                   required
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">End Date *</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">End Date *</label>
                 <input
                   type="date"
                   required
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Budget ({currency})</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Budget ({currency})</label>
               <input
                 type="number"
                 value={budget}
                 onChange={(e) => setBudget(e.target.value)}
-                className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Description</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Description</label>
               <textarea
                 rows={2}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Overview, syllabus, agenda..."
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 
@@ -369,35 +369,35 @@ export default function EventsPortalPage() {
         >
           <form onSubmit={handleAddParticipant} className="space-y-4">
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Attendee Name *</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Attendee Name *</label>
               <input
                 type="text"
                 required
                 value={pName}
                 onChange={(e) => setPName(e.target.value)}
                 placeholder="Full name"
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Email</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Email</label>
                 <input
                   type="email"
                   value={pEmail}
                   onChange={(e) => setPEmail(e.target.value)}
                   placeholder="attendee@example.com"
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Role</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Role</label>
                 <select
                   value={pRole}
                   onChange={(e) => setPRole(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 >
                   <option value="Attendee">Attendee</option>
                   <option value="Speaker">Speaker</option>

@@ -116,8 +116,8 @@ export default function CreativeProjectsPage() {
         {/* Top Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-[#252923] tracking-tight">Creative & Extracurricular Projects</h1>
-            <p className="text-sm text-[#777D75] mt-1">
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Creative & Extracurricular Projects</h1>
+            <p className="text-sm text-slate-500 mt-1">
               Showcase design systems, open-source repositories, photography, and portfolio-worthy ventures.
             </p>
           </div>
@@ -133,7 +133,7 @@ export default function CreativeProjectsPage() {
             value={stats.totalProjects ?? 0}
             subtitle="Creative endeavors"
             icon={Palette}
-            color="#6B8F71"
+            color="#10B981"
           />
           <StatCard
             title="Active"
@@ -154,7 +154,7 @@ export default function CreativeProjectsPage() {
             value={stats.portfolioProjects ?? 0}
             subtitle="Showcase quality"
             icon={Trophy}
-            color="#6B8F71"
+            color="#10B981"
           />
         </div>
 
@@ -166,8 +166,8 @@ export default function CreativeProjectsPage() {
               onClick={() => setCategoryFilter(c)}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
                 categoryFilter === c
-                  ? 'bg-[#6B8F71] text-white shadow-sm'
-                  : 'bg-white text-[#777D75] hover:bg-[#FAF8F5] border border-[#E9E8E1]'
+                  ? 'bg-emerald-600 text-white shadow-sm'
+                  : 'bg-white text-slate-500 hover:bg-slate-50 border border-slate-200'
               }`}
             >
               {c}
@@ -181,7 +181,7 @@ export default function CreativeProjectsPage() {
             {filtered.map((proj) => (
               <Card key={proj._id} hover className="flex flex-col justify-between overflow-hidden p-0">
                 <div>
-                  <div className="h-44 w-full relative bg-[#FAF8F5] overflow-hidden">
+                  <div className="h-44 w-full relative bg-slate-50 overflow-hidden">
                     {proj.coverImage ? (
                       <img
                         src={proj.coverImage}
@@ -189,8 +189,8 @@ export default function CreativeProjectsPage() {
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <div className="w-full h-full flex flex-col items-center justify-center text-[#777D75] bg-[#EFECE4]">
-                        <Palette className="w-8 h-8 text-[#6B8F71]" />
+                      <div className="w-full h-full flex flex-col items-center justify-center text-slate-500 bg-[#EFECE4]">
+                        <Palette className="w-8 h-8 text-emerald-600" />
                       </div>
                     )}
                     <div className="absolute top-3 right-3 flex gap-1">
@@ -198,7 +198,7 @@ export default function CreativeProjectsPage() {
                         {proj.status}
                       </Badge>
                       {proj.portfolioWorthy && (
-                        <span className="p-1 rounded-full bg-white/90 text-[#D6A24A] shadow-xs" title="Portfolio Worthy">
+                        <span className="p-1 rounded-full bg-white/90 text-amber-600 shadow-xs" title="Portfolio Worthy">
                           <Star className="w-3.5 h-3.5 fill-current" />
                         </span>
                       )}
@@ -207,12 +207,12 @@ export default function CreativeProjectsPage() {
 
                   <div className="p-5 space-y-3">
                     <div>
-                      <span className="text-[11px] font-semibold text-[#6B8F71] uppercase tracking-wider">
+                      <span className="text-[11px] font-semibold text-emerald-600 uppercase tracking-wider">
                         {proj.category}
                       </span>
-                      <h3 className="font-bold text-lg text-[#252923] mt-0.5">{proj.title}</h3>
+                      <h3 className="font-bold text-lg text-slate-900 mt-0.5">{proj.title}</h3>
                       {proj.description && (
-                        <p className="text-xs text-[#777D75] mt-1">{proj.description}</p>
+                        <p className="text-xs text-slate-500 mt-1">{proj.description}</p>
                       )}
                     </div>
 
@@ -222,7 +222,7 @@ export default function CreativeProjectsPage() {
                         {proj.skills.map((skill, idx) => (
                           <span
                             key={idx}
-                            className="text-[10px] font-medium bg-[#FAF8F5] text-[#252923] border border-[#E9E8E1] px-2 py-0.5 rounded-md"
+                            className="text-[10px] font-medium bg-slate-50 text-slate-900 border border-slate-200 px-2 py-0.5 rounded-md"
                           >
                             {skill}
                           </span>
@@ -233,8 +233,8 @@ export default function CreativeProjectsPage() {
                     {/* Progress Slider */}
                     <div className="pt-2 space-y-1">
                       <div className="flex justify-between text-xs">
-                        <span className="text-[#777D75]">Progress</span>
-                        <span className="font-semibold text-[#6B8F71]">{proj.progress || 0}%</span>
+                        <span className="text-slate-500">Progress</span>
+                        <span className="font-semibold text-emerald-600">{proj.progress || 0}%</span>
                       </div>
                       <input
                         type="range"
@@ -242,19 +242,19 @@ export default function CreativeProjectsPage() {
                         max="100"
                         value={proj.progress || 0}
                         onChange={(e) => handleUpdateProgress(proj._id, Number(e.target.value))}
-                        className="w-full accent-[#6B8F71] cursor-pointer h-1.5 bg-[#FAF8F5] rounded-lg"
+                        className="w-full accent-emerald-600 cursor-pointer h-1.5 bg-slate-50 rounded-lg"
                       />
                     </div>
                   </div>
                 </div>
 
-                <div className="p-4 border-t border-[#E9E8E1] bg-[#FAF8F5]/50 flex items-center justify-between text-xs text-[#777D75]">
+                <div className="p-4 border-t border-slate-200 bg-slate-50/50 flex items-center justify-between text-xs text-slate-500">
                   <span>
                     {proj.deadline ? `Deadline: ${formatDate(proj.deadline)}` : 'No hard deadline'}
                   </span>
                   <button
                     onClick={() => handleDeleteProject(proj._id)}
-                    className="p-1.5 text-[#777D75] hover:text-[#D96C6C] rounded-lg transition-colors"
+                    className="p-1.5 text-slate-500 hover:text-rose-600 rounded-lg transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -280,35 +280,35 @@ export default function CreativeProjectsPage() {
         >
           <form onSubmit={handleCreateProject} className="space-y-4">
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Project Title *</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Project Title *</label>
               <input
                 type="text"
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. Minimalist Modular Iconography Kit"
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-[#FAF8F5]/50"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-slate-50/50"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Description</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Description</label>
               <textarea
                 rows={2}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Project brief, scope, and objectives..."
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Category</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Category</label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 >
                   <option value="Design">Design</option>
                   <option value="Coding">Coding</option>
@@ -320,35 +320,35 @@ export default function CreativeProjectsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-[#777D75] mb-1">Deadline</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Deadline</label>
                 <input
                   type="date"
                   value={deadline}
                   onChange={(e) => setDeadline(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Skills (comma-separated)</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Skills (comma-separated)</label>
               <input
                 type="text"
                 value={skillsText}
                 onChange={(e) => setSkillsText(e.target.value)}
                 placeholder="Figma, Typography, SVG, React"
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#777D75] mb-1">Cover Image URL</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">Cover Image URL</label>
               <input
                 type="text"
                 value={coverImage}
                 onChange={(e) => setCoverImage(e.target.value)}
                 placeholder="https://..."
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E9E8E1] focus:outline-none focus:border-[#6B8F71] bg-white"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 bg-white"
               />
             </div>
 
@@ -358,9 +358,9 @@ export default function CreativeProjectsPage() {
                 id="portfolio"
                 checked={portfolioWorthy}
                 onChange={(e) => setPortfolioWorthy(e.target.checked)}
-                className="rounded text-[#6B8F71] focus:ring-0"
+                className="rounded text-emerald-600 focus:ring-0"
               />
-              <label htmlFor="portfolio" className="text-xs text-[#252923]">
+              <label htmlFor="portfolio" className="text-xs text-slate-900">
                 Highlight as Portfolio-Worthy Project
               </label>
             </div>
