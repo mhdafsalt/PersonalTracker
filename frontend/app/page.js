@@ -185,7 +185,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Week Selector Pills (Mira-style) */}
-          <div className="inline-flex items-center gap-1.5 p-1.5 rounded-full bg-white/80 border border-[#e8e8e5] shadow-sm backdrop-blur-md self-start lg:self-auto">
+          <div className="inline-flex items-center gap-1.5 p-1.5 rounded-full bg-white/80 border border-[#e8e8e5] shadow-sm backdrop-blur-md self-start lg:self-auto max-w-full overflow-x-auto">
             {daysOfWeek.map((item, idx) => (
               <div
                 key={idx}

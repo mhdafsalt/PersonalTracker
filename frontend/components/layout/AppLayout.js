@@ -10,7 +10,7 @@ export const AppLayout = ({ children }) => {
   const [isQuickAddOpen, setIsQuickAddOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#efefee] text-[#0f110f] relative overflow-hidden font-sans">
+    <div className="min-h-screen bg-[#efefee] text-[#0f110f] relative overflow-x-hidden font-sans">
       {/* Mira Ambient Glowing Blobs */}
       <div className="mira-blob-lime" aria-hidden="true" />
       <div className="mira-blob-grey" aria-hidden="true" />
@@ -27,7 +27,7 @@ export const AppLayout = ({ children }) => {
           onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
           onOpenQuickAdd={() => setIsQuickAddOpen(true)}
         />
-        <main className="flex-1 px-4 sm:px-6 md:px-8 pb-14 max-w-7xl w-full mx-auto">
+        <main className="flex-1 w-[95vw] max-w-[95vw] mx-auto pb-14">
           {children}
         </main>
       </div>
