@@ -36,14 +36,16 @@ export const Navbar = ({ onToggleSidebar, onOpenQuickAdd }) => {
   const dropdownRef = useRef(null);
 
   useEffect(() => {
-    api.get('/notifications')
-      .then((res) => {
-        if (res.success && res.data) {
-          setUnreadCount(res.data.unreadCount || 0);
-        }
-      })
-      .catch(() => {});
-  }, []);
+    if (user) {
+      api.get('/notifications')
+        .then((res) => {
+          if (res.success && res.data) {
+            setUnreadCount(res.data.unreadCount || 0);
+          }
+        })
+        .catch(() => {});
+    }
+  }, [user]);
 
   // Close dropdown when clicking outside
   useEffect(() => {

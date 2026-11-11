@@ -10,12 +10,18 @@ import { Sparkles, Lock, Mail, ArrowRight } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login } = useAuth();
+  const { login, user, loading: authLoading } = useAuth();
   const { showToast } = useToast();
 
   const [email, setEmail] = useState('demo@personaltracker.com');
   const [password, setPassword] = useState('password123');
   const [loading, setLoading] = useState(false);
+
+  React.useEffect(() => {
+    if (!authLoading && user) {
+      router.push('/');
+    }
+  }, [authLoading, user, router]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

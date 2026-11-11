@@ -3,25 +3,54 @@ const User = require('../models/User');
 
 const protect = async (req, res, next) => {
   let token;
+
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
     try {
       token = req.headers.authorization.split(' ')[1];
-      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'super_secret_personal_tracker_jwt_token_key_2026_xyz');
+
+      if (!token || token === 'null' || token === 'undefined' || token.trim() === '') {
+        return res.status(401).json({
+          success: false,
+          message: 'Not authorized, no bearer token provided',
+        });
+      }
+
+      let decoded;
+      try {
+        decoded = jwt.verify(
+          token,
+          process.env.JWT_SECRET || 'super_secret_personal_tracker_jwt_token_key_2026_xyz'
+        );
+      } catch (jwtErr) {
+        return res.status(401).json({
+          success: false,
+          message: 'Not authorized, token failed or expired',
+        });
+      }
+
       const user = await User.findById(decoded.id).select('-password');
       if (!user) {
-        return res.status(401).json({ success: false, message: 'User not found for this token' });
+        return res.status(401).json({
+          success: false,
+          message: 'Not authorized, user account not found',
+        });
       }
+
       req.user = user;
       return next();
-    } catch (error) {
-      return res.status(401).json({ success: false, message: 'Not authorized, token failed or expired' });
+    } catch (dbError) {
+      console.error('[Auth Middleware DB Error]:', dbError);
+      return res.status(500).json({
+        success: false,
+        message: 'Internal authentication service error',
+      });
     }
   }
 
-  if (!token) {
-    return res.status(401).json({ success: false, message: 'Not authorized, no bearer token provided' });
-  }
+  return res.status(401).json({
+    success: false,
+    message: 'Not authorized, no bearer token provided',
+  });
 };
 
 module.exports = { protect };
-

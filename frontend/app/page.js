@@ -61,8 +61,12 @@ export default function DashboardPage() {
   };
 
   useEffect(() => {
-    fetchDashboard();
+    if (user) {
+      fetchDashboard();
+    }
+  }, [user]);
 
+  useEffect(() => {
     const now = new Date();
     setCurrentDateStr(
       now.toLocaleDateString('en-US', {

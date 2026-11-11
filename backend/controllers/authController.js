@@ -59,7 +59,14 @@ const loginUser = async (req, res, next) => {
       return res.status(400).json({ success: false, message: 'Please provide email and password' });
     }
 
-    const user = await User.findOne({ email });
+    let user = await User.findOne({ email });
+
+    // Self-healing fallback: If demo account is requested and not yet seeded, create it automatically
+    if (!user && email === 'demo@personaltracker.com' && password === 'password123') {
+      const { autoSeedDemoUser } = require('../utils/autoSeed');
+      user = await autoSeedDemoUser();
+    }
+
     if (user && (await user.matchPassword(password))) {
       res.json({
         success: true,

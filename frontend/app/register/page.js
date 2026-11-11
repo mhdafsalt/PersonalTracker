@@ -10,13 +10,19 @@ import { User, Lock, Mail } from 'lucide-react';
 
 export default function RegisterPage() {
   const router = useRouter();
-  const { register } = useAuth();
+  const { register, user, loading: authLoading } = useAuth();
   const { showToast } = useToast();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+
+  React.useEffect(() => {
+    if (!authLoading && user) {
+      router.push('/');
+    }
+  }, [authLoading, user, router]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
