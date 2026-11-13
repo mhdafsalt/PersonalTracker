@@ -109,7 +109,6 @@ export default function FitnessTrackerPage() {
   };
 
   const handleDeleteWorkout = async (id) => {
-    if (!confirm('Delete this workout?')) return;
     try {
       await api.delete(`/fitness/workouts/${id}`);
       showToast('Workout removed', 'success');

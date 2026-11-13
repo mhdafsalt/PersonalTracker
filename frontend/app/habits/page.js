@@ -108,7 +108,6 @@ export default function HabitTrackerPage() {
   };
 
   const handleDeleteHabit = async (id) => {
-    if (!confirm('Are you sure you want to delete this habit?')) return;
     try {
       await api.delete(`/habits/${id}`);
       showToast('Habit deleted', 'success');

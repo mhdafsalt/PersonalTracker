@@ -103,7 +103,6 @@ export default function GoalTrackerPage() {
   };
 
   const handleDeleteGoal = async (id) => {
-    if (!confirm('Are you sure you want to delete this goal?')) return;
     try {
       await api.delete(`/goals/${id}`);
       showToast('Goal deleted', 'success');

@@ -110,7 +110,6 @@ export default function StudyTrackerPage() {
   };
 
   const handleDeleteSubject = async (id) => {
-    if (!confirm('Delete this subject and all its logged study sessions?')) return;
     try {
       await api.delete(`/study/subjects/${id}`);
       showToast('Subject deleted', 'success');

@@ -67,6 +67,16 @@ export default function DashboardPage() {
   }, [user]);
 
   useEffect(() => {
+    const handleDataUpdated = () => {
+      fetchDashboard();
+    };
+    if (typeof window !== 'undefined') {
+      window.addEventListener('pt_data_updated', handleDataUpdated);
+      return () => window.removeEventListener('pt_data_updated', handleDataUpdated);
+    }
+  }, []);
+
+  useEffect(() => {
     const now = new Date();
     setCurrentDateStr(
       now.toLocaleDateString('en-US', {

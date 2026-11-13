@@ -103,7 +103,6 @@ export default function ExpenseTrackerPage() {
   };
 
   const handleDeleteTxn = async (id) => {
-    if (!confirm('Delete this transaction?')) return;
     try {
       await api.delete(`/expenses/transactions/${id}`);
       showToast('Transaction deleted', 'success');

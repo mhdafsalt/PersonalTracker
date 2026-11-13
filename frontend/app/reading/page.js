@@ -104,7 +104,6 @@ export default function ReadingTrackerPage() {
   };
 
   const handleDeleteBook = async (id) => {
-    if (!confirm('Remove this book from library?')) return;
     try {
       await api.delete(`/reading/books/${id}`);
       showToast('Book removed', 'success');

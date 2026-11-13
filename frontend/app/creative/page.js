@@ -98,7 +98,6 @@ export default function CreativeProjectsPage() {
   };
 
   const handleDeleteProject = async (id) => {
-    if (!confirm('Delete this project?')) return;
     try {
       await api.delete(`/creative/${id}`);
       showToast('Project removed', 'success');

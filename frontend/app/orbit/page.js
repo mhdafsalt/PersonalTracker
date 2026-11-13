@@ -146,7 +146,6 @@ export default function OrbitPage() {
   };
 
   const handleDeleteContact = async (id) => {
-    if (!confirm('Delete this contact and all their call records?')) return;
     try {
       await api.delete(`/orbit/contacts/${id}`);
       showToast('Contact removed', 'success');

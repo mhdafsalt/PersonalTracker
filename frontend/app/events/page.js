@@ -111,7 +111,6 @@ export default function EventsPortalPage() {
   };
 
   const handleDeleteEvent = async (id) => {
-    if (!confirm('Delete this event?')) return;
     try {
       await api.delete(`/events/${id}`);
       showToast('Event deleted', 'success');

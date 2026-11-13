@@ -127,7 +127,6 @@ export default function TravelPlannerPage() {
   };
 
   const handleDeleteTrip = async (id) => {
-    if (!confirm('Delete this trip?')) return;
     try {
       await api.delete(`/travel/${id}`);
       showToast('Trip deleted', 'success');

@@ -142,3 +142,34 @@
   box-shadow: 0 10px 28px -4px rgba(15, 17, 15, 0.06);
   transform: translateY(-2px);
 }
+
+/* Toast Animations & Transitions */
+@keyframes pt-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pt-toast-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.94);
+  }
+}
+
+.pt-toast-enter {
+  animation: pt-toast-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.pt-toast-leave {
+  animation: pt-toast-out 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

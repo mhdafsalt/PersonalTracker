@@ -116,7 +116,6 @@ export default function DesignProjectsTrackerPage() {
   };
 
   const handleDeleteProject = async (id) => {
-    if (!confirm('Delete this design project?')) return;
     try {
       await api.delete(`/design/projects/${id}`);
       showToast('Project removed', 'success');

@@ -155,7 +155,6 @@ export default function ProductivityPage() {
   };
 
   const handleDeleteTask = async (taskId) => {
-    if (!confirm('Delete this task?')) return;
     try {
       await api.delete(`/productivity/tasks/${taskId}`);
       showToast('Task removed', 'success');

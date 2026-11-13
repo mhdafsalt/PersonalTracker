@@ -132,7 +132,6 @@ export default function TimeTrackerPage() {
   };
 
   const handleDeleteEntry = async (id) => {
-    if (!confirm('Delete this time entry?')) return;
     try {
       await api.delete(`/time/${id}`);
       showToast('Entry removed', 'success');

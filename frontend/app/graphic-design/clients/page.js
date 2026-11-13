@@ -95,7 +95,6 @@ export default function ClientRegistryPage() {
   };
 
   const handleDeleteClient = async (id) => {
-    if (!confirm('Delete this client and all their design projects?')) return;
     try {
       await api.delete(`/design/clients/${id}`);
       showToast('Client removed', 'success');

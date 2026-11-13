@@ -42,7 +42,9 @@ export const QuickAddModal = ({ isOpen, onClose }) => {
       showToast('Task added successfully', 'success');
       setTaskTitle('');
       onClose();
-      window.location.reload();
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('pt_data_updated'));
+      }
     } catch (err) {
       showToast(err.message, 'error');
     } finally {
@@ -63,7 +65,9 @@ export const QuickAddModal = ({ isOpen, onClose }) => {
       showToast('Habit created successfully', 'success');
       setHabitTitle('');
       onClose();
-      window.location.reload();
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('pt_data_updated'));
+      }
     } catch (err) {
       showToast(err.message, 'error');
     } finally {
@@ -86,7 +90,9 @@ export const QuickAddModal = ({ isOpen, onClose }) => {
       setTxnTitle('');
       setTxnAmount('');
       onClose();
-      window.location.reload();
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('pt_data_updated'));
+      }
     } catch (err) {
       showToast(err.message, 'error');
     } finally {
